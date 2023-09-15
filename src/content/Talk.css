@@ -1,0 +1,73 @@
+.talk {
+  text-align: center;
+  height: 100vh;
+  background-color:black;
+  color: white;
+}
+.talk .titlearea{
+  font-size: x-large;
+  border: 3px double;
+}
+.talk .sidemenew{
+  padding-right: 1%;
+  border-right: 6px solid ;
+  width: 25%;
+
+}
+
+.talk .sidemenew .side{
+  list-style: none;
+  border: 3px solid;
+  margin-bottom: 2.5%; 
+}
+
+.talk .sidemenew .sideitem{
+  overflow: auto;
+  max-height: 70vh;
+}
+.talk .sidemenew .inputarea input{
+  width: 90%;
+}
+.talk .sidemenew .side.selected{
+  background-color: lightgray;
+}
+.talk .talkarea{
+  width: 65%;
+  border-bottom: 1px solid;
+  float: right;
+  margin-left:2.5%;
+  margin-right:5%;
+}
+.talk .talks{
+  border: 2px solid;
+  text-align: center;
+  overflow: auto;
+  max-height: 70vh;
+}
+.talk .talkitem{
+  border-bottom:2px solid ;
+  text-align: left;
+  margin:auto;
+}
+.talk .typearea{
+  width: 80%;
+  margin:auto;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  border: 2px solid;
+  border-radius: 10px;
+}
+
+.talk .typearea input{
+  margin-top:2%;
+  margin-bottom: 1%;
+}
+
+.talk .typearea .textinput{
+  width: 70%;
+}
+
+.talk .typearea button{
+  font-size:large;
+}
+
