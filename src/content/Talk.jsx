@@ -22,6 +22,7 @@ function Talk (){
   const [selectedTopic,setSelectedTopic] = useState('');
   const [openTopicindex,setOpenTopicIndex] = useState(-1);
   const [openswitch, setOpenswitch] = useState(false);
+  const [fixedtext,setFixedtext] = useState(false);
   const [indata,setindata] = useState([]); 
 
   useEffect (()=>{
@@ -39,6 +40,7 @@ function Talk (){
   const addTopic = () =>{
     if(!topic){return}
     const exising = getData.find((gets) => gets.topic === topic);
+    //topic名チェック
     if(exising){
       alert("同名のものがあります。");
       return;
@@ -47,16 +49,25 @@ function Talk (){
     const data = {
       topic:topic
     }
+    //topicのDBへの追加
     database.ref(`Talk`).push(data);
     database.ref(`Talk/topics/${topic}`).push(data);
   }
-
+//入力データの追加
   const addData = (pas) => {
     const data = {
       name:name,
       text:text
     };
     database.ref(`Talk/topics/${pas}`).push(data);
+  }
+//固定メッセージ
+  const stampswich = ()=>{
+    if (fixedtext === false ){
+      setFixedtext(true)
+    }else{
+      setFixedtext(false)
+    }
   }
 
   const open = (pas,index) =>{
@@ -84,14 +95,13 @@ function Talk (){
         <h1>Talking</h1>
       </div> 
       <div className="talkarea">
-        <h2>内容</h2>
         <div className="talks">
           <ul>
             {openswitch &&(
               indata.length >1 ?(
                 indata.map((indata,index) =>(
                 index !== 0 && (
-                  <div className="talkitem" key={index}>
+                  <div className="talkitem" >
                     <li>ユーザー名:{indata.name}<br />
                     {indata.text}</li>
                   </div>
@@ -105,17 +115,39 @@ function Talk (){
             )
             }
           </ul>
+          
           {openswitch ?(
+          //投稿レイアウト 
           <div className="typearea">
             <label>ユーザー名</label>
             <input type="text" name="name" value={name}
             onChange={(e)=>setName(e.target.value)}/>
           <br />
             <label>コメント</label>
-            <input className="textinput" type="text" name="text" value={text}
+            <input className="textinput" type="text" name="text" maxLength="150" value={text}
             onChange={(e)=> setText(e.target.value)}/>
           <br />
-            <button onClick={() => addData(selectedTopic)}>送信</button>  
+          {!fixedtext?(
+          <button onClick={()=>stampswich()}>チャット</button>
+          ):(
+            <></>
+          )}
+          {fixedtext ?(
+            <div className="fixed">
+             <button onClick={()=>setText("こんにちは")}>こんにちは</button>
+             <button onClick={()=>setText("よろしくお願いします。")}>よろしくお願いします。</button>
+             <button onClick={()=>setText("ありがとうございます。")}>ありがとうございます。</button>
+             <button onClick={()=>setText("それな")}>それな</button>
+             <button onClick={()=>setText("草")}>草</button>
+             <button onClick={()=>setText("wktk")}>wktk</button>
+             <button onClick={()=>setText("wwwww")}>wwwww</button>
+             <br />
+             <button className="closebtn" onClick={()=>stampswich()}>閉じる</button>
+            </div>
+          ):(
+            <></>
+          )}
+            <button className="" onClick={() => addData(selectedTopic)}>送信</button>  
           </div>
           ):(
             <h2>
@@ -125,6 +157,7 @@ function Talk (){
 
         </div>
       </div>
+      
       <div className="sidemenew">
         <h2>Topic</h2>
         <div className="inputarea">
