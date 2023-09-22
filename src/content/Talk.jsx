@@ -24,8 +24,9 @@ function Talk (){
   const [openswitch, setOpenswitch] = useState(false);
   const [fixedtext,setFixedtext] = useState(false);
   const [indata,setindata] = useState([]); 
+  const [sortOption,setSortOption] = useState('make');
 
-  useEffect (()=>{
+/*  useEffect (()=>{
     database.ref(`Talk/`).on('value', function(snapshot) {
       const data = snapshot.val();
       if (data) {
@@ -36,9 +37,37 @@ function Talk (){
       }
     });
   }, []);
+*/
 
+  useEffect(() =>{
+    const ref = database.ref('Talk/');
+
+    if (sortOption === 'new'){
+      ref.orderByChild('timestamp').on('value',(snapshot)=>{
+        const data = snapshot.val();
+        if(data){
+          const userDataArray =Object.values(data);
+          setGetData(userDataArray);
+        }else{
+          setGetData([]);
+        }
+      });
+    }else{
+      ref.on('value',(snapshot) =>{
+        const data = snapshot.val();
+        if(data){
+          const userDataArray = Object.values(data);
+          setGetData(userDataArray);
+        }else{
+          setGetData([]);
+        }
+      })
+    }
+  },[sortOption]);
   const addTopic = () =>{
-    if(!topic){return}
+    if(!topic){
+      return;
+    }
     const exising = getData.find((gets) => gets.topic === topic);
     //topic名チェック
     if(exising){
@@ -47,14 +76,26 @@ function Talk (){
     }
 
     const data = {
-      topic:topic
+      topic:topic,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
     }
+
+    //タイムスタンプでトピックを更新
+    const topicRef = database.ref(`Talk/${topic}`);
+    topicRef.set(data);
+    
+    //並び替え
+    const topicsRef = database.ref(`Talk/topics/${topic}`);
+    topicsRef.set(data);
     //topicのDBへの追加
-    database.ref(`Talk`).push(data);
-    database.ref(`Talk/topics/${topic}`).push(data);
+//    database.ref(`Talk`).push(data);
+//    database.ref(`Talk/topics/${topic}`).push(data);
+
+    setTopic('');
   }
 //入力データの追加
   const addData = (pas) => {
+
     const data = {
       name:name,
       text:text
@@ -163,6 +204,10 @@ function Talk (){
         <div className="inputarea">
           <input type="text" name="topicname" value={topic} onChange={(e)=> setTopic(e.target.value)}/>
           <button onClick={()=>addTopic({topic:topic})}>作成</button>
+          <select name="select" id="select" onChange={(e) => setSortOption(e.target.value)}>
+            <option value="make">作成順</option>
+            <option value="new">新しい順</option>
+          </select>
         </div>
         <div className="sideitem">
           {getData.map((getdata,index)=>(
