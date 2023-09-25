@@ -1,5 +1,4 @@
 .talk {
-
   height: 100vh;
   background-color:black;
   color: white;
@@ -12,7 +11,6 @@
   padding-right: 1%;
   border-right: 6px solid ;
   width: 25%;
-
 }
 
 .talk .sidemenew .side{
@@ -33,7 +31,6 @@
 }
 .talk .talkarea{
   width: 65%;
-  border-bottom: 1px solid;
   float: right;
   margin-left:2.5%;
   margin-right:5%;
@@ -62,15 +59,27 @@
   margin-top:2%;
   margin-bottom: 1%;
 }
+.talk .typearea .namelabel,
+.talk .typearea .textlabel{
+  float: left;
+  margin-left: 2%;
+  clear: right;
+}
+
+.talk .typearea .nameinput{
+  width: 40%;
+  margin-right: 2%;
+  float: right;
+}
 
 .talk .typearea .textinput{
   width: 70%;
+  margin-right: 2%;
+  float: right;
 }
 
-.talk .typearea button{
-  text-align:left;
-  font-size:large;
-}
+
+/*
 .talk .fixed{
   background-color: lightgray;
 }
@@ -78,3 +87,4 @@
   clear: left;
   float: right;
 }
+*/

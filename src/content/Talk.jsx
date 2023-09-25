@@ -26,44 +26,27 @@ function Talk (){
   const [indata,setindata] = useState([]); 
   const [sortOption,setSortOption] = useState('make');
 
-/*  useEffect (()=>{
-    database.ref(`Talk/`).on('value', function(snapshot) {
+const sortData = (data) =>{
+  if(sortOption === 'new'){
+    return data.slice().sort((a,b) => b.timestamp - a.timestamp);
+  }else{
+    return data;
+  }
+}
+  useEffect(() =>{
+    const ref = database.ref('Talk/topics');
+
+    ref.on('value',(snapshot) => {
       const data = snapshot.val();
-      if (data) {
-        const userDataArray = Object.values(data);
+      if(data){
+        const userDataArray = sortData(Object.values(data));
         setGetData(userDataArray);
-      } else {
-        setGetData([]);
+      }else{
+        setGetData([])
       }
     });
-  }, []);
-*/
-
-  useEffect(() =>{
-    const ref = database.ref('Talk/');
-
-    if (sortOption === 'new'){
-      ref.orderByChild('timestamp').on('value',(snapshot)=>{
-        const data = snapshot.val();
-        if(data){
-          const userDataArray =Object.values(data);
-          setGetData(userDataArray);
-        }else{
-          setGetData([]);
-        }
-      });
-    }else{
-      ref.on('value',(snapshot) =>{
-        const data = snapshot.val();
-        if(data){
-          const userDataArray = Object.values(data);
-          setGetData(userDataArray);
-        }else{
-          setGetData([]);
-        }
-      })
-    }
   },[sortOption]);
+
   const addTopic = () =>{
     if(!topic){
       return;
@@ -81,15 +64,9 @@ function Talk (){
     }
 
     //タイムスタンプでトピックを更新
-    const topicRef = database.ref(`Talk/${topic}`);
+  
+    const topicRef = database.ref(`Talk/topics/${topic}`);
     topicRef.set(data);
-    
-    //並び替え
-    const topicsRef = database.ref(`Talk/topics/${topic}`);
-    topicsRef.set(data);
-    //topicのDBへの追加
-//    database.ref(`Talk`).push(data);
-//    database.ref(`Talk/topics/${topic}`).push(data);
 
     setTopic('');
   }
@@ -138,36 +115,43 @@ function Talk (){
       <div className="talkarea">
         <div className="talks">
           <ul>
-            {openswitch &&(
-              indata.length >1 ?(
-                indata.map((indata,index) =>(
-                index !== 0 && (
-                  <div className="talkitem" >
-                    <li>ユーザー名:{indata.name}<br />
-                    {indata.text}</li>
-                  </div>
-                )
-                ))
-              ):(
-                <div className='talkstart'>
-                  <h2>Let's start Talking</h2>
-                </div>
-              )
-            )
-            }
+          {openswitch && (
+  indata.length > 0 ? (
+    indata.map((indata, index) => {
+      
+      const datacheck = typeof indata === 'object' && 'name' in indata;
+
+      return (
+        datacheck ? (
+          <div className="talkitem" key={index}>
+            <li>
+              ユーザー名: {indata.name}<br />
+              {indata.text}
+            </li>
+          </div>
+        ) : null
+      );
+    })
+  ) : (
+    <div className='talkstart'>
+      <h2>Let's start Talking</h2>
+    </div>
+  )
+)}
           </ul>
           
           {openswitch ?(
           //投稿レイアウト 
           <div className="typearea">
-            <label>ユーザー名</label>
-            <input type="text" name="name" value={name}
+            <label className="namelabel">ユーザー名</label>
+            <input className="nameinput" type="text" name="name" value={name}
             onChange={(e)=>setName(e.target.value)}/>
           <br />
-            <label>コメント</label>
+            <label className="textlabel">コメント</label>
             <input className="textinput" type="text" name="text" maxLength="150" value={text}
             onChange={(e)=> setText(e.target.value)}/>
           <br />
+          <button  onClick={() => addData(selectedTopic)}>送信</button>
           {!fixedtext?(
           <button onClick={()=>stampswich()}>チャット</button>
           ):(
@@ -187,8 +171,7 @@ function Talk (){
             </div>
           ):(
             <></>
-          )}
-            <button className="" onClick={() => addData(selectedTopic)}>送信</button>  
+          )}  
           </div>
           ):(
             <h2>
