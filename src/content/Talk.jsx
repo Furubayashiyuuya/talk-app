@@ -190,8 +190,8 @@ const sortData = (data) =>{
           <input type="text" name="topicname" value={topic} onChange={(e)=> setTopic(e.target.value)}/>
          <div className="topicact"> 
           <select name="select" id="select" onChange={(e) => setSortOption(e.target.value)}>
-            <option value="make">あいうえ順</option>
             <option value="new">新しい順</option>
+            <option value="make">あいうえ順</option>
           </select>
           <button className="topicbtn" onClick={()=>addTopic({topic:topic})}>作成</button>
           </div>
