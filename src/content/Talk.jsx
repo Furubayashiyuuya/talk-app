@@ -116,7 +116,7 @@ const sortData = (data) =>{
         <div className="talks">
           <ul>
           {openswitch && (
-  indata.length > 0 ? (
+  indata.length > 2 ? (
     indata.map((indata, index) => {
       
       const datacheck = typeof indata === 'object' && 'name' in indata;
@@ -129,7 +129,7 @@ const sortData = (data) =>{
               {indata.text}
             </li>
           </div>
-        ) : null
+        ):null
       );
     })
   ) : (
@@ -144,16 +144,17 @@ const sortData = (data) =>{
           //投稿レイアウト 
           <div className="typearea">
             <label className="namelabel">ユーザー名</label>
+            <br />
             <input className="nameinput" type="text" name="name" value={name}
             onChange={(e)=>setName(e.target.value)}/>
           <br />
             <label className="textlabel">コメント</label>
+          <br />  
             <input className="textinput" type="text" name="text" maxLength="150" value={text}
             onChange={(e)=> setText(e.target.value)}/>
           <br />
-          <button  onClick={() => addData(selectedTopic)}>送信</button>
           {!fixedtext?(
-          <button onClick={()=>stampswich()}>チャット</button>
+          <button className="btn" onClick={()=>stampswich()}>チャット</button>
           ):(
             <></>
           )}
@@ -171,7 +172,8 @@ const sortData = (data) =>{
             </div>
           ):(
             <></>
-          )}  
+          )} 
+          <button  className="btn" onClick={() => addData(selectedTopic)}>送信</button> 
           </div>
           ):(
             <h2>
@@ -186,16 +188,18 @@ const sortData = (data) =>{
         <h2>Topic</h2>
         <div className="inputarea">
           <input type="text" name="topicname" value={topic} onChange={(e)=> setTopic(e.target.value)}/>
-          <button onClick={()=>addTopic({topic:topic})}>作成</button>
+         <div className="topicact"> 
           <select name="select" id="select" onChange={(e) => setSortOption(e.target.value)}>
             <option value="make">作成順</option>
             <option value="new">新しい順</option>
           </select>
+          <button className="topicbtn" onClick={()=>addTopic({topic:topic})}>作成</button>
+          </div>
         </div>
         <div className="sideitem">
           {getData.map((getdata,index)=>(
             index !== getData.length-1 &&(
-              <div key={getdata.topic} className={`side ${openTopicindex === index ? 'selected': ''}`}>
+              <div key={getdata.topic} className= {`side ${openTopicindex === index ? 'selected': ''}`}>
                 <li>{getdata.topic}</li>
                 <li><button onClick={() => open(getdata.topic,index) }>open</button></li>
               </div>

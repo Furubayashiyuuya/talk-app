@@ -8,7 +8,8 @@
   border: 3px double;
 }
 .talk .sidemenew{
-  padding-right: 1%;
+  padding: 1%;
+  margin-left:2%;
   border-right: 6px solid ;
   width: 25%;
 }
@@ -29,6 +30,22 @@
 .talk .sidemenew .side.selected{
   background-color: lightgray;
 }
+.talk .sidemenew .topicact select{
+  margin-left:2%;
+}
+.talk .sidemenew .topicact{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.talk .sidemenew .sideitem div{
+  padding: 5%;
+  font-size: x-large;
+}
+.talk .sidemenew .sideitem button{
+  float: right;
+  margin-top: -3%;
+}
 .talk .talkarea{
   width: 65%;
   float: right;
@@ -47,23 +64,20 @@
   margin:auto;
 }
 .talk .typearea{
-  width: 80%;
+  background-color:lightgray;
+  width:80%;
   margin:auto;
   margin-top: 1%;
   margin-bottom: 1%;
+  padding:4%;
   border: 2px solid;
   border-radius: 10px;
 }
 
-.talk .typearea input{
-  margin-top:2%;
-  margin-bottom: 1%;
-}
 .talk .typearea .namelabel,
 .talk .typearea .textlabel{
-  float: left;
   margin-left: 2%;
-  clear: right;
+  float: left;
 }
 
 .talk .typearea .nameinput{
@@ -78,13 +92,19 @@
   float: right;
 }
 
+.talk .typearea .btn{
+  float: right;
+  margin-top: 2%;
+}
 
-/*
 .talk .fixed{
-  background-color: lightgray;
+  margin-top: 1%;
+  padding: 2%;
+  border-radius: 5px 5px 5px;
+  background-color: rgb(148, 147, 147);
 }
 .talk .fixed .closebtn{
   clear: left;
+  margin-top: 1%;
   float: right;
 }
-*/
