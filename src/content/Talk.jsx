@@ -198,7 +198,7 @@ const sortData = (data) =>{
         </div>
         <div className="sideitem">
           {getData.map((getdata,index)=>(
-            index !== getData.length-1 &&(
+            index !== getData.length &&(
               <div key={getdata.topic} className= {`side ${openTopicindex === index ? 'selected': ''}`}>
                 <li>{getdata.topic}</li>
                 <li><button onClick={() => open(getdata.topic,index) }>open</button></li>
