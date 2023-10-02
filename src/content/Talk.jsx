@@ -78,6 +78,7 @@ const sortData = (data) =>{
       text:text
     };
     database.ref(`Talk/topics/${pas}`).push(data);
+    setText('');
   }
 //固定メッセージ
   const stampswich = ()=>{
@@ -154,6 +155,9 @@ const sortData = (data) =>{
             onChange={(e)=> setText(e.target.value)}/>
           <br />
           {!fixedtext?(
+                      <button  className="btn" onClick={() => addData(selectedTopic)}>送信</button> 
+          ):(<></>)}
+          {!fixedtext?(
           <button className="btn" onClick={()=>stampswich()}>チャット</button>
           ):(
             <></>
@@ -173,11 +177,10 @@ const sortData = (data) =>{
           ):(
             <></>
           )} 
-          <button  className="btn" onClick={() => addData(selectedTopic)}>送信</button> 
           </div>
           ):(
             <h2>
-              openボタンを推して、Talkを始めよう。
+              気になるTopicをクリックして、Talkを始めよう。
             </h2>
           )}
 
@@ -199,9 +202,10 @@ const sortData = (data) =>{
         <div className="sideitem">
           {getData.map((getdata,index)=>(
             index !== getData.length &&(
-              <div key={getdata.topic} className= {`side ${openTopicindex === index ? 'selected': ''}`}>
+              <div key={getdata.topic} 
+                   className= {`side ${openTopicindex === index ? 'selected': ''}`} 
+                  onClick={() => open(getdata.topic,index) }>
                 <li>{getdata.topic}</li>
-                <li><button onClick={() => open(getdata.topic,index) }>open</button></li>
               </div>
             )
           ))}

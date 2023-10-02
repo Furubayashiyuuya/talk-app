@@ -4,8 +4,9 @@
   color: white;
 }
 .talk .titlearea{
+  margin-left: 2%;
   font-size: x-large;
-  border: 3px double;
+  border-bottom: 3px double;
 }
 .talk .sidemenew{
   padding: 1%;
@@ -34,6 +35,8 @@
   margin-left:2%;
 }
 .talk .sidemenew .topicact{
+  margin-top: 3%;
+  margin-bottom: 3%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,12 +67,12 @@
   margin:auto;
 }
 .talk .typearea{
-  background-color:lightgray;
+  background-color:rgb(122, 121, 121);
   width:80%;
   margin:auto;
   margin-top: 1%;
   margin-bottom: 1%;
-  padding:4%;
+  padding:6%;
   border: 2px solid;
   border-radius: 10px;
 }
@@ -93,8 +96,10 @@
 }
 
 .talk .typearea .btn{
+  font-size: large;
   float: right;
   margin-top: 2%;
+  margin-left: 2%;
 }
 
 .talk .fixed{
@@ -102,9 +107,26 @@
   padding: 2%;
   border-radius: 5px 5px 5px;
   background-color: rgb(148, 147, 147);
+  font-size: large;
 }
 .talk .fixed .closebtn{
   clear: left;
-  margin-top: 1%;
+  margin-top: 2%;
   float: right;
+}
+
+@media(max-width:1300px) {
+  .talk .typearea{
+   padding: 7%;
+  }
+}
+@media(max-width:1000px){
+  .talk .typearea{
+    padding: 8%;
+  }
+}
+@media(max-width:800px){
+  .talk .typearea{
+    padding: 9%;
+  }
 }
