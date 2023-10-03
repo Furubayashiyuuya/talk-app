@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
-import "./Talk.css";
-function Talk() {
+import "./TalkApp.css";
+function TalkApp() {
   const firebaseConfig = {
     apiKey: "AIzaSyCTz7WRVfaQergkV7Szr6gmVarhBHYCnpI",
     authDomain: "talk-95e0a.firebaseapp.com",
@@ -158,14 +158,14 @@ function Talk() {
               />
               <br />
               {!fixedtext ? (
-                <button className="btn" onClick={() => addData(selectedTopic)}>
+                <button className="subbtn" onClick={() => addData(selectedTopic)}>
                   送信
                 </button>
               ) : (
                 <></>
               )}
               {!fixedtext ? (
-                <button className="btn" onClick={() => stampswich()}>
+                <button className="tembtn" onClick={() => stampswich()}>
                   テンプレート
                 </button>
               ) : (
@@ -247,4 +247,4 @@ function Talk() {
     </div>
   );
 }
-export default Talk;
+export default TalkApp;

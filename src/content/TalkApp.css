@@ -80,7 +80,6 @@
   margin-bottom: 1%;
   padding:6%;
   border: 2px solid;
-  border-radius: 10px;
 }
 
 .talk .typearea .namelabel,
@@ -101,12 +100,22 @@
   float: right;
 }
 
-.talk .typearea .btn{
+.talk .typearea .subbtn{
   font-size: large;
   float: right;
   margin-top: 2%;
   margin-left: 2%;
 }
+
+.talk .typearea .tembtn{
+  font-size: large;
+  background-color: rgb(65, 65, 255);
+  color: white;
+  float: left;
+  margin-top: 2%;
+  margin-left: 2%;
+}
+
 
 .talk .fixed{
   margin-top: 1%;
