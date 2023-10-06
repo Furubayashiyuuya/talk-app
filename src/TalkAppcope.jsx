@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./TalkApp.css";
-function TalkMain({ selectpas,flg }) {
+function TalkApp() {
   const firebaseConfig = {
     apiKey: "AIzaSyCTz7WRVfaQergkV7Szr6gmVarhBHYCnpI",
     authDomain: "talk-95e0a.firebaseapp.com",
@@ -15,32 +15,68 @@ function TalkMain({ selectpas,flg }) {
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
 
-  const pas = selectpas;  
-  const topicswitch = flg;
+  const [getData, setGetData] = useState([]);
+  const [topic, setTopic] = useState();
   const [name, setName] = useState();
   const [text, setText] = useState();
-  const [fixedtext, setFixedtext] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState("");
-  const [getData, setGetData] = useState([]);
   const [openTopicindex, setOpenTopicIndex] = useState(-1);
+  const [openswitch, setOpenswitch] = useState(false);
+  const [fixedtext, setFixedtext] = useState(false);
   const [indata, setindata] = useState([]);
+  const [sortOption, setSortOption] = useState("make");
+//Side
+  const sortData = (data) => {
+    if (sortOption === "new") {
+      return data.slice().sort((a, b) => b.timestamp - a.timestamp);
+    }
+    return data;
+  };
+  useEffect(() => {
+    const ref = database.ref("Talk/topics");
 
-const dataget=( index)=>{
-  database.ref(`Talk/topics/${selectpas}`).on("value", function (snapshot) {
-    const data = snapshot.val();
-    
-      const userDataArray = Object.values(data);
-      setindata(userDataArray);
-      setOpenTopicIndex(index);
-  });
-}
+    ref.on("value", (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const userDataArray = sortData(Object.values(data));
+        setGetData(userDataArray);
+      } else {
+        setGetData([]);
+      }
+    });
+  }, [sortOption]);
+
+  const addTopic = () => {
+    if (!topic) {
+      return;
+    }
+    const exising = getData.find((gets) => gets.topic === topic);
+    //topic名チェック
+    if (exising) {
+      alert("同名のものがあります。");
+      return;
+    }
+
+    const data = {
+      topic: topic,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    //タイムスタンプでトピックを更新
+
+    const topicRef = database.ref(`Talk/topics/${topic}`);
+    topicRef.set(data);
+
+    setTopic("");
+  };
+//main  
   //入力データの追加
-  const addData = () => {
+  const addData = (pas) => {
     const data = {
       name: name,
       text: text,
     };
-    database.ref(`Talk/topics/${selectpas}`).push(data);
+    database.ref(`Talk/topics/${pas}`).push(data);
     setText("");
   };
   //固定メッセージ
@@ -51,13 +87,34 @@ const dataget=( index)=>{
       setFixedtext(false);
     }
   };
-useEffect(()=>{
-  dataget();
-},[selectpas])
+//side
+  const open = (pas, index) => {
+    database.ref(`Talk/topics/${pas}`).on("value", function (snapshot) {
+      const data = snapshot.val();
+      if (data) {
+        const userDataArray = Object.values(data);
+        setindata(userDataArray);
+        setOpenswitch(true);
+        setSelectedTopic(pas);
+        setOpenTopicIndex(index);
+      } else {
+        setGetData([]);
+        setindata(false);
+        setSelectedTopic("");
+        setOpenTopicIndex(-1);
+      }
+    });
+  };
+
   return (
-    <>
+    <div className="talk">
+      <div className="titlearea">
+        <h1>Talking</h1>
+      </div>
+      <div className="talkarea">
+        <div className="talks">
           <ul>
-            {topicswitch &&
+            {openswitch &&
               (indata.length > 2 ? (
                 indata.map((indata, index) => {
                   const datacheck =
@@ -76,7 +133,8 @@ useEffect(()=>{
                 </div>
               ))}
           </ul>
-          {topicswitch ? (
+
+          {openswitch ? (
             //投稿レイアウト
             <div className="typearea">
               <label className="namelabel">ユーザー名</label>
@@ -141,7 +199,53 @@ useEffect(()=>{
           ) : (
             <h2>気になるTopicをクリックして、Talkを始めよう。</h2>
           )}
-    </>
+        </div>
+      </div>
+
+      <div className="sidemenew">
+        <h2>Topic</h2>
+        <div className="inputarea">
+          <input
+            type="text"
+            name="topicname"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+          />
+          <div className="topicact">
+            <select
+              name="select"
+              id="select"
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="new">新しい順</option>
+              <option value="make">あいうえ順</option>
+            </select>
+            <button
+              className="topicbtn"
+              onClick={() => addTopic({ topic: topic })}
+            >
+              作成
+            </button>
+          </div>
+        </div>
+        <div className="sideitem">
+          {getData.map(
+            (getdata, index) =>
+              index !== getData.length && (
+                <div
+                  key={getdata.topic}
+                  className={`side ${
+                    openTopicindex === index ? "selected" : ""
+                  }`}
+                  onClick={() => open(getdata.topic, index)}
+                >
+                  <li>{getdata.topic}</li>
+                </div>
+              ),
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
-export default TalkMain;
+export default TalkApp;

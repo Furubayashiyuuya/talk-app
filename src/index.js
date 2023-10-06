@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import TalkApp from './content/TalkApp';
 import reportWebVitals from './reportWebVitals';
-
+import TalkSide from './content/TalkSide';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./TalkApp.css";
-function TalkMain({ selectpas,flg }) {
+function Talktest2({ selectpas,flg }) {
   const firebaseConfig = {
     apiKey: "AIzaSyCTz7WRVfaQergkV7Szr6gmVarhBHYCnpI",
     authDomain: "talk-95e0a.firebaseapp.com",
@@ -144,4 +144,4 @@ useEffect(()=>{
     </>
   );
 }
-export default TalkMain;
+export default Talktest2;

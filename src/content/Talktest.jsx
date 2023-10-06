@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./TalkApp.css";
-import TalkMain from "./TalkMain";
-function TalkSide() {
+import Talktest2 from "./Talktest2";
+function Talktest() {
   const firebaseConfig = {
     apiKey: "AIzaSyCTz7WRVfaQergkV7Szr6gmVarhBHYCnpI",
     authDomain: "talk-95e0a.firebaseapp.com",
@@ -135,8 +135,8 @@ const addTopic = () => {
           )}
         </div>
       </div>
-      <TalkMain selectpas={selectedTopic} flg={openswitch} />
+      <Talktest2 selectpas={selectedTopic} flg={openswitch} />
     </>
   );
 }
-export default TalkSide;
+export default Talktest;
