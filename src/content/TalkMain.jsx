@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
-import "./TalkApp.css";
-function TalkMain({ selectpas,flg }) {
+import "./TalkMain.css";
+function TalkMain({ selectpas, flg }) {
   const firebaseConfig = {
     apiKey: "AIzaSyCTz7WRVfaQergkV7Szr6gmVarhBHYCnpI",
     authDomain: "talk-95e0a.firebaseapp.com",
@@ -15,7 +15,7 @@ function TalkMain({ selectpas,flg }) {
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
 
-  const pas = selectpas;  
+  const pas = selectpas;
   const topicswitch = flg;
   const [name, setName] = useState();
   const [text, setText] = useState();
@@ -25,15 +25,15 @@ function TalkMain({ selectpas,flg }) {
   const [openTopicindex, setOpenTopicIndex] = useState(-1);
   const [indata, setindata] = useState([]);
 
-const dataget=( index)=>{
-  database.ref(`Talk/topics/${selectpas}`).on("value", function (snapshot) {
-    const data = snapshot.val();
-    
+  const dataget = (index) => {
+    database.ref(`Talk/topics/${selectpas}`).on("value", function (snapshot) {
+      const data = snapshot.val();
+
       const userDataArray = Object.values(data);
       setindata(userDataArray);
       setOpenTopicIndex(index);
-  });
-}
+    });
+  };
   //入力データの追加
   const addData = () => {
     const data = {
@@ -51,97 +51,99 @@ const dataget=( index)=>{
       setFixedtext(false);
     }
   };
-useEffect(()=>{
-  dataget();
-},[selectpas])
+  useEffect(() => {
+    dataget();
+  }, [selectpas]);
   return (
-    <>
-          <ul>
-            {topicswitch &&
-              (indata.length > 2 ? (
-                indata.map((indata, index) => {
-                  const datacheck =
-                    typeof indata === "object" && "name" in indata;
+    <div className="talkarea">
+      <div className="talks">
+        <ul>
+          {topicswitch &&
+            (indata.length > 2 ? (
+              indata.map((indata, index) => {
+                const datacheck =
+                  typeof indata === "object" && "name" in indata;
 
-                  return datacheck ? (
-                    <div className="talkitem" key={index}>
-                        <li className="username">ユーザー名: {indata.name}</li>
-                        <li className="usertext">{indata.text}</li>
-                    </div>
-                  ) : null;
-                })
-              ) : (
-                <div className="talkstart">
-                  <h2>Let's start Talking</h2>
-                </div>
-              ))}
-          </ul>
-          {topicswitch ? (
-            //投稿レイアウト
-            <div className="typearea">
-              <label className="namelabel">ユーザー名</label>
-              <br />
-              <input
-                className="nameinput"
-                type="text"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <br />
-              <label className="textlabel">コメント</label>
-              <br />
-              <input
-                className="textinput"
-                type="text"
-                name="text"
-                maxLength="150"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-              <br />
-              {!fixedtext ? (
-                <button className="subbtn" onClick={() => addData(selectedTopic)}>
-                  送信
+                return datacheck ? (
+                  <div className="talkitem" key={index}>
+                    <li className="username">ユーザー名: {indata.name}</li>
+                    <li className="usertext">{indata.text}</li>
+                  </div>
+                ) : null;
+              })
+            ) : (
+              <div className="talkstart">
+                <h2>Let's start Talking</h2>
+              </div>
+            ))}
+        </ul>
+        {topicswitch ? (
+          //投稿レイアウト
+          <div className="typearea">
+            <label className="namelabel">ユーザー名</label>
+            <br />
+            <input
+              className="nameinput"
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <br />
+            <label className="textlabel">コメント</label>
+            <br />
+            <input
+              className="textinput"
+              type="text"
+              name="text"
+              maxLength="150"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <br />
+            {!fixedtext ? (
+              <button className="subbtn" onClick={() => addData(selectedTopic)}>
+                送信
+              </button>
+            ) : (
+              <></>
+            )}
+            {!fixedtext ? (
+              <button className="tembtn" onClick={() => stampswich()}>
+                テンプレート
+              </button>
+            ) : (
+              <></>
+            )}
+            {fixedtext ? (
+              <div className="fixed">
+                <button onClick={() => setText("こんにちは")}>
+                  こんにちは
                 </button>
-              ) : (
-                <></>
-              )}
-              {!fixedtext ? (
-                <button className="tembtn" onClick={() => stampswich()}>
-                  テンプレート
+                <button onClick={() => setText("よろしくお願いします。")}>
+                  よろしくお願いします。
                 </button>
-              ) : (
-                <></>
-              )}
-              {fixedtext ? (
-                <div className="fixed">
-                  <button onClick={() => setText("こんにちは")}>
-                    こんにちは
-                  </button>
-                  <button onClick={() => setText("よろしくお願いします。")}>
-                    よろしくお願いします。
-                  </button>
-                  <button onClick={() => setText("ありがとうございます。")}>
-                    ありがとうございます。
-                  </button>
-                  <button onClick={() => setText("それな")}>それな</button>
-                  <button onClick={() => setText("草")}>草</button>
-                  <button onClick={() => setText("wktk")}>wktk</button>
-                  <button onClick={() => setText("wwwww")}>wwwww</button>
-                  <br />
-                  <button className="closebtn" onClick={() => stampswich()}>
-                    閉じる
-                  </button>
-                </div>
-              ) : (
-                <></>
-              )}
-            </div>
-          ) : (
-            <h2>気になるTopicをクリックして、Talkを始めよう。</h2>
-          )}
-    </>
+                <button onClick={() => setText("ありがとうございます。")}>
+                  ありがとうございます。
+                </button>
+                <button onClick={() => setText("それな")}>それな</button>
+                <button onClick={() => setText("草")}>草</button>
+                <button onClick={() => setText("wktk")}>wktk</button>
+                <button onClick={() => setText("wwwww")}>wwwww</button>
+                <br />
+                <button className="closebtn" onClick={() => stampswich()}>
+                  閉じる
+                </button>
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        ) : (
+          <h2>気になるTopicをクリックして、Talkを始めよう。</h2>
+        )}
+      </div>
+    </div>
   );
 }
 export default TalkMain;

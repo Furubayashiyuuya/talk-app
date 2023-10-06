@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
-import "./TalkApp.css";
+import "./TalkSide.css";
 import TalkMain from "./TalkMain";
 function TalkSide() {
   const firebaseConfig = {
@@ -22,53 +22,52 @@ function TalkSide() {
   const [openswitch, setOpenswitch] = useState(false);
   const [sortOption, setSortOption] = useState("make");
 
-//Side
-const sortData = (data) => {
-  if (sortOption === "new") {
-    return data.slice().sort((a, b) => b.timestamp - a.timestamp);
-  }
-  return data;
-};
-useEffect(() => {
-  const ref = database.ref("Talk/topics");
-
-  ref.on("value", (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-      const userDataArray = sortData(Object.values(data));
-      setGetData(userDataArray);
-    } else {
-      setGetData([]);
+  //Side
+  const sortData = (data) => {
+    if (sortOption === "new") {
+      return data.slice().sort((a, b) => b.timestamp - a.timestamp);
     }
-  });
-}, [sortOption]);
+    return data;
+  };
+  useEffect(() => {
+    const ref = database.ref("Talk/topics");
 
-const addTopic = () => {
-  if (!topic) {
-    return;
-  }
-  const exising = getData.find((gets) => gets.topic === topic);
-  //topic名チェック
-  if (exising) {
-    alert("同名のものがあります。");
-    return;
-  }
+    ref.on("value", (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const userDataArray = sortData(Object.values(data));
+        setGetData(userDataArray);
+      } else {
+        setGetData([]);
+      }
+    });
+  }, [sortOption]);
 
-  const data = {
-    topic: topic,
-    timestamp: firebase.database.ServerValue.TIMESTAMP,
+  const addTopic = () => {
+    if (!topic) {
+      return;
+    }
+    const exising = getData.find((gets) => gets.topic === topic);
+    //topic名チェック
+    if (exising) {
+      alert("同名のものがあります。");
+      return;
+    }
+
+    const data = {
+      topic: topic,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    //タイムスタンプでトピックを更新
+
+    const topicRef = database.ref(`Talk/topics/${topic}`);
+    topicRef.set(data);
+
+    setTopic("");
   };
 
-  //タイムスタンプでトピックを更新
-
-  const topicRef = database.ref(`Talk/topics/${topic}`);
-  topicRef.set(data);
-
-  setTopic("");
-};
-
-
-//side
+  //side
   const open = (pas, index) => {
     database.ref(`Talk/topics/${pas}`).on("value", function (snapshot) {
       const data = snapshot.val();
@@ -79,19 +78,13 @@ const addTopic = () => {
       } else {
         setGetData([]);
         setSelectedTopic("");
-       setOpenTopicIndex(-1);
+        setOpenTopicIndex(-1);
       }
     });
   };
 
   return (
     <>
-      <div className="talkarea">
-        <div className="talks">
-          
-        </div>
-      </div>
-
       <div className="sidemenew">
         <h2>Topic</h2>
         <div className="inputarea">
@@ -131,7 +124,7 @@ const addTopic = () => {
                 >
                   <li>{getdata.topic}</li>
                 </div>
-              )
+              ),
           )}
         </div>
       </div>

@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
-import firebase from "firebase/compat/app";
-import "firebase/compat/database";
-import "./TalkApp.css";
+import React from "react";
 import TalkSide from "./TalkSide";
+import  "./TalkApp.css";
 function TalkApp() {
-
   return (
     <div className="talk">
-      
       <TalkSide />
     </div>
   );
