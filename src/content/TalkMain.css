@@ -1,7 +1,5 @@
 .talk .talkarea {
-  width: 65%;
-  float: right;
-  display: flexbox;
+  grid-row: 2;
   margin-left: 2.5%;
   margin-right: 5%;
 }

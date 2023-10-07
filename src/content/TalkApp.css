@@ -1,6 +1,11 @@
 .talk {
-  height: 100vh;
-  display: flex;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 10% 1fr ;
+  grid-template-columns: 3fr 7fr;
   background-color: black;
   color: white;
+}
+.title{
+  grid-row: 1;
 }

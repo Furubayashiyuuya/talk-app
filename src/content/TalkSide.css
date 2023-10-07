@@ -1,12 +1,13 @@
-
-.talk .sidemenew {
+.sidemenew {
+  grid-row: 2;
+  grid-column: 1;
+  display: flexbox;
   padding: 1%;
   margin-left: 2%;
   border-right: 6px solid;
-  width: 25%;
 }
 
-.talk .sidemenew .side {
+.side {
   list-style: none;
   border: 3px solid;
   margin-bottom: 2.5%;
