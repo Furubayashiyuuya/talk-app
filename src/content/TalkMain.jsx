@@ -14,9 +14,7 @@ function TalkMain({ selectpas, flg }) {
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
-
-  const pas = selectpas;
-  const topicswitch = flg;
+  let topicswitch = flg;
   const [name, setName] = useState();
   const [text, setText] = useState();
   const [fixedtext, setFixedtext] = useState(false);
@@ -24,11 +22,44 @@ function TalkMain({ selectpas, flg }) {
   const [getData, setGetData] = useState([]);
   const [openTopicindex, setOpenTopicIndex] = useState(-1);
   const [indata, setindata] = useState([]);
+//ページネーション 
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
+  const startIndex = (currentPage -1)* pageSize;
+  const endIndex = startIndex + pageSize;
+  const displayedData = indata.slice(startIndex,endIndex);
+  const totalDataCount = indata.length - 2; // 最初の2つのデータを除いたデータの総数
+  const totalPages = Math.ceil(totalDataCount / pageSize);
+  const handlePageChange = (pageNumber) =>{
+    setCurrentPage(pageNumber);
+  }
+  const Pagination = () =>{
+    const pageNumbers = [];
 
+    for(let i =1; i <= totalPages; i++){
+      pageNumbers.push(
+        <div
+          key={i}
+          className={`page-item ${i === currentPage ? 'active':''}`}
+          onClick={()=> handlePageChange(i)}
+         >
+          <a  className="page-link" href="#">
+            {i}
+          </a>
+         </div>
+      );
+    }
+    return(
+      <nav>
+        <ul className="pagination justify-content-center">
+          {pageNumbers}
+        </ul>
+      </nav>
+    )
+  }
   const dataget = (index) => {
     database.ref(`Talk/topics/${selectpas}`).on("value", function (snapshot) {
       const data = snapshot.val();
-
       const userDataArray = Object.values(data);
       setindata(userDataArray);
       setOpenTopicIndex(index);
@@ -42,6 +73,8 @@ function TalkMain({ selectpas, flg }) {
     };
     database.ref(`Talk/topics/${selectpas}`).push(data);
     setText("");
+    dataget();
+    Pagination();
   };
   //固定メッセージ
   const stampswich = () => {
@@ -53,14 +86,15 @@ function TalkMain({ selectpas, flg }) {
   };
   useEffect(() => {
     dataget();
+    Pagination();
   }, [selectpas]);
   return (
     <div className="talkarea">
       <div className="talks">
         <ul>
           {topicswitch &&
-            (indata.length > 2 ? (
-              indata.map((indata, index) => {
+            (displayedData.length > 2 ? (
+              displayedData.map((indata, index) => {
                 const datacheck =
                   typeof indata === "object" && "name" in indata;
 
@@ -77,6 +111,7 @@ function TalkMain({ selectpas, flg }) {
               </div>
             ))}
         </ul>
+        {topicswitch && <Pagination />}
         {topicswitch ? (
           //投稿レイアウト
           <div className="typearea">

@@ -1,26 +1,26 @@
-.talk .talkarea {
+.talkarea {
   grid-row: 2;
   margin-left: 2.5%;
   margin-right: 5%;
 }
-.talk .talks {
+.talks {
   margin-top: 5vh;
   text-align: center;
   overflow: auto;
   max-height: 80vh;
 }
-.talk .talkitem {
+.talkitem {
   text-align: left;
   margin: auto;
   margin-top: 15px;
   list-style: none;
   border-bottom: 2px solid;
 }
-.talk .talkitem .username {
+.username {
   margin-bottom: 3px;
 }
 
-.talk .typearea {
+.typearea {
   background-color: rgb(122, 121, 121);
   width: 80%;
   margin: auto;
@@ -30,32 +30,32 @@
   border: 2px solid;
 }
 
-.talk .typearea .namelabel,
-.talk .typearea .textlabel {
+ .namelabel,
+.textlabel {
   margin-left: 2%;
   float: left;
 }
 
-.talk .typearea .nameinput {
+ .nameinput {
   width: 40%;
   margin-right: 2%;
   float: right;
 }
 
-.talk .typearea .textinput {
+ .textinput {
   width: 70%;
   margin-right: 2%;
   float: right;
 }
 
-.talk .typearea .subbtn {
+ .subbtn {
   font-size: large;
   float: right;
   margin-top: 2%;
   margin-left: 2%;
 }
 
-.talk .typearea .tembtn {
+ .tembtn {
   font-size: large;
   background-color: rgb(129, 129, 255);
   color: rgb(186, 186, 186);
@@ -64,19 +64,32 @@
   margin-left: 2%;
 }
 
-.talk .fixed {
+.fixed {
   margin-top: 1%;
   padding: 2%;
   border-radius: 5px 5px 5px;
   background-color: rgb(148, 147, 147);
   font-size: large;
 }
-.talk .fixed .closebtn {
+.closebtn {
   clear: left;
   margin-top: 2%;
   float: right;
 }
-
+.pagination{
+  display: flex;
+  font-size: x-large;
+  justify-content: center;
+}
+.page-item{
+  margin: 0 1%;
+}
+.page-link{
+  text-decoration: none;
+  cursor: pointer;
+  padding: 20%;
+  background-color: lightcyan;
+}
 @media (max-width: 1300px) {
   .talk .typearea {
     padding: 7%;
