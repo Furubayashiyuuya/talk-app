@@ -85,17 +85,19 @@ function TalkSide() {
 
   return (
     <>
-      <div className="sidemenew">
+      <div className="side">
         <h2>Topic</h2>
         <div className="inputarea">
           <input
+          className="side-input-name"
             type="text"
             name="topicname"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
           />
-          <div className="topicact">
+          <div className="side-select">
             <select
+            className="topic-select"
               name="select"
               id="select"
               onChange={(e) => setSortOption(e.target.value)}
@@ -104,20 +106,20 @@ function TalkSide() {
               <option value="make">あいうえ順</option>
             </select>
             <button
-              className="topicbtn"
+              className="topic-button"
               onClick={() => addTopic({ topic: topic })}
             >
               作成
             </button>
           </div>
         </div>
-        <div className="sideitem">
+        <div className="side-items">
           {getData.map(
             (getdata, index) =>
               index !== getData.length && (
                 <div
                   key={getdata.topic}
-                  className={`side ${
+                  className={`topic-item ${
                     openTopicindex === index ? "selected" : ""
                   }`}
                   onClick={() => open(getdata.topic, index)}

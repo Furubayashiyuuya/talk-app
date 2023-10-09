@@ -1,26 +1,27 @@
-.talkarea {
+.main {
   grid-row: 2;
   margin-left: 2.5%;
   margin-right: 5%;
-}
-.talks {
   margin-top: 5vh;
   text-align: center;
   overflow: auto;
   max-height: 80vh;
 }
-.talkitem {
+
+.talk-item {
   text-align: left;
   margin: auto;
   margin-top: 15px;
   list-style: none;
   border-bottom: 2px solid;
 }
-.username {
+.user-name {
   margin-bottom: 3px;
 }
-
-.typearea {
+.start-text{
+  font-size: xx-large;
+}
+.data-form {
   background-color: rgb(122, 121, 121);
   width: 80%;
   margin: auto;
@@ -30,32 +31,32 @@
   border: 2px solid;
 }
 
- .namelabel,
-.textlabel {
+ .name-label,
+.text-label {
   margin-left: 2%;
   float: left;
 }
 
- .nameinput {
+ .name-input {
   width: 40%;
   margin-right: 2%;
   float: right;
 }
 
- .textinput {
+ .text-input {
   width: 70%;
   margin-right: 2%;
   float: right;
 }
 
- .subbtn {
+ .submit-button {
   font-size: large;
   float: right;
   margin-top: 2%;
   margin-left: 2%;
 }
 
- .tembtn {
+ .template-button {
   font-size: large;
   background-color: rgb(129, 129, 255);
   color: rgb(186, 186, 186);
@@ -64,14 +65,14 @@
   margin-left: 2%;
 }
 
-.fixed {
+.template-menu {
   margin-top: 1%;
   padding: 2%;
   border-radius: 5px 5px 5px;
-  background-color: rgb(148, 147, 147);
+  background-color: rgb(213, 213, 213);
   font-size: large;
 }
-.closebtn {
+.close-button {
   clear: left;
   margin-top: 2%;
   float: right;
@@ -91,17 +92,23 @@
   background-color: lightcyan;
 }
 @media (max-width: 1300px) {
-  .talk .typearea {
+   .data-form {
     padding: 7%;
   }
 }
 @media (max-width: 1000px) {
-  .talk .typearea {
+   .data-form {
     padding: 8%;
   }
 }
 @media (max-width: 800px) {
-  .talk .typearea {
+   .data-form {
     padding: 9%;
   }
+}
+
+@media (max-width: 600px) {
+  .data-form {
+   padding: 10%;
+ }
 }

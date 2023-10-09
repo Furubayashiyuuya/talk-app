@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./TalkMain.css";
+import Pag from "./Pag";
 function TalkMain({ selectpas, flg }) {
   const firebaseConfig = {
     apiKey: "AIzaSyCTz7WRVfaQergkV7Szr6gmVarhBHYCnpI",
@@ -33,30 +34,6 @@ function TalkMain({ selectpas, flg }) {
   const handlePageChange = (pageNumber) =>{
     setCurrentPage(pageNumber);
   }
-  const Pagination = () =>{
-    const pageNumbers = [];
-
-    for(let i =1; i <= totalPages; i++){
-      pageNumbers.push(
-        <div
-          key={i}
-          className={`page-item ${i === currentPage ? 'active':''}`}
-          onClick={()=> handlePageChange(i)}
-         >
-          <a  className="page-link" href="#">
-            {i}
-          </a>
-         </div>
-      );
-    }
-    return(
-      <nav>
-        <ul className="pagination justify-content-center">
-          {pageNumbers}
-        </ul>
-      </nav>
-    )
-  }
   const dataget = (index) => {
     database.ref(`Talk/topics/${selectpas}`).on("value", function (snapshot) {
       const data = snapshot.val();
@@ -74,7 +51,6 @@ function TalkMain({ selectpas, flg }) {
     database.ref(`Talk/topics/${selectpas}`).push(data);
     setText("");
     dataget();
-    Pagination();
   };
   //固定メッセージ
   const stampswich = () => {
@@ -84,13 +60,35 @@ function TalkMain({ selectpas, flg }) {
       setFixedtext(false);
     }
   };
+  const Templatebutton = () =>{
+    const templates = [
+      "こんにちは",
+      "よろしくお願いします。",
+      "ありがとうございます。",
+      "それな",
+      "草",
+      "wktk",
+      "wwwww"
+    ];
+    return(
+      <div className="template-menu">
+        {templates.map((template,index) => (
+          <button key={index} onClick={()=>setText(template)}>
+            {template}
+          </button>
+        ))}
+      <br />
+      <button className="close-button" onClick={() => stampswich()}>
+        閉じる
+      </button>
+    </div>
+    )
+  }
   useEffect(() => {
     dataget();
-    Pagination();
   }, [selectpas]);
   return (
-    <div className="talkarea">
-      <div className="talks">
+    <div className="main">
         <ul>
           {topicswitch &&
             (displayedData.length > 2 ? (
@@ -99,36 +97,36 @@ function TalkMain({ selectpas, flg }) {
                   typeof indata === "object" && "name" in indata;
 
                 return datacheck ? (
-                  <div className="talkitem" key={index}>
-                    <li className="username">ユーザー名: {indata.name}</li>
-                    <li className="usertext">{indata.text}</li>
+                  <div className="talk-item" key={index}>
+                    <li className="user-name">ユーザー名: {indata.name}</li>
+                    <li className="user-text">{indata.text}</li>
                   </div>
                 ) : null;
               })
             ) : (
-              <div className="talkstart">
+              <div className="start-text">
                 <h2>Let's start Talking</h2>
               </div>
             ))}
         </ul>
-        {topicswitch && <Pagination />}
+        {topicswitch && <Pag totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange}/>}
         {topicswitch ? (
           //投稿レイアウト
-          <div className="typearea">
-            <label className="namelabel">ユーザー名</label>
+          <div className="data-form">
+            <label className="name-label">ユーザー名</label>
             <br />
             <input
-              className="nameinput"
+              className="name-input"
               type="text"
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <br />
-            <label className="textlabel">コメント</label>
+            <label className="text-label">コメント</label>
             <br />
             <input
-              className="textinput"
+              className="text-input"
               type="text"
               name="text"
               maxLength="150"
@@ -137,48 +135,25 @@ function TalkMain({ selectpas, flg }) {
             />
             <br />
             {!fixedtext ? (
-              <button className="subbtn" onClick={() => addData(selectedTopic)}>
+              <button className="submit-button" onClick={() => addData(selectedTopic)}>
                 送信
               </button>
             ) : (
               <></>
             )}
             {!fixedtext ? (
-              <button className="tembtn" onClick={() => stampswich()}>
+              <button className="template-button" onClick={() => stampswich()}>
                 テンプレート
               </button>
             ) : (
               <></>
             )}
-            {fixedtext ? (
-              <div className="fixed">
-                <button onClick={() => setText("こんにちは")}>
-                  こんにちは
-                </button>
-                <button onClick={() => setText("よろしくお願いします。")}>
-                  よろしくお願いします。
-                </button>
-                <button onClick={() => setText("ありがとうございます。")}>
-                  ありがとうございます。
-                </button>
-                <button onClick={() => setText("それな")}>それな</button>
-                <button onClick={() => setText("草")}>草</button>
-                <button onClick={() => setText("wktk")}>wktk</button>
-                <button onClick={() => setText("wwwww")}>wwwww</button>
-                <br />
-                <button className="closebtn" onClick={() => stampswich()}>
-                  閉じる
-                </button>
-              </div>
-            ) : (
-              <></>
-            )}
+            {fixedtext ? (<Templatebutton />):(<></>)}
           </div>
         ) : (
           <h2>気になるTopicをクリックして、Talkを始めよう。</h2>
         )}
       </div>
-    </div>
   );
 }
 export default TalkMain;
