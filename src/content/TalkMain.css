@@ -112,3 +112,10 @@
    padding: 10%;
  }
 }
+
+@media (max-width:425px) {
+  .data-form {
+    padding: 15%;
+    width: 70%;
+  }
+}

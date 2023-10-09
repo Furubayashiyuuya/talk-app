@@ -9,3 +9,14 @@
 .title{
   grid-row: 1;
 }
+
+@media (max-width:425px) {
+  .talk {
+    min-height: 100vh;
+    display:list-item;
+    grid-template-rows: 10% 1fr ;
+    grid-template-columns: 3fr 7fr;
+    background-color: black;
+    color: white;
+  }
+}

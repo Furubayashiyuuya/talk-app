@@ -41,3 +41,9 @@
   background-color: lightgray;
 }
 
+@media (max-width:425px) {
+  .side-items {
+    overflow: auto;
+    max-height: 30vh;
+  }
+}
