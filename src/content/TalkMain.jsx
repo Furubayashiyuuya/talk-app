@@ -5,13 +5,13 @@ import "./TalkMain.css";
 import Pag from "./Pag";
 function TalkMain({ selectpas, flg }) {
   const firebaseConfig = {
-    apiKey: "AIzaSyCTz7WRVfaQergkV7Szr6gmVarhBHYCnpI",
-    authDomain: "talk-95e0a.firebaseapp.com",
-    databaseURL: "https://talk-95e0a-default-rtdb.firebaseio.com",
-    projectId: "talk-95e0a",
-    storageBucket: "talk-95e0a.appspot.com",
-    messagingSenderId: "348990437531",
-    appId: "1:348990437531:web:beb9f0e897cae19c322e3e",
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+  authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
@@ -29,16 +29,16 @@ function TalkMain({ selectpas, flg }) {
   const startIndex = (currentPage -1)* pageSize;
   const endIndex = startIndex + pageSize;
   const displayedData = indata.slice(startIndex,endIndex);
-  const totalDataCount = indata.length - 2; // 最初の2つのデータを除いたデータの総数
+  const totalDataCount = indata.length - 2; // 先頭データがタイムスタンプとトピック名であるため除いている
   const totalPages = Math.ceil(totalDataCount / pageSize);
   const handlePageChange = (pageNumber) =>{
     setCurrentPage(pageNumber);
   }
-  const dataget = (index) => {
+  const GetMessages = (index) => {
     database.ref(`Talk/topics/${selectpas}`).on("value", function (snapshot) {
       const data = snapshot.val();
       const userDataArray = Object.values(data);
-      setindata(userDataArray);
+      setindata(userDataArray);//object形式を調べる
       setOpenTopicIndex(index);
     });
   };
@@ -50,7 +50,7 @@ function TalkMain({ selectpas, flg }) {
     };
     database.ref(`Talk/topics/${selectpas}`).push(data);
     setText("");
-    dataget();
+    GetMessages();
   };
   //固定メッセージ
   const stampswich = () => {
@@ -85,7 +85,7 @@ function TalkMain({ selectpas, flg }) {
     )
   }
   useEffect(() => {
-    dataget();
+    GetMessages();
   }, [selectpas]);
   return (
     <div className="main">

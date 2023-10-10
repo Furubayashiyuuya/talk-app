@@ -3,7 +3,7 @@
   grid-column: 1;
   display: flexbox;
   padding: 1%;
-  margin-left: 2%;
+  margin-left: 20%;
   border-right: 6px solid;
 }
 .side-input-name {
@@ -32,6 +32,7 @@
   list-style: none;
   border: 3px solid;
   margin-bottom: 2.5%;
+  margin-right: 2%;
   padding: 5%;
   font-size: x-large;
 }
