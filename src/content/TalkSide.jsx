@@ -12,7 +12,7 @@ function TalkSide() {
     storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
-    };
+  };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
   const [getData, setGetData] = useState([]);
@@ -89,7 +89,7 @@ function TalkSide() {
         <h2>Topic</h2>
         <div className="inputarea">
           <input
-          className="side-input-name"
+            className="side-input-name"
             type="text"
             name="topicname"
             value={topic}
@@ -97,7 +97,7 @@ function TalkSide() {
           />
           <div className="side-select">
             <select
-            className="topic-select"
+              className="topic-select"
               name="select"
               id="select"
               onChange={(e) => setSortOption(e.target.value)}

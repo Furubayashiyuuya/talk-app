@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./TalkMain.css";
-function Pag({ totalPages, currentPage, handlePageChange }) {
+function Pagination({ totalPages, currentPage, handlePageChange }) {
   const pageNumbers = [];
 
   for (let i = 1; i <= totalPages; i++) {
@@ -15,7 +15,7 @@ function Pag({ totalPages, currentPage, handlePageChange }) {
         <a className="page-link" href="#">
           {i}
         </a>
-      </div>
+      </div>,
     );
   }
 
@@ -26,4 +26,4 @@ function Pag({ totalPages, currentPage, handlePageChange }) {
   );
 }
 
-export default Pag;
+export default Pagination;

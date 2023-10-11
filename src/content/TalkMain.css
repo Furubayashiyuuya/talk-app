@@ -15,14 +15,17 @@
   list-style: none;
   border-bottom: 2px solid;
 }
+
 .user-name {
   margin-bottom: 3px;
 }
+
 .start-text{
   font-size: xx-large;
 }
+
 .data-form {
-  background-color: rgb(122, 121, 121);
+  background-color: rgb(122 121 121);
   width: 80%;
   margin: auto;
   margin-top: 1%;
@@ -58,8 +61,8 @@
 
  .template-button {
   font-size: large;
-  background-color: rgb(129, 129, 255);
-  color: rgb(186, 186, 186);
+  background-color: rgb(129 129 255);
+  color: rgb(186 186 186);
   float: left;
   margin-top: 2%;
   margin-left: 2%;
@@ -68,52 +71,59 @@
 .template-menu {
   margin-top: 1%;
   padding: 2%;
-  border-radius: 5px 5px 5px;
-  background-color: rgb(213, 213, 213);
+  border-radius: 5px;
+  background-color: rgb(213 213 213);
   font-size: large;
 }
+
 .close-button {
   clear: left;
   margin-top: 2%;
   float: right;
 }
+
 .pagination{
   display: flex;
   font-size: x-large;
   justify-content: center;
 }
+
 .page-item{
   margin: 0 1%;
 }
+
 .page-link{
   text-decoration: none;
   cursor: pointer;
   padding: 20%;
   background-color: lightcyan;
 }
-@media (max-width: 1300px) {
+
+@media (width <= 1300px) {
    .data-form {
     padding: 7%;
   }
 }
-@media (max-width: 1000px) {
+
+@media (width <= 1000px) {
    .data-form {
     padding: 8%;
   }
 }
-@media (max-width: 800px) {
+
+@media (width <= 800px) {
    .data-form {
     padding: 9%;
   }
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   .data-form {
    padding: 10%;
  }
 }
 
-@media (max-width:425px) {
+@media (width <=425px) {
   .data-form {
     padding: 15%;
     width: 70%;

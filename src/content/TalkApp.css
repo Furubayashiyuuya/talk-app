@@ -6,6 +6,7 @@
   background-color: black;
   color: white;
 }
+
 .title{
   font-size: large;
   margin-top: 2%;
@@ -13,7 +14,7 @@
   grid-row: 1;
 }
 
-@media (max-width:425px) {
+@media (width <=425px) {
   .talk {
     min-height: 100vh;
     display:list-item;
