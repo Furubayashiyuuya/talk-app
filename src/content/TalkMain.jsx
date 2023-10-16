@@ -38,7 +38,7 @@ function TalkMain({ selectpas, flg }) {
       const data = snapshot.val();
       const userDataArray = Object.values(data);
       getMessageData(userDataArray); //topic直下のDBデータの取得
-      console.log(userDataArray)
+      console.log(userDataArray);
       getOpenTopicIndex(index);
     });
   };

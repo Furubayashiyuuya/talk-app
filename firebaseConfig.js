@@ -9,10 +9,10 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  };
-  firebase.initializeApp(firebaseConfig);
+};
+firebase.initializeApp(firebaseConfig);
 
-  // データベースを取得
-  const database = firebase.database();
-  
-  export default database
+// データベースを取得
+const database = firebase.database();
+
+export default database;
