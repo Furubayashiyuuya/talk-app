@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./TalkSide.css";
-import TalkMain from "./TalkMain";
+import { setSelectedTopic, setIsTopicOpen } from "./actions";
+import { useDispatch } from "react-redux";
+
 function TalkSide() {
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -15,12 +17,12 @@ function TalkSide() {
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
-  const [getData, setGetData] = useState([]);
-  const [topic, setTopic] = useState();
-  const [selectedTopic, setSelectedTopic] = useState("");
+  const [topicData, setTopicData] = useState([]);
+  const [topicName, settopicName] = useState();
   const [openTopicindex, setOpenTopicIndex] = useState(-1);
-  const [openswitch, setOpenswitch] = useState(false);
   const [sortOption, setSortOption] = useState("make");
+
+  const dispatch = useDispatch();
 
   //Side
   const sortData = (data) => {
@@ -36,18 +38,19 @@ function TalkSide() {
       const data = snapshot.val();
       if (data) {
         const userDataArray = sortData(Object.values(data));
-        setGetData(userDataArray);
+        setTopicData(userDataArray);
+        console.log(userDataArray);
       } else {
-        setGetData([]);
+        setTopicData([]);
       }
     });
   }, [sortOption]);
 
   const addTopic = () => {
-    if (!topic) {
+    if (!topicName) {
       return;
     }
-    const exising = getData.find((gets) => gets.topic === topic);
+    const exising = topicData.find((gets) => gets.topic === topicName);
     //topic名チェック
     if (exising) {
       alert("同名のものがあります。");
@@ -55,16 +58,16 @@ function TalkSide() {
     }
 
     const data = {
-      topic: topic,
+      topic: topicName,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
     };
 
     //タイムスタンプでトピックを更新
 
-    const topicRef = database.ref(`Talk/topics/${topic}`);
+    const topicRef = database.ref(`Talk/topics/${topicName}`);
     topicRef.set(data);
 
-    setTopic("");
+    settopicName("");
   };
 
   //side
@@ -72,12 +75,12 @@ function TalkSide() {
     database.ref(`Talk/topics/${pas}`).on("value", function (snapshot) {
       const data = snapshot.val();
       if (data) {
-        setOpenswitch(true);
-        setSelectedTopic(pas);
+        dispatch(setIsTopicOpen(true));
+        dispatch(setSelectedTopic(pas));
         setOpenTopicIndex(index);
       } else {
-        setGetData([]);
-        setSelectedTopic("");
+        setTopicData([]);
+        dispatch(setSelectedTopic(""));
         setOpenTopicIndex(-1);
       }
     });
@@ -92,8 +95,8 @@ function TalkSide() {
             className="side-input-name"
             type="text"
             name="topicname"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
+            value={topicName}
+            onChange={(e) => settopicName(e.target.value)}
           />
           <div className="side-select">
             <select
@@ -107,22 +110,24 @@ function TalkSide() {
             </select>
             <button
               className="topic-button"
-              onClick={() => addTopic({ topic: topic })}
+              onClick={() => addTopic({ topic: topicName })}
             >
               作成
             </button>
           </div>
         </div>
         <div className="side-items">
-          {getData.map(
+          {topicData.map(
             (getdata, index) =>
-              index !== getData.length && (
+              index !== topicData.length && (
                 <div
                   key={getdata.topic}
                   className={`topic-item ${
                     openTopicindex === index ? "selected" : ""
                   }`}
-                  onClick={() => open(getdata.topic, index)}
+                  onClick={() => {
+                    open(getdata.topic, index);
+                  }}
                 >
                   <li>{getdata.topic}</li>
                 </div>
@@ -130,7 +135,6 @@ function TalkSide() {
           )}
         </div>
       </div>
-      <TalkMain selectpas={selectedTopic} flg={openswitch} />
     </>
   );
 }
