@@ -15,6 +15,7 @@ function TalkMain({ selectpas, flg }) {
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
+  const ref = database.ref(`Talk/topics/${selectpas}`);
   let topicswitch = flg;
   const [messageName, setMessageName] = useState();
   const [messageText, setMessageText] = useState();
@@ -34,7 +35,7 @@ function TalkMain({ selectpas, flg }) {
     setCurrentPage(pageNumber);
   };
   const getMessages = (index) => {
-    database.ref(`Talk/topics/${selectpas}`).on("value", function (snapshot) {
+    ref.on("value",(snapshot) => {
       const data = snapshot.val();
       const userDataArray = Object.values(data);
       getMessageData(userDataArray); //topic直下のDBデータの取得
@@ -48,7 +49,7 @@ function TalkMain({ selectpas, flg }) {
       name: messageName,
       text: messageText,
     };
-    database.ref(`Talk/topics/${selectpas}`).push(data);
+    ref.push(data);
     setMessageText("");
     getMessages();
   };
@@ -86,6 +87,9 @@ function TalkMain({ selectpas, flg }) {
   };
   useEffect(() => {
     getMessages();
+    return ()=>{
+      ref.off("value");
+    }
   }, [selectpas]);
   return (
     <div className="main">
