@@ -42,6 +42,7 @@ function TalkMain({ selectpas, flg }) {
   useEffect(() => {
     getMessages();
   }, [selectpas]);
+  
   return (
     <div className="main">
       <ul>
@@ -70,7 +71,7 @@ function TalkMain({ selectpas, flg }) {
           handlePageChange={handlePageChange}
         />
       )}
-    < TalkSubmit flg={topicswitch}/>
+    < TalkSubmit selectpas={selectpas} flg={topicswitch}/>
     </div>
   );
 }

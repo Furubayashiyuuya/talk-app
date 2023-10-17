@@ -15,18 +15,19 @@ function TalkSubmit({ selectpas, flg }) {
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
   let topicswitch = flg;
+  let topicname = selectpas;
   const [messageName, setMessageName] = useState();
   const [messageText, setMessageText] = useState();
   const [fixedMessage, setFixedMessage] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState("");
-
+ // const [selectedTopic, setSelectedTopic] = useState("");
+console.log(topicname)
   //入力データの追加
   const addData = () => {
     const data = {
       name: messageName,
       text: messageText,
     };
-    database.ref(`Talk/topics/${selectpas}`).push(data);
+    database.ref(`Talk/topics/${topicname}`).push(data);
     setMessageText("");
   
   };
@@ -92,7 +93,7 @@ function TalkSubmit({ selectpas, flg }) {
           {!fixedMessage ? (
             <button
               className="submit-button"
-              onClick={() => addData(selectedTopic)}
+              onClick={() => addData()}
             >
               送信
             </button>
