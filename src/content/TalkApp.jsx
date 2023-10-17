@@ -7,8 +7,8 @@ import "./TalkApp.css";
 import TalkMain from "./TalkMain";
 
 function TalkApp() {
-  const topic = useSelector((state) => state.selectedTopic); // 使用するキーを確認
-  const isOpen = useSelector((state) => state.isTopicOpen); // 使用するキーを確認
+  const topic = useSelector((state) => state.selectedTopic); // トピック名を設定
+  const isOpen = useSelector((state) => state.isTopicOpen); // 押したかの判定を設定
 
   console.log("選択されたトピック:", topic);
   console.log("トピックが開かれている:", isOpen);

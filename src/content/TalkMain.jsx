@@ -3,7 +3,6 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./TalkMain.css";
 import Pagination from "./Pagination";
-import TalkSubmit from "./TalkSubmit";
 function TalkMain({ selectpas, flg }) {
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -17,7 +16,11 @@ function TalkMain({ selectpas, flg }) {
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
   let topicswitch = flg;
-   const [openTopicindex, getOpenTopicIndex] = useState(-1);
+  const [messageName, setMessageName] = useState();
+  const [messageText, setMessageText] = useState();
+  const [fixedMessage, setFixedMessage] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState("");
+  const [openTopicindex, getOpenTopicIndex] = useState(-1);
   const [messageData, getMessageData] = useState([]);
   //ページネーション
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,10 +42,51 @@ function TalkMain({ selectpas, flg }) {
       getOpenTopicIndex(index);
     });
   };
+  //入力データの追加
+  const addData = () => {
+    const data = {
+      name: messageName,
+      text: messageText,
+    };
+    database.ref(`Talk/topics/${selectpas}`).push(data);
+    setMessageText("");
+    getMessages();
+  };
+  //固定メッセージ
+  const stampswich = () => {
+    if (fixedMessage === false) {
+      setFixedMessage(true);
+    } else {
+      setFixedMessage(false);
+    }
+  };
+  const Templatebutton = () => {
+    const templates = [
+      "こんにちは",
+      "よろしくお願いします。",
+      "ありがとうございます。",
+      "それな",
+      "草",
+      "wktk",
+      "wwwww",
+    ];
+    return (
+      <div className="template-menu">
+        {templates.map((template, index) => (
+          <button key={index} onClick={() => setMessageText(template)}>
+            {template}
+          </button>
+        ))}
+        <br />
+        <button className="close-button" onClick={() => stampswich()}>
+          閉じる
+        </button>
+      </div>
+    );
+  };
   useEffect(() => {
     getMessages();
   }, [selectpas]);
-  
   return (
     <div className="main">
       <ul>
@@ -71,7 +115,52 @@ function TalkMain({ selectpas, flg }) {
           handlePageChange={handlePageChange}
         />
       )}
-    < TalkSubmit selectpas={selectpas} flg={topicswitch}/>
+      {topicswitch ? (
+        //投稿レイアウト
+        <div className="data-form">
+          <label className="name-label">ユーザー名</label>
+          <br />
+          <input
+            className="name-input"
+            type="text"
+            name="name"
+            value={messageName}
+            onChange={(e) => setMessageName(e.target.value)}
+          />
+          <br />
+          <label className="text-label">コメント</label>
+          <br />
+          <input
+            className="text-input"
+            type="text"
+            name="text"
+            maxLength="150"
+            value={messageText}
+            onChange={(e) => setMessageText(e.target.value)}
+          />
+          <br />
+          {!fixedMessage ? (
+            <button
+              className="submit-button"
+              onClick={() => addData(selectedTopic)}
+            >
+              送信
+            </button>
+          ) : (
+            <></>
+          )}
+          {!fixedMessage ? (
+            <button className="template-button" onClick={() => stampswich()}>
+              テンプレート
+            </button>
+          ) : (
+            <></>
+          )}
+          {fixedMessage ? <Templatebutton /> : <></>}
+        </div>
+      ) : (
+        <h2>気になるTopicをクリックして、Talkを始めよう。</h2>
+      )}
     </div>
   );
 }
