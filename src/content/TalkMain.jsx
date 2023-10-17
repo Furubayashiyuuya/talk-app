@@ -35,7 +35,7 @@ function TalkMain({ selectpas, flg }) {
     setCurrentPage(pageNumber);
   };
   const getMessages = (index) => {
-    ref.on("value",(snapshot) => {
+    ref.on("value", (snapshot) => {
       const data = snapshot.val();
       const userDataArray = Object.values(data);
       getMessageData(userDataArray); //topic直下のDBデータの取得
@@ -87,9 +87,9 @@ function TalkMain({ selectpas, flg }) {
   };
   useEffect(() => {
     getMessages();
-    return ()=>{
+    return () => {
       ref.off("value");
-    }
+    };
   }, [selectpas]);
   return (
     <div className="main">
