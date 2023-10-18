@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./TalkSide.css";
-import { setSelectedTopic, setIsTopicOpen } from "./actions";
+import { setSelectedTopic, setIsTopicOpen } from "../Redux/actions";
+
 import { useDispatch } from "react-redux";
 
 function TalkSide() {
@@ -78,7 +79,9 @@ function TalkSide() {
         dispatch(setIsTopicOpen(true));
         dispatch(setSelectedTopic(pas));
         setOpenTopicIndex(index);
-      } else {
+      } 
+      //Topicが空の時エラー防止のために初期値を設定する
+      if(!data){
         setTopicData([]);
         dispatch(setSelectedTopic(""));
         setOpenTopicIndex(-1);

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
+import { useSelector, useDispatch } from "react-redux";
+
 import "./TalkMain.css";
 import Pagination from "./Pagination";
-function TalkMain({ selectpas, flg }) {
+function TalkMain() {
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
     authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
@@ -15,8 +17,10 @@ function TalkMain({ selectpas, flg }) {
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
-  const ref = database.ref(`Talk/topics/${selectpas}`);
-  let topicswitch = flg;
+  const topicname = useSelector((state) => state.selectedTopic); // トピック名を設定
+  const isOpen = useSelector((state) => state.isTopicOpen); // 判定を設定
+
+  const ref = database.ref(`Talk/topics/${topicname}`);
   const [messageName, setMessageName] = useState();
   const [messageText, setMessageText] = useState();
   const [fixedMessage, setFixedMessage] = useState(false);
@@ -90,11 +94,11 @@ function TalkMain({ selectpas, flg }) {
     return () => {
       ref.off("value");
     };
-  }, [selectpas]);
+  }, [topicname]);
   return (
     <div className="main">
       <ul>
-        {topicswitch &&
+        {isOpen &&
           (displayedData.length > 2 ? (
             displayedData.map((indata, index) => {
               const datacheck = typeof indata === "object" && "name" in indata;
@@ -112,14 +116,14 @@ function TalkMain({ selectpas, flg }) {
             </div>
           ))}
       </ul>
-      {topicswitch && (
+      {isOpen && (
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
           handlePageChange={handlePageChange}
         />
       )}
-      {topicswitch ? (
+      {isOpen ? (
         //投稿レイアウト
         <div className="data-form">
           <label className="name-label">ユーザー名</label>
