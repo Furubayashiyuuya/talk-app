@@ -27,7 +27,7 @@ function TalkMain() {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [openTopicindex, getOpenTopicIndex] = useState(-1);
   const [messageData, getMessageData] = useState([]);
-  //ページネーション
+  //ページネーション 一覧で表示すると見づらくなるためページネーションを行う
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
   const startIndex = (currentPage - 1) * pageSize;
@@ -57,7 +57,7 @@ function TalkMain() {
     setMessageText("");
     getMessages();
   };
-  //固定メッセージ
+  //固定メッセージ 決まったメッセージを送信しやすくすることでやり取りをしやすくする
   const stampswich = () => {
     if (fixedMessage === false) {
       setFixedMessage(true);

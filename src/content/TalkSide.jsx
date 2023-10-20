@@ -52,7 +52,7 @@ function TalkSide() {
       return;
     }
     const exising = topicData.find((gets) => gets.topic === topicName);
-    //topic名チェック
+    //topic名チェック topic名で判定しているので、重複がしないようにテックをする
     if (exising) {
       alert("同名のものがあります。");
       return;
