@@ -49,21 +49,25 @@ function TalkSide() {
           </div>
         </div>
         <div className="side-items">
-          {topicData.map(
-            (getdata, index) =>
-              index !== topicData.length && (
-                <div
-                  key={getdata.topic}
-                  className={`topic-item ${
-                    openTopicIndex === index ? "selected" : ""
-                  }`}
-                  onClick={() => {
-                    open(getdata.topic, index);
-                  }}
-                >
-                  <li>{getdata.topic}</li>
-                </div>
-              ),
+          {loading ? (
+            <div className="loading">Loading</div>
+          ) : (
+            topicData.map(
+              (getdata, index) =>
+                index !== topicData.length && (
+                  <div
+                    key={getdata.topic}
+                    className={`topic-item ${
+                      openTopicIndex === index ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      open(getdata.topic, index);
+                    }}
+                  >
+                    <li>{getdata.topic}</li>
+                  </div>
+                ),
+            )
           )}
         </div>
       </div>

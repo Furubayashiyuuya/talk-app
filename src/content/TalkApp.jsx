@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 import TalkSide from "./TalkSide";
 import "./TalkApp.css";
 import TalkMain from "./TalkMain";

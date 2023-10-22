@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import { useSelector, useDispatch } from "react-redux";
-import {useMainProcess} from "../hooks/mainProcess";
+import { useMainProcess } from "../hooks/mainProcess";
 import "./TalkMain.css";
 import Pagination from "./Pagination";
 function TalkMain() {
-  const{
+  const {
     setMessageName,
     setMessageText,
     addData,
@@ -21,81 +21,98 @@ function TalkMain() {
     messageText,
     fixedMessage,
     selectedTopic,
-    Templatebutton
+    Templatebutton,
   } = useMainProcess();
   return (
     <div className="main">
-      <ul>
-        {isOpen &&
-          (displayedData.length > 2 ? (
-            displayedData.map((indata, index) => {
-              const datacheck = typeof indata === "object" && "name" in indata;
-
-              return datacheck ? (
-                <div className="talk-item" key={index}>
-                  <li className="user-name">ユーザー名: {indata.name}</li>
-                  <li className="user-text">{indata.text}</li>
-                </div>
-              ) : null;
-            })
-          ) : (
-            <div className="start-text">
-              <h2>Let's start Talking</h2>
-            </div>
-          ))}
-      </ul>
-      {isOpen && (
-        <Pagination
-          totalPages={totalPages}
-          currentPage={currentPage}
-          handlePageChange={handlePageChange}
-        />
-      )}
-      {isOpen ? (
-        //投稿レイアウト
-        <div className="data-form">
-          <label className="name-label">ユーザー名</label>
-          <br />
-          <input
-            className="name-input"
-            type="text"
-            name="name"
-            value={messageName}
-            onChange={(e) => setMessageName(e.target.value)}
-          />
-          <br />
-          <label className="text-label">コメント</label>
-          <br />
-          <input
-            className="text-input"
-            type="text"
-            name="text"
-            maxLength="150"
-            value={messageText}
-            onChange={(e) => setMessageText(e.target.value)}
-          />
-          <br />
-          {!fixedMessage ? (
-            <button
-              className="submit-button"
-              onClick={() => addData(selectedTopic)}
-            >
-              送信
-            </button>
-          ) : (
-            <></>
-          )}
-          {!fixedMessage ? (
-            <button className="template-button" onClick={() => stampswich()}>
-              テンプレート
-            </button>
-          ) : (
-            <></>
-          )}
-          {fixedMessage ? <Templatebutton stampswich={stampswich} setMessageText={setMessageText}/> : <></>}
-        </div>
+      {isloading ? (
+        <div className="loading">Loading</div>
       ) : (
-        <h2>気になるTopicをクリックして、Talkを始めよう。</h2>
+        <>
+          <ul>
+            {isOpen &&
+              (displayedData.length > 2 ? (
+                displayedData.map((indata, index) => {
+                  const datacheck =
+                    typeof indata === "object" && "name" in indata;
+
+                  return datacheck ? (
+                    <div className="talk-item" key={index}>
+                      <li className="user-name">ユーザー名: {indata.name}</li>
+                      <li className="user-text">{indata.text}</li>
+                    </div>
+                  ) : null;
+                })
+              ) : (
+                <div className="start-text">
+                  <h2>Let's start Talking</h2>
+                </div>
+              ))}
+          </ul>
+          {isOpen && (
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={handlePageChange}
+            />
+          )}
+          {isOpen ? (
+            //投稿レイアウト
+            <div className="data-form">
+              <label className="name-label">ユーザー名</label>
+              <br />
+              <input
+                className="name-input"
+                type="text"
+                name="name"
+                value={messageName}
+                onChange={(e) => setMessageName(e.target.value)}
+              />
+              <br />
+              <label className="text-label">コメント</label>
+              <br />
+              <input
+                className="text-input"
+                type="text"
+                name="text"
+                maxLength="150"
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
+              />
+              <br />
+              {!fixedMessage ? (
+                <button
+                  className="submit-button"
+                  onClick={() => addData(selectedTopic)}
+                >
+                  送信
+                </button>
+              ) : (
+                <></>
+              )}
+              {!fixedMessage ? (
+                <button
+                  className="template-button"
+                  onClick={() => stampswich()}
+                >
+                  テンプレート
+                </button>
+              ) : (
+                <></>
+              )}
+              {fixedMessage ? (
+                <Templatebutton
+                  stampswich={stampswich}
+                  setMessageText={setMessageText}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
+          ) : (
+            <h2>気になるTopicをクリックして、Talkを始めよう。</h2>
+          )}
+        </>
       )}
     </div>
   );
