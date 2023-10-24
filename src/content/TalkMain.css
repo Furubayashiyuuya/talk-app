@@ -96,7 +96,7 @@
   text-decoration: none;
   cursor: pointer;
   padding: 20%;
-  background-color: lightcyan;
+  background-color: rgb(173, 173, 173);
 }
 
 @media (width <= 1300px) {

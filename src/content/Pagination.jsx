@@ -12,7 +12,7 @@ function Pagination({ totalPages, currentPage, handlePageChange }) {
         className={`page-item ${i === currentPage ? "active" : ""}`}
         onClick={() => handlePageChange(i)}
       >
-        <a className="page-link" href="#">
+        <a className="page-link" >
           {i}
         </a>
       </div>,

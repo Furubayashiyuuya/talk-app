@@ -18,8 +18,6 @@ function Templatebutton({ stampswich, setMessageText }) {
     "gdgd",
     "kwsk",
     "おk",
-    "おーおー 好き勝手やりなさる…！！",
-    "あまり強い言葉を遣うなよ…弱く見えるぞ",
   ];
 
   return (
