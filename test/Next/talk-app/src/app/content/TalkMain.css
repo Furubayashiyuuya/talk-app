@@ -1,0 +1,136 @@
+.main {
+  grid-row: 2;
+  margin-left: 2.5%;
+  margin-right: 5%;
+  margin-top: 5vh;
+  text-align: center;
+  overflow: auto;
+  max-height: 80vh;
+}
+
+.talk-item {
+  text-align: left;
+  margin: auto;
+  margin-top: 15px;
+  list-style: none;
+  border-bottom: 2px solid;
+}
+
+.user-name {
+  margin-bottom: 3px;
+}
+
+.start-text{
+  font-size: xx-large;
+}
+
+.data-form {
+  background-color: rgb(122 121 121);
+  width: 80%;
+  margin: auto;
+  margin-top: 1%;
+  margin-bottom: 2.5%;
+  padding: 6%;
+  border: 2px solid;
+}
+
+ .name-label,
+.text-label {
+  margin-left: 2%;
+  float: left;
+}
+
+
+ .name-input {
+  width: 40%;
+  margin-right: 2%;
+  float: right;
+}
+
+.text-form{
+  margin-top: 2.5%;
+}
+
+ .text-input {
+  width: 70%;
+  margin-right: 2%;
+  float: right;
+}
+
+ .submit-button {
+  font-size: large;
+  float: right;
+  background-color: rgb(181 181 181);
+  margin-top: 2%;
+  margin-left: 2%;
+  padding: 0 2%;
+}
+
+ .template-button {
+  font-size: large;
+  background-color: rgb(101 101 252);
+  float: left;
+  margin-top: 2%;
+  margin-left: 2%;
+  padding: 0 1%;
+}
+
+.template-menu {
+  margin-top: 1%;
+  padding: 2%;
+  border-radius: 5px;
+  background-color: rgb(213 213 213);
+  font-size: large;
+}
+
+.template-text{
+  border: 1px solid black;
+  background-color: gray;
+  padding: 1%;
+  margin: 2px;
+}
+
+.close-button {
+  clear: left;
+  margin-top: 2%;
+  float: right;
+}
+
+.pagination{
+  display: flex;
+  font-size: x-large;
+  justify-content: center;
+}
+
+.page-item{
+  margin: 0 1%;
+}
+
+.page-link{
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 30%;
+  padding: 10%;
+}
+
+.active{
+  color: lime;
+}
+
+@media (width <= 768px) {
+  .data-form {
+    display: grid;
+  }
+
+  .submit-button {
+    margin: auto;
+    width: 40%;
+    margin-top: 5%;
+  }
+
+   .template-button {
+    font-size: medium;
+    margin: auto;
+    width: 40%;
+  }
+}
