@@ -4,7 +4,7 @@ import "./index.css";
 import TalkApp from "./content/TalkApp";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import store from "./content/store";
+import store from "./Redux/store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store} >
