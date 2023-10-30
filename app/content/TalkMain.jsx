@@ -4,7 +4,6 @@ import "firebase/compat/database";
 import { useSelector, useDispatch } from "react-redux";
 import { useMainProcess } from "../hooks/mainProcess";
 import "./TalkMain.css";
-//import Templatebutton from "./Templatebutton";
 import Pagination from "./Pagination";
 function TalkMain() {
   const {

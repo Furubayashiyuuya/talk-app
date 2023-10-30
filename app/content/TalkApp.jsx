@@ -8,10 +8,6 @@ import { Provider } from "react-redux";
 import store from "../Redux/store";
 
 function TalkApp() {
-  const [on, seton] = useState(false);
-  const serchevent = () => {
-    seton(true);
-  };
   return (
     <Provider store={store}>
       <div className="talk">
