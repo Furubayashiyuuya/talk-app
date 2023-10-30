@@ -1,2 +1,0 @@
-export const SET_SELECTED_TOPIC = "SET_SELECTED_TOPIC";
-export const SET_IS_TOPIC_OPEN = "SET_IS_TOPIC_OPEN";
