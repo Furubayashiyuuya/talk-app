@@ -45,7 +45,7 @@ function TalkMain() {
                 })
               ) : (
                 <div className="start-text">
-                  <h2>Let's start Talking</h2>
+                  <h2>Let&apos;s start Talking</h2>
                 </div>
               ))}
           </ul>
