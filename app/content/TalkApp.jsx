@@ -6,15 +6,13 @@ import "./TalkApp.css";
 import TalkMain from "./TalkMain";
 import { Provider } from "react-redux";
 import store from "../Redux/store";
+import TalkHead from "./TalkHead";
 
 function TalkApp() {
   return (
     <Provider store={store}>
       <div className="talk">
-        <div className="title">
-          <h1>Talk</h1>
-        </div>
-
+        <TalkHead />
         <TalkSide />
         <TalkMain />
       </div>

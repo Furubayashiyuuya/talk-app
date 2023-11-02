@@ -10,7 +10,7 @@ function TalkMain() {
     setMessageName,
     setMessageText,
     addData,
-    stampswich,
+    stampswitch,
     isloading,
     isOpen,
     displayedData,
@@ -85,7 +85,7 @@ function TalkMain() {
               {!fixedMessage ? (
                 <button
                   className="template-button"
-                  onClick={() => stampswich()}
+                  onClick={() => stampswitch()}
                 >
                   テンプレート
                 </button>
@@ -105,7 +105,7 @@ function TalkMain() {
 
               {fixedMessage ? (
                 <Templatebutton
-                  stampswich={stampswich}
+                  stampswitch={stampswitch}
                   setMessageText={setMessageText}
                 />
               ) : (

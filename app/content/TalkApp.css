@@ -5,15 +5,78 @@
   grid-template-columns: 3fr 7fr;
   background-color: black;
   color: white;
+  position: relative;
 }
 
 .title{
   font-size: xx-large;
   margin-top: 2%;
+  margin-bottom: 20%;
   margin-left: 20%;
-  grid-row: 1;
+}
+.option {
+  display: grid;
+  grid-template-columns: 5fr 5fr; /* 要素を横に並べる */
+}
+.action{
+  margin-top: 2%;
+  font-size: x-large;
+}
+.clicked{
+  color: lime;
+}
+.search{
+  background-color: rgb(45, 13, 0);
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.searchwhere{
+margin:5%;
+}
+.searchwhere label{
+margin-right: 20%;
+}
+.option input{
+  background-color: rgb(174, 174, 174);
+}
+.searchwhere select{
+  background-color: rgb(75, 22, 1);
+  margin-bottom: 5%;
 }
 
+.searchwhere button{
+  margin-top: 2%;
+  float: right;
+}
+.createtemplate{
+  background-color: rgb(15, 103, 167);
+  position: relative;
+  z-index: 1;
+}
+.createarea{
+  margin: 3% 2%;
+}
+.createarea input{
+  width: 60%;
+}
+.createarea .stamp{
+  margin: 3% 1%;
+  padding: 2%;
+  background-color: rgb(170, 169, 169);
+}
+.createbutton{
+  margin: 0 10% ;
+  float: right;
+}
+.resultmessage{
+  margin-bottom:10%;
+  list-style: none;
+  border-bottom: 1px solid;
+}
+.result{
+  margin: 5% 10%;
+}
 @media (width <=768px) {
   .talk {
     min-height: 100vh;
@@ -28,5 +91,15 @@
     font-size: xx-large;
     margin: auto;
     grid-row: 1;
+  }
+  .selectitem{
+    display: grid;
+  }
+  .searchwhere button{
+    margin-top: 5% ;
+
+  }
+  .result{
+   clear: right;
   }
 }

@@ -3,17 +3,18 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
-import { useDispatch } from "react-redux";
-import { setIsTopicOpen, setSelectedTopic } from "../Redux/actions"; 
+import { useDispatch,useSelector } from "react-redux";
+import { setIsTopicOpen, setSelectedTopic ,setOptionSwitch,setisClicked} from "../Redux/actions"; 
 import {initializeApp} from "firebase/app"; 
-
 export function useSideProcess() {
   const [topicData, setTopicData] = useState([]);
   const [topicName, setTopicName] = useState("");
   const [loading, setLoading] = useState(true);
   const [openTopicIndex, setOpenTopicIndex] = useState(-1);
   const [sortOption, setSortOption] = useState("make");
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
+  const isClicked = useSelector((state) => state.isClicked);
+ 
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -23,15 +24,15 @@ export function useSideProcess() {
     messagingSenderId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
     appId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_APP_ID
   };
-    firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
   let database = firebase.database();
- const sortData = (data) => {
+  const sortData = (data) => {
     if (sortOption === "new") {
       return data.slice().sort((a, b) => b.timestamp - a.timestamp);
     }
     return data;
   };
-  const readTopic = ()=>{
+  const readTopic = () => {
     const ref = database.ref("Talk/topics");
     ref.on("value", (snapshot) => {
       const data = snapshot.val();
@@ -44,10 +45,9 @@ export function useSideProcess() {
       }
       setLoading(false);
     });
-}  
+  };
   useEffect(() => {
     setLoading(true);
-
     readTopic();
   }, [sortOption]);
 
@@ -61,7 +61,10 @@ export function useSideProcess() {
       alert("同名のものがあります。");
       return;
     }
-
+    if (topicName.trim() === "") {
+      alert("Topic名がありません。");
+      return;
+    }
     const data = {
       topic: topicName,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
@@ -84,17 +87,19 @@ export function useSideProcess() {
         if (data) {
           dispatch(setIsTopicOpen(true));
           dispatch(setSelectedTopic(pas));
+          //mainの機能を使用すると思われるので、head部分の機能を初期化しmainの邪魔にならないようにする
+          dispatch(setOptionSwitch("start"));
+          dispatch(setisClicked(!isClicked));
           setOpenTopicIndex(index);
-          console.log(openTopicIndex);
-                    // ループして全てのトピックから'selected'クラスを削除
-                    const items = document.querySelectorAll('.topic-item');
-                    items.forEach(item => item.classList.remove('selected'));
-          
-                    // クリックした要素に'selected'クラスを追加
-                    items[index].classList.add('selected');
+          // ループして全てのトピックから'selected'クラスを削除
+          const items = document.querySelectorAll(".topic-item");
+          items.forEach((item) => item.classList.remove("selected"));
+
+          // クリックした要素に'selected'クラスを追加
+          items[index].classList.add("selected");
         }
         //Topicが空の時エラー防止のために初期値を設定する
-        else {
+        if (!data) {
           setTopicData([]);
           dispatch(setSelectedTopic(""));
           setOpenTopicIndex(-1);
