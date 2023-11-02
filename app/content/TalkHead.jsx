@@ -44,6 +44,7 @@ function TalkHead() {
           <div className="search">
             <div className="searchwhere">
               <div className="selectitem">
+                <div>
                 <label htmlFor="topicname">TopicName</label>
                 <select
                   name="select"
@@ -57,7 +58,8 @@ function TalkHead() {
                     </option>
                   ))}
                 </select>
-
+                </div>
+                <div>
                 <label htmlFor="username">ユーザー名</label>
                 <input
                   type="text"
@@ -66,6 +68,7 @@ function TalkHead() {
                   value={searchword}
                   onChange={(e) => setsearchword(e.target.value)}
                 />
+                </div>
               </div>
               {searchword ? (
                 <button onClick={targetevent}>search</button>
