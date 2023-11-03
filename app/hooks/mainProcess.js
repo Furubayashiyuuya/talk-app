@@ -20,24 +20,24 @@ function Templatebutton({ stampswitch, setMessageText }) {
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
 
-  const [templatestamps, settemplatestamps] = useState([]);
-  const [stampInitialized, setstampInitialized] = useState(false);
+  const [templateStamps, setTemplateStamps] = useState([]);
+  const [isStampInitialized, setIsStampInitialized] = useState(false);
 
   useEffect(() => {
-    if (stampswitch && !stampInitialized) {
+    if (stampswitch && !isStampInitialized) {
       const stampref = database.ref("Stamp/");
       stampref.on("value", (snapshot) => {
         const stamp = snapshot.val();
         const StampArray = Object.values(stamp);
-        settemplatestamps(StampArray);
+        setTemplateStamps(StampArray);
       });
-      setstampInitialized(!stampInitialized);
+      setIsStampInitialized(!isStampInitialized);
     }
-  }, [stampswitch, stampInitialized]);
+  }, [stampswitch, isStampInitialized]);
   return (
     <div className="template-menu">
-      {templatestamps.map((templatestamp, index) => (
-        <button key={index} onClick={() => setMessageText(templatestamp.text)}>
+      {templateStamps.map((templatestamp, index) => (
+        <button key={index} className="stamp" onClick={() => setMessageText(templatestamp.text)}>
           {templatestamp.text}
         </button>
       ))}
@@ -62,10 +62,10 @@ export function useMainProcess(){
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
-  const topicname = useSelector((state) => state.selectedTopic); // トピック名を設定
-  const isOpen = useSelector((state) => state.isTopicOpen); // 判定を設定
+  const selectedTopicName = useSelector((state) => state.selectedTopic); // トピック名を設定
+  const isTopicOpen = useSelector((state) => state.isTopicOpen); // 判定を設定
 
-  const ref = database.ref(`Talk/topics/${topicname}`);
+  const ref = database.ref(`Talk/topics/${selectedTopicName}`);
   const [messageName, setMessageName] = useState();
   const [messageText, setMessageText] = useState();
   const [fixedMessage, setFixedMessage] = useState(false);
@@ -78,9 +78,9 @@ export function useMainProcess(){
   const pageSize = 5;
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const displayedData = messageData.slice(startIndex, endIndex);
-  const totalDataCount = messageData.length - 2; // 先頭データがタイムスタンプとトピック名であるため除いている
-  const totalPages = Math.ceil(totalDataCount / pageSize);
+  const displayedMessages = messageData.slice(startIndex, endIndex);
+  const totalMessageCount = messageData.length - 2; // 先頭データがタイムスタンプとトピック名であるため除いている
+  const totalPageCount = Math.ceil(totalMessageCount / pageSize);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -122,16 +122,16 @@ export function useMainProcess(){
     return () => {
       ref.off("value");
     };
-  }, [topicname]);
+  }, [selectedTopicName]);
   return {
     setMessageName,
     setMessageText,
     addData,
     stampswitch,
     isloading,
-    isOpen,
-    displayedData,
-    totalPages,
+    isTopicOpen,
+    displayedMessages,
+    totalPageCount,
     currentPage,
     handlePageChange,
     messageName,

@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOptionSwitch, setisClicked } from "../Redux/actions";
 
 export function useHeadProcess() {
-  const [exeisningtopics, setexeisningtopics] = useState([]);
-  const [searchword, setsearchword] = useState();
-  const [targettopic, settargettopic] = useState();
-  const [result, setresult] = useState([]);
-  const [newstamptext, setnewstamptext] = useState();
-  const [exeisningstamps, setexeisningstamps] = useState([]);
+  const [existingTopics, setExistingTopics] = useState([]);
+  const [searchWord, setSearchWord] = useState();
+  const [targetTopic, setTargetTopic] = useState();
+  const [searchResult, setSearchResult] = useState([]);
+  const [newStampText, setNewStampText] = useState();
+  const [existingStamps, setExistingStamps] = useState([]);
 
   const dispatch = useDispatch();
   const on = useSelector((state) => state.optionswitch);
@@ -36,7 +36,7 @@ export function useHeadProcess() {
       ref.on("value", (snapshot) => {
         const data = snapshot.val();
         const userDataArray = Object.values(data);
-        setexeisningtopics(userDataArray);
+        setExistingTopics(userDataArray);
       });
     } else {
       dispatch(setOptionSwitch("start"));
@@ -50,8 +50,8 @@ export function useHeadProcess() {
       stampref.on("value", (snapshot) => {
         const stamp = snapshot.val();
         const StampArray = Object.values(stamp);
-        setexeisningstamps(StampArray);
-        console.log(exeisningstamps);
+        setExistingStamps(StampArray);
+        console.log(existingStamps);
       });
     } else {
       dispatch(setOptionSwitch("start"));
@@ -59,13 +59,13 @@ export function useHeadProcess() {
     dispatch(setisClicked(!isClicked));
   };
   const targetevent = () => {
-    const messagesRef = database.ref(`Talk/topics/${targettopic}`);
-if(searchword.trim() === "") {
+    const messagesRef = database.ref(`Talk/topics/${targetTopic}`);
+if(searchWord.trim() === "") {
   alert("文字を入力してください。");
   return;
 }
     // 名前が条件に一致するデータを取得するクエリ
-    const query = messagesRef.orderByChild("name").equalTo(searchword);
+    const query = messagesRef.orderByChild("name").equalTo(searchWord);
     //クエリ実行
     query.once("value").then((snapshot) => {
       const searchResults = snapshot.val();
@@ -78,47 +78,47 @@ if(searchword.trim() === "") {
             name: searchResults[key].name,
             text: searchResults[key].text,
           }));
-          setresult(resultArray);
+          setSearchResult(resultArray);
         });
       } else {
-        setresult([]);
+        setSearchResult([]);
       }
     });
   };
 
   const createstamp = () => {
     //入力値のチェック
-    const exeisnin = exeisningstamps.find((gets) => gets.text === newstamptext);
+    const exeisnin = existingStamps.find((gets) => gets.text === newStampText);
 
     if (exeisnin) {
       alert("同名のものがあります。");
       return;
     }
-    if (newstamptext.trim() === "") {
+    if (newStampText.trim() === "") {
       alert("文字を入力してください。");
       return;
     }
     const newstamp = {
-      text: newstamptext,
+      text: newStampText,
     };
-    const stampref = database.ref(`Stamp/${newstamptext}`);
+    const stampref = database.ref(`Stamp/${newStampText}`);
     stampref.set(newstamp);
-    setnewstamptext("");
+    setNewStampText("");
   };
   return {
     searchevent,
     createtemplateevent,
     targetevent,
     createstamp,
-    targettopic,
-    settargettopic,
-    exeisningtopics,
-    exeisningstamps,
-    searchword,
-    setsearchword,
-    result,
-    newstamptext,
-    setnewstamptext,
+    targetTopic,
+    setTargetTopic,
+    existingTopics,
+    existingStamps,
+    searchWord,
+    setSearchWord,
+    searchResult,
+    newStampText,
+    setNewStampText,
     isClicked
   };
 }

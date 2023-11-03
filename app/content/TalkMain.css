@@ -86,7 +86,11 @@
   background-color: rgb(213 213 213);
   font-size: large;
 }
-
+.stamp{
+  background-color: rgb(98, 109, 121);
+  margin: 1%;
+  padding: 2%;
+}
 .template-text{
   border: 1px solid black;
   background-color: gray;

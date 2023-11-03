@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "./TalkMain.css";
-function Pagination({ totalPages, currentPage, handlePageChange }) {
+function Pagination({ totalPageCount, currentPage, handlePageChange }) {
   const pageNumbers = [];
 
-  for (let i = 1; i <= totalPages; i++) {
+  for (let i = 1; i <= totalPageCount; i++) {
     pageNumbers.push(
       <div
         key={i}
@@ -19,7 +19,7 @@ function Pagination({ totalPages, currentPage, handlePageChange }) {
 
   return (
     <nav>
-      <ul className="pagination justify-content-center">{pageNumbers}</ul>
+      <ul className="pagination ">{pageNumbers}</ul>
     </nav>
   );
 }

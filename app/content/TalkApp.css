@@ -31,21 +31,21 @@
   position: relative;
   z-index: 1;
 }
-.searchwhere{
+.search-where{
 margin:5%;
 }
-.searchwhere label{
+.search-where label{
 margin-right: 20%;
 }
 .option input{
   background-color: rgb(174, 174, 174);
 }
-.searchwhere select{
+.search-where select{
   background-color: rgb(75, 22, 1);
   margin-bottom: 5%;
 }
 
-.searchwhere button{
+.search-where button{
   margin-top: 2%;
   float: right;
 }
@@ -54,22 +54,22 @@ margin-right: 20%;
   position: relative;
   z-index: 1;
 }
-.createarea{
+.create-area{
   margin: 3% 2%;
 }
-.createarea input{
+.create-area input{
   width: 60%;
 }
-.createarea .stamp{
+.create-area .stamp{
   margin: 3% 1%;
   padding: 2%;
   background-color: rgb(170, 169, 169);
 }
-.createbutton{
+.create-button{
   margin: 0 10% ;
   float: right;
 }
-.resultmessage{
+.result-message{
   margin-bottom:10%;
   list-style: none;
   border-bottom: 1px solid;
@@ -92,10 +92,10 @@ margin-right: 20%;
     margin: auto;
     grid-row: 1;
   }
-  .selectitem{
+  .select-item{
     display: grid;
   }
-  .searchwhere button{
+  .search-where button{
     margin-top: 5% ;
 
   }

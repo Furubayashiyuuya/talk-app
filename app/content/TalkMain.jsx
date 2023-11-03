@@ -12,9 +12,9 @@ function TalkMain() {
     addData,
     stampswitch,
     isloading,
-    isOpen,
-    displayedData,
-    totalPages,
+    isTopicOpen,
+    displayedMessages,
+    totalPageCount,
     currentPage,
     handlePageChange,
     messageName,
@@ -30,9 +30,9 @@ function TalkMain() {
       ) : (
         <>
           <ul>
-            {isOpen &&
-              (displayedData.length > 2 ? (
-                displayedData.map((indata, index) => {
+            {isTopicOpen &&
+              (displayedMessages.length > 2 ? (
+                displayedMessages.map((indata, index) => {
                   const datacheck =
                     typeof indata === "object" && "name" in indata;
 
@@ -49,14 +49,14 @@ function TalkMain() {
                 </div>
               ))}
           </ul>
-          {isOpen && (
+          {isTopicOpen && (
             <Pagination
-              totalPages={totalPages}
+              totalPageCount={totalPageCount}
               currentPage={currentPage}
               handlePageChange={handlePageChange}
             />
           )}
-          {isOpen ? (
+          {isTopicOpen ? (
             //投稿レイアウト
             <div className="data-form">
               <div className="form-name">

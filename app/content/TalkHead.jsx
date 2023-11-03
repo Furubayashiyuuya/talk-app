@@ -9,15 +9,15 @@ function TalkHead() {
     createtemplateevent,
     targetevent,
     createstamp,
-    targettopic,
-    settargettopic,
-    exeisningtopics,
-    exeisningstamps,
-    searchword,
-    setsearchword,
-    result,
-    newstamptext,
-    setnewstamptext,
+    targetTopic,
+    setTargetTopic,
+    existingTopics,
+    existingStamps,
+    searchWord,
+    setSearchWord,
+    searchResult,
+    newStampText,
+    setNewStampText,
     isClicked,
   } = useHeadProcess();
   const on = useSelector((state) => state.optionswitch);
@@ -42,17 +42,17 @@ function TalkHead() {
 
         {on === "search" ? (
           <div className="search">
-            <div className="searchwhere">
-              <div className="selectitem">
+            <div className="search-where">
+              <div className="select-item">
                 <div>
                 <label htmlFor="topicname">TopicName</label>
                 <select
                   name="select"
                   id="select"
-                  value={targettopic}
-                  onChange={(e) => settargettopic(e.target.value)}
+                  value={targetTopic}
+                  onChange={(e) => setTargetTopic(e.target.value)}
                 >
-                  {exeisningtopics.map((gettopicname, index) => (
+                  {existingTopics.map((gettopicname, index) => (
                     <option key={index} value={gettopicname.topic}>
                       {gettopicname.topic}
                     </option>
@@ -65,24 +65,24 @@ function TalkHead() {
                   type="text"
                   name="name"
                   id="name"
-                  value={searchword}
-                  onChange={(e) => setsearchword(e.target.value)}
+                  value={searchWord}
+                  onChange={(e) => setSearchWord(e.target.value)}
                 />
                 </div>
               </div>
-              {searchword ? (
+              {searchWord ? (
                 <button onClick={targetevent}>search</button>
               ) : null}
             </div>
             <div className="result">
               <ul>
-                {result.map((message, index) => (
-                  <div key={index} className="resultmessage">
+                {searchResult.map((message, index) => (
+                  <div key={index} className="result-message">
                     <li>ユーザー名:{message.name}</li>
                     <li>{message.text}</li>
                   </div>
                 ))}
-                {result.length === 0 && (
+                {searchResult.length === 0 && (
                   <p>該当するデータが見つかりませんでした。</p>
                 )}
               </ul>
@@ -91,20 +91,20 @@ function TalkHead() {
         ) : null}
         {on === "createtemplate" ? (
           <div className="createtemplate">
-            <div className="createarea">
+            <div className="create-area">
               <input
                 type="text"
-                name="newstamptext"
-                value={newstamptext}
-                onChange={(e) => setnewstamptext(e.target.value)}
+                name="newStampText"
+                value={newStampText}
+                onChange={(e) => setNewStampText(e.target.value)}
               />
-              {newstamptext ? (
-                <button className="createbutton" onClick={createstamp}>
+              {newStampText ? (
+                <button className="create-button" onClick={createstamp}>
                   作成
                 </button>
               ) : null}
               <div className="stamlist">
-                {exeisningstamps.map((getstamp, index) => (
+                {existingStamps.map((getstamp, index) => (
                   <button key={index} className="stamp" value={getstamp.text}>
                     {getstamp.text}
                   </button>

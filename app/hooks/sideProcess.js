@@ -8,10 +8,10 @@ import { setIsTopicOpen, setSelectedTopic ,setOptionSwitch,setisClicked} from ".
 import {initializeApp} from "firebase/app"; 
 export function useSideProcess() {
   const [topicData, setTopicData] = useState([]);
-  const [topicName, setTopicName] = useState("");
+  const [selectedTopicName, setSelectedTopicName] = useState("");
   const [loading, setLoading] = useState(true);
   const [openTopicIndex, setOpenTopicIndex] = useState(-1);
-  const [sortOption, setSortOption] = useState("make");
+  const [selectedSortOption, setSelectedSortOption] = useState("make");
   const dispatch = useDispatch();
   const isClicked = useSelector((state) => state.isClicked);
  
@@ -27,7 +27,7 @@ export function useSideProcess() {
   firebase.initializeApp(firebaseConfig);
   let database = firebase.database();
   const sortData = (data) => {
-    if (sortOption === "new") {
+    if (selectedSortOption === "new") {
       return data.slice().sort((a, b) => b.timestamp - a.timestamp);
     }
     return data;
@@ -49,32 +49,32 @@ export function useSideProcess() {
   useEffect(() => {
     setLoading(true);
     readTopic();
-  }, [sortOption]);
+  }, [selectedSortOption]);
 
   const addTopic = () => {
-    if (!topicName) {
+    if (!selectedTopicName) {
       return;
     }
-    const exising = topicData.find((gets) => gets.topic === topicName);
+    const exising = topicData.find((gets) => gets.topic === selectedTopicName);
     //topic名チェック
     if (exising) {
       alert("同名のものがあります。");
       return;
     }
-    if (topicName.trim() === "") {
+    if (selectedTopicName.trim() === "") {
       alert("Topic名がありません。");
       return;
     }
     const data = {
-      topic: topicName,
+      topic: selectedTopicName,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
     };
 
     //タイムスタンプでトピックを更新
 
-    const topicRef = firebase.database().ref(`Talk/topics/${topicName}`);
+    const topicRef = firebase.database().ref(`Talk/topics/${selectedTopicName}`);
     topicRef.set(data);
-    setTopicName("");
+    setSelectedTopicName("");
     readTopic();
   };
   //Side
@@ -108,11 +108,11 @@ export function useSideProcess() {
   };
   return {
     topicData,
-    topicName,
+    selectedTopicName,
     loading,
-    setTopicName,
+    setSelectedTopicName,
     addTopic,
     open,
-    setSortOption,
+    setSelectedSortOption,
   };
 }

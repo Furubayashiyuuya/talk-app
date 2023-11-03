@@ -5,9 +5,9 @@ export const setSelectedTopic = (topic) => ({
   payload: topic,
 });
 
-export const setIsTopicOpen = (isOpen) => ({
+export const setIsTopicOpen = (isTopicOpen) => ({
   type: SET_IS_TOPIC_OPEN,
-  payload: isOpen,
+  payload: isTopicOpen,
 });
 
 export const setOptionSwitch = (optionswitch) => ({

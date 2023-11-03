@@ -12,12 +12,12 @@ import { useSideProcess } from "../hooks/sideProcess";
 function TalkSide() {
   const {
     topicData,
-    topicName,
+    selectedTopicName,
     loading,
-    setTopicName,
+    setSelectedTopicName,
     addTopic,
     open,
-    setSortOption,
+    setSelectedSortOption,
     openTopicIndex,
   } = useSideProcess();
   return (
@@ -29,22 +29,22 @@ function TalkSide() {
             className="side-input-name"
             type="text"
             name="topicname"
-            value={topicName}
-            onChange={(e) => setTopicName(e.target.value)}
+            value={selectedTopicName}
+            onChange={(e) => setSelectedTopicName(e.target.value)}
           />
           <div className="side-select">
             <select
               className="topic-select"
               name="select"
               id="select"
-              onChange={(e) => setSortOption(e.target.value)}
+              onChange={(e) => setSelectedSortOption(e.target.value)}
             >
               <option value="new">新しい順</option>
               <option value="make">あいうえ順</option>
             </select>
             <button
               className="topic-button"
-              onClick={() => addTopic({ topic: topicName })}
+              onClick={() => addTopic({ topic: selectedTopicName })}
             >
               作成
             </button>
