@@ -39,8 +39,10 @@ function TalkSide() {
               id="select"
               onChange={(e) => setSelectedSortOption(e.target.value)}
             >
+              <option value="make" selected>
+                あいうえ順
+              </option>
               <option value="new">新しい順</option>
-              <option value="make">あいうえ順</option>
             </select>
             <button
               className="topic-button"

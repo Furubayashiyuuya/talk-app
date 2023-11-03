@@ -39,35 +39,36 @@ function TalkHead() {
         >
           CreateTemplate
         </h2>
-
+        
         {on === "search" ? (
           <div className="search">
             <div className="search-where">
               <div className="select-item">
                 <div>
-                <label htmlFor="topicname">TopicName</label>
-                <select
-                  name="select"
-                  id="select"
-                  value={targetTopic}
-                  onChange={(e) => setTargetTopic(e.target.value)}
-                >
-                  {existingTopics.map((gettopicname, index) => (
-                    <option key={index} value={gettopicname.topic}>
-                      {gettopicname.topic}
-                    </option>
-                  ))}
-                </select>
+                  <label htmlFor="topicname">TopicName</label>
+                  <select
+                    name="select"
+                    id="select"
+                    value={targetTopic}
+                    onChange={(e) => setTargetTopic(e.target.value)}
+                  >
+                    <option selected>選択してください。</option>
+                    {existingTopics.map((gettopicname, index) => (
+                      <option key={index} value={gettopicname.topic}>
+                        {gettopicname.topic}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
-                <label htmlFor="username">ユーザー名</label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={searchWord}
-                  onChange={(e) => setSearchWord(e.target.value)}
-                />
+                  <label htmlFor="username">ユーザー名</label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={searchWord}
+                    onChange={(e) => setSearchWord(e.target.value)}
+                  />
                 </div>
               </div>
               {searchWord ? (

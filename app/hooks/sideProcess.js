@@ -13,7 +13,6 @@ export function useSideProcess() {
   const [openTopicIndex, setOpenTopicIndex] = useState(-1);
   const [selectedSortOption, setSelectedSortOption] = useState("make");
   const dispatch = useDispatch();
-  const isClicked = useSelector((state) => state.isClicked);
  
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_API_KEY,
@@ -89,7 +88,6 @@ export function useSideProcess() {
           dispatch(setSelectedTopic(pas));
           //mainの機能を使用すると思われるので、head部分の機能を初期化しmainの邪魔にならないようにする
           dispatch(setOptionSwitch("start"));
-          dispatch(setisClicked(!isClicked));
           setOpenTopicIndex(index);
           // ループして全てのトピックから'selected'クラスを削除
           const items = document.querySelectorAll(".topic-item");
