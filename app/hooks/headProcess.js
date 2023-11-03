@@ -23,8 +23,9 @@ export function useHeadProcess() {
     databaseURL: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_DATABASE_URL,
     projectId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_PROJECT_ID,
     storageBucket: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_APP_ID
+    messagingSenderId:
+      process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_APP_ID,
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
@@ -60,10 +61,10 @@ export function useHeadProcess() {
   };
   const targetevent = () => {
     const messagesRef = database.ref(`Talk/topics/${targetTopic}`);
-if(searchWord.trim() === "") {
-  alert("文字を入力してください。");
-  return;
-}
+    if (searchWord.trim() === "") {
+      alert("文字を入力してください。");
+      return;
+    }
     // 名前が条件に一致するデータを取得するクエリ
     const query = messagesRef.orderByChild("name").equalTo(searchWord);
     //クエリ実行
@@ -119,6 +120,6 @@ if(searchWord.trim() === "") {
     searchResult,
     newStampText,
     setNewStampText,
-    isClicked
+    isClicked,
   };
 }

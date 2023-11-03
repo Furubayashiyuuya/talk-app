@@ -39,7 +39,7 @@ function TalkHead() {
         >
           CreateTemplate
         </h2>
-        
+
         {on === "search" ? (
           <div className="search">
             <div className="search-where">

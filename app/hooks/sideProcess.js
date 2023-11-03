@@ -3,9 +3,14 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
-import { useDispatch,useSelector } from "react-redux";
-import { setIsTopicOpen, setSelectedTopic ,setOptionSwitch,setisClicked} from "../Redux/actions"; 
-import {initializeApp} from "firebase/app"; 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setIsTopicOpen,
+  setSelectedTopic,
+  setOptionSwitch,
+  setisClicked,
+} from "../Redux/actions";
+import { initializeApp } from "firebase/app";
 export function useSideProcess() {
   const [topicData, setTopicData] = useState([]);
   const [selectedTopicName, setSelectedTopicName] = useState("");
@@ -13,15 +18,16 @@ export function useSideProcess() {
   const [openTopicIndex, setOpenTopicIndex] = useState(-1);
   const [selectedSortOption, setSelectedSortOption] = useState("make");
   const dispatch = useDispatch();
- 
+
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_AUTH_DOMAIN,
     databaseURL: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_DATABASE_URL,
     projectId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_PROJECT_ID,
     storageBucket: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_APP_ID
+    messagingSenderId:
+      process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_APP_ID,
   };
   firebase.initializeApp(firebaseConfig);
   let database = firebase.database();
@@ -71,7 +77,9 @@ export function useSideProcess() {
 
     //タイムスタンプでトピックを更新
 
-    const topicRef = firebase.database().ref(`Talk/topics/${selectedTopicName}`);
+    const topicRef = firebase
+      .database()
+      .ref(`Talk/topics/${selectedTopicName}`);
     topicRef.set(data);
     setSelectedTopicName("");
     readTopic();
