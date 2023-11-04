@@ -4,7 +4,7 @@ import React from "react";
 import TalkApp from "./content/TalkApp";
 function Home() {
   return (
-    <TalkApp />
+    <a>トピック詳細へ</a>
   );
 }
 

@@ -8,6 +8,7 @@ import { setSelectedTopic, setIsTopicOpen } from "../Redux/actions";
 
 import { useDispatch } from "react-redux";
 import { useSideProcess } from "../hooks/sideProcess";
+import Link from "next/link";
 
 function TalkSide() {
   const {
@@ -59,15 +60,12 @@ function TalkSide() {
             topicData.map(
               (getdata, index) =>
                 index !== topicData.length && (
-                  <div
-                    key={getdata.topic}
-                    className={"topic-item"}
-                    onClick={() => {
-                      open(getdata.topic, index);
-                    }}
-                  >
-                    <li>{getdata.topic}</li>
-                  </div>
+                  <div key={getdata.topic} className={"topic-item"}>
+                  <li>{getdata.topic}</li>
+                  <Link href={`/topics/${getdata.topic}`}>
+                    <p>遷移する</p>
+                  </Link>
+                </div>
                 ),
             )
           )}

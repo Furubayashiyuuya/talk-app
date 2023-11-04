@@ -44,7 +44,7 @@ export function useHeadProcess() {
     }
     dispatch(setisClicked(!isClicked));
   };
-  const createtemplateevent = () => {
+  const templatecreateevent = () => {
     if (on === "start") {
       dispatch(setOptionSwitch("createtemplate"));
       const stampref = database.ref("Stamp/");
@@ -108,7 +108,7 @@ export function useHeadProcess() {
   };
   return {
     searchevent,
-    createtemplateevent,
+    templatecreateevent,
     targetevent,
     createstamp,
     targetTopic,

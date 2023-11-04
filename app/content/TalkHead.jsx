@@ -6,7 +6,7 @@ import { useHeadProcess } from "../hooks/headProcess";
 function TalkHead() {
   const {
     searchevent,
-    createtemplateevent,
+    templatecreateevent,
     targetevent,
     createstamp,
     targetTopic,
@@ -35,7 +35,7 @@ function TalkHead() {
         </h2>
         <h2
           className={`action ${on === "createtemplate" ? "clicked" : ""}`}
-          onClick={createtemplateevent}
+          onClick={templatecreateevent}
         >
           CreateTemplate
         </h2>
