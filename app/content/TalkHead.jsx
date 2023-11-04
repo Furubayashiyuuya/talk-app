@@ -2,24 +2,26 @@ import React from "react";
 import "firebase/compat/database";
 import "./TalkApp.css";
 import { useSelector } from "react-redux";
-import { useHeadProcess } from "../hooks/headProcess";
+import { useSearchProcess } from "../hooks/searchProcess";
+import { useStampcreateProcess } from "../hooks/stampcreateProcess";
 function TalkHead() {
   const {
     searchevent,
-    templatecreateevent,
     targetevent,
-    createstamp,
     targetTopic,
     setTargetTopic,
     existingTopics,
-    existingStamps,
     searchWord,
     setSearchWord,
     searchResult,
-    newStampText,
-    setNewStampText,
-    isClicked,
-  } = useHeadProcess();
+  } = useSearchProcess();
+const {
+  templatecreateevent,
+  createstamp,
+  existingStamps,
+  newStampText,
+  setNewStampText,
+} = useStampcreateProcess();
   const on = useSelector((state) => state.optionswitch);
   return (
     <>

@@ -21,7 +21,7 @@ function TalkMain() {
     messageName,
     messageText,
     fixedMessage,
-    selectedTopic,
+    dataSubmit,
     Templatebutton,
   } = useMainProcess();
   return (
@@ -57,7 +57,7 @@ function TalkMain() {
               handlePageChange={handlePageChange}
             />
           )}
-          {isTopicOpen ? (
+          {isTopicOpen  ? (
             //投稿レイアウト
             <div className="data-form">
               <div className="form-name">
@@ -96,7 +96,7 @@ function TalkMain() {
               {!fixedMessage ? (
                 <button
                   className="submit-button"
-                  onClick={() => addData(selectedTopic)}
+                  onClick={() => addData(dataSubmit)}
                 >
                   送信
                 </button>

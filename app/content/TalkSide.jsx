@@ -60,11 +60,16 @@ function TalkSide() {
             topicData.map(
               (getdata, index) =>
                 index !== topicData.length && (
-                  <div key={getdata.topic} className={"topic-item"}>
+                  <div key={getdata.topic} className={"topic-item"}
+                  onClick={() => {
+                    open(getdata.topic, index);
+                  }}>
                   <li>{getdata.topic}</li>
-                  <Link href={`/topics/${getdata.topic}`}>
+                  <li className="jump">
+                    <Link href={`/topics/${getdata.topic}`}>
                     <p>遷移する</p>
                   </Link>
+                  </li>
                 </div>
                 ),
             )

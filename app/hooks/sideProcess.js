@@ -86,6 +86,7 @@ export function useSideProcess() {
   };
   //Side
   const open = (pas, index) => {
+    console.log("open");
     firebase
       .database()
       .ref(`Talk/topics/${pas}`)
@@ -94,6 +95,7 @@ export function useSideProcess() {
         if (data) {
           dispatch(setIsTopicOpen(true));
           dispatch(setSelectedTopic(pas));
+          console.log(`data;${pas}`);
           //mainの機能を使用すると思われるので、head部分の機能を初期化しmainの邪魔にならないようにする
           dispatch(setOptionSwitch("start"));
           setOpenTopicIndex(index);
@@ -109,6 +111,7 @@ export function useSideProcess() {
           setTopicData([]);
           dispatch(setSelectedTopic(""));
           setOpenTopicIndex(-1);
+          console.log(`error`);
         }
       });
   };

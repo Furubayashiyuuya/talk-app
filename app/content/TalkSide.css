@@ -6,7 +6,9 @@
   margin-left: 20%;
   border-right: 6px solid;
 }
-
+.jump{
+  background-color: blue;
+}
 .side-title{
   font-size: x-large;
 }
