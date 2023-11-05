@@ -94,7 +94,7 @@ export function useMainProcess() {
   const Urltopiname = decodeURIComponent(usePathname());
   let ref;
 
-//URLでTopicを指定して開いているかの判定
+  //URLでTopicを指定して開いているかの判定
   if (Urltopiname !== "/" && selectedTopicName === "") {
     ref = database.ref(`Talk/${Urltopiname}`);
     isTopicOpen = true;

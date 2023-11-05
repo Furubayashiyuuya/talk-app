@@ -10,9 +10,8 @@
 
 .title{
   font-size: xx-large;
-  margin-top: 2%;
-  margin-bottom: 20%;
-  margin-left: 20%;
+  margin:auto 20%;
+  
 }
 .option {
   display: grid;

@@ -15,13 +15,13 @@ function TalkHead() {
     setSearchWord,
     searchResult,
   } = useSearchProcess();
-const {
-  templatecreateevent,
-  createstamp,
-  existingStamps,
-  newStampText,
-  setNewStampText,
-} = useStampcreateProcess();
+  const {
+    templatecreateevent,
+    createstamp,
+    existingStamps,
+    newStampText,
+    setNewStampText,
+  } = useStampcreateProcess();
   const on = useSelector((state) => state.optionswitch);
   return (
     <>

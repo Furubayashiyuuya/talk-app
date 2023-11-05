@@ -57,7 +57,7 @@ function TalkMain() {
               handlePageChange={handlePageChange}
             />
           )}
-          {isTopicOpen  ? (
+          {isTopicOpen ? (
             //投稿レイアウト
             <div className="data-form">
               <div className="form-name">

@@ -19,6 +19,17 @@ export function useSideProcess() {
   const [selectedSortOption, setSelectedSortOption] = useState("make");
   const dispatch = useDispatch();
 
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(topicData.length / itemsPerPage);
+  const starttopicIndex = (currentPage - 1) * itemsPerPage;
+  const endtopicIndex = starttopicIndex + itemsPerPage;
+  const topicToShow = topicData.slice(starttopicIndex, endtopicIndex);
+
+  const onPageChane = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -84,25 +95,27 @@ export function useSideProcess() {
     setSelectedTopicName("");
     readTopic();
   };
-  
+
   const searchTopic = () => {
     const Ref = database.ref("Talk/topics");
     if (selectedTopicName.trim() === "") {
       alert("search Topic名がありません。");
       return;
     }
-    const query = Ref.orderByChild("topic").startAt(selectedTopicName).endAt(selectedTopicName+"\uf8ff");
+    const query = Ref.orderByChild("topic")
+      .startAt(selectedTopicName)
+      .endAt(selectedTopicName + "\uf8ff");
 
     query.once("value").then((snapshot) => {
       const searchtopicResult = snapshot.val();
-      if(searchtopicResult){
+      if (searchtopicResult) {
         const resultArray = Object.values(searchtopicResult);
         setTopicData(resultArray);
-      }else{
+      } else {
         setTopicData([]);
       }
-    })
-  }
+    });
+  };
 
   const open = (pas, index) => {
     console.log("open");
@@ -142,6 +155,12 @@ export function useSideProcess() {
     addTopic,
     open,
     setSelectedSortOption,
-    searchTopic
+    searchTopic,
+
+    topicToShow,
+    itemsPerPage,
+    totalPages,
+    currentPage,
+    onPageChane,
   };
 }

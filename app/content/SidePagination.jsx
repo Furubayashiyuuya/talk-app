@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
-function Pagination({ totalPageCount, currentPage, handlePageChange }) {
+function SidePagination({ totalPageCount, currentPage, handlePageChange }) {
   const pageNumbers = [];
 
   for (let i = 1; i <= totalPageCount; i++) {
@@ -18,9 +18,9 @@ function Pagination({ totalPageCount, currentPage, handlePageChange }) {
 
   return (
     <nav>
-      <ul className="pagination ">{pageNumbers}</ul>
+      <ul className="side-pagination ">{pageNumbers}</ul>
     </nav>
   );
 }
 
-export default Pagination;
+export default SidePagination;
