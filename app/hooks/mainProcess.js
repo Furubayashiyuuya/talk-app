@@ -72,16 +72,6 @@ export function useMainProcess() {
   const selectedTopicName = useSelector((state) => state.selectedTopic); // トピック名を設定
   let isTopicOpen = useSelector((state) => state.isTopicOpen); // 判定を設定
 
-  const Urltopiname = decodeURIComponent(usePathname());
-  let ref;
-
-  if (Urltopiname && selectedTopicName === "") {
-    ref = database.ref(`Talk/${Urltopiname}`);
-    isTopicOpen = true;
-  } else {
-    ref = database.ref(`Talk/topics/${selectedTopicName}`);
-  }
-
   const [messageName, setMessageName] = useState();
   const [messageText, setMessageText] = useState();
   const [fixedMessage, setFixedMessage] = useState(false);
@@ -100,6 +90,18 @@ export function useMainProcess() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const Urltopiname = decodeURIComponent(usePathname());
+  let ref;
+
+//URLでTopicを指定して開いているかの判定
+  if (Urltopiname !== "/" && selectedTopicName === "") {
+    ref = database.ref(`Talk/${Urltopiname}`);
+    isTopicOpen = true;
+  } else {
+    ref = database.ref(`Talk/topics/${selectedTopicName}`);
+  }
+
   const getMessages = () => {
     ref.on("value", (snapshot) => {
       const data = snapshot.val();

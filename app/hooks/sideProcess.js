@@ -84,7 +84,26 @@ export function useSideProcess() {
     setSelectedTopicName("");
     readTopic();
   };
-  //Side
+  
+  const searchTopic = () => {
+    const Ref = database.ref("Talk/topics");
+    if (selectedTopicName.trim() === "") {
+      alert("search Topic名がありません。");
+      return;
+    }
+    const query = Ref.orderByChild("topic").startAt(selectedTopicName).endAt(selectedTopicName+"\uf8ff");
+
+    query.once("value").then((snapshot) => {
+      const searchtopicResult = snapshot.val();
+      if(searchtopicResult){
+        const resultArray = Object.values(searchtopicResult);
+        setTopicData(resultArray);
+      }else{
+        setTopicData([]);
+      }
+    })
+  }
+
   const open = (pas, index) => {
     console.log("open");
     firebase
@@ -123,5 +142,6 @@ export function useSideProcess() {
     addTopic,
     open,
     setSelectedSortOption,
+    searchTopic
   };
 }

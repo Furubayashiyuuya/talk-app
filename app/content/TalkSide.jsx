@@ -20,6 +20,7 @@ function TalkSide() {
     open,
     setSelectedSortOption,
     openTopicIndex,
+    searchTopic
   } = useSideProcess();
   return (
     <>
@@ -33,6 +34,7 @@ function TalkSide() {
             value={selectedTopicName}
             onChange={(e) => setSelectedTopicName(e.target.value)}
           />
+        
           <div className="side-select">
             <select
               className="topic-select"
@@ -46,12 +48,18 @@ function TalkSide() {
               <option value="new">新しい順</option>
             </select>
             <button
-              className="topic-button"
+              className="topic-search-button"
+              onClick={() => searchTopic({topic: selectedTopicName})}
+            >
+              検索
+            </button>
+            <button
+              className="topic-create-button"
               onClick={() => addTopic({ topic: selectedTopicName })}
             >
               作成
             </button>
-          </div>
+            </div>
         </div>
         <div className="side-items">
           {loading ? (
@@ -66,8 +74,8 @@ function TalkSide() {
                   }}>
                   <li>{getdata.topic}</li>
                   <li className="jump">
-                    <Link href={`/topics/${getdata.topic}`}>
-                    <p>遷移する</p>
+                    <Link href={`/topics/${getdata.topic}`} target="_blank">
+                    <p>別タブで開く</p>
                   </Link>
                   </li>
                 </div>

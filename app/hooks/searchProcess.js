@@ -50,11 +50,10 @@ export function useSearchProcess() {
       return;
     }
     // 名前が条件に一致するデータを取得するクエリ
-    const query = messagesRef.orderByChild("name").equalTo(searchWord);
+    const query = messagesRef.orderByChild("name").startAt(searchWord).endAt(searchWord+ "\uf8ff");
     //クエリ実行
     query.once("value").then((snapshot) => {
       const searchResults = snapshot.val();
-
       if (searchResults) {
         // 条件に一致するデータを処理
         Object.keys(searchResults).forEach((key) => {
