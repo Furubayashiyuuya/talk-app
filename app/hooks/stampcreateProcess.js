@@ -6,11 +6,7 @@ import "firebase/compat/database";
 import { useDispatch, useSelector } from "react-redux";
 import { setOptionSwitch, setisClicked } from "../Redux/actions";
 
-export function useHeadProcess() {
-  const [existingTopics, setExistingTopics] = useState([]);
-  const [searchWord, setSearchWord] = useState();
-  const [targetTopic, setTargetTopic] = useState();
-  const [searchResult, setSearchResult] = useState([]);
+export function useStampcreateProcess() {
   const [newStampText, setNewStampText] = useState();
   const [existingStamps, setExistingStamps] = useState([]);
 
@@ -30,21 +26,7 @@ export function useHeadProcess() {
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
 
-  const searchevent = () => {
-    if (on === "start") {
-      dispatch(setOptionSwitch("search"));
-      const ref = database.ref("Talk/topics");
-      ref.on("value", (snapshot) => {
-        const data = snapshot.val();
-        const userDataArray = Object.values(data);
-        setExistingTopics(userDataArray);
-      });
-    } else {
-      dispatch(setOptionSwitch("start"));
-    }
-    dispatch(setisClicked(!isClicked));
-  };
-  const createtemplateevent = () => {
+  const templatecreateevent = () => {
     if (on === "start") {
       dispatch(setOptionSwitch("createtemplate"));
       const stampref = database.ref("Stamp/");
@@ -58,33 +40,6 @@ export function useHeadProcess() {
       dispatch(setOptionSwitch("start"));
     }
     dispatch(setisClicked(!isClicked));
-  };
-  const targetevent = () => {
-    const messagesRef = database.ref(`Talk/topics/${targetTopic}`);
-    if (searchWord.trim() === "") {
-      alert("文字を入力してください。");
-      return;
-    }
-    // 名前が条件に一致するデータを取得するクエリ
-    const query = messagesRef.orderByChild("name").equalTo(searchWord);
-    //クエリ実行
-    query.once("value").then((snapshot) => {
-      const searchResults = snapshot.val();
-
-      if (searchResults) {
-        // 条件に一致するデータを処理
-        Object.keys(searchResults).forEach((key) => {
-          const resultArray = Object.keys(searchResults).map((key) => ({
-            id: key,
-            name: searchResults[key].name,
-            text: searchResults[key].text,
-          }));
-          setSearchResult(resultArray);
-        });
-      } else {
-        setSearchResult([]);
-      }
-    });
   };
 
   const createstamp = () => {
@@ -107,19 +62,10 @@ export function useHeadProcess() {
     setNewStampText("");
   };
   return {
-    searchevent,
-    createtemplateevent,
-    targetevent,
+    templatecreateevent,
     createstamp,
-    targetTopic,
-    setTargetTopic,
-    existingTopics,
     existingStamps,
-    searchWord,
-    setSearchWord,
-    searchResult,
     newStampText,
     setNewStampText,
-    isClicked,
   };
 }

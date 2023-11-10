@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
@@ -20,7 +21,7 @@ function TalkMain() {
     messageName,
     messageText,
     fixedMessage,
-    selectedTopic,
+    dataSubmit,
     Templatebutton,
   } = useMainProcess();
   return (
@@ -95,7 +96,7 @@ function TalkMain() {
               {!fixedMessage ? (
                 <button
                   className="submit-button"
-                  onClick={() => addData(selectedTopic)}
+                  onClick={() => addData(dataSubmit)}
                 >
                   送信
                 </button>

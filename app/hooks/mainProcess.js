@@ -3,10 +3,9 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import "firebase/auth";
 import "firebase/database";
-import { useDispatch } from "react-redux";
-import { setIsTopicOpen, setSelectedTopic } from "../Redux/actions";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { usePathname } from "next/navigation";
+import { setSelectedTopic } from "../Redux/actions";
 function Templatebutton({ stampswitch, setMessageText }) {
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_API_KEY,
@@ -67,14 +66,16 @@ export function useMainProcess() {
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
-  const selectedTopicName = useSelector((state) => state.selectedTopic); // トピック名を設定
-  const isTopicOpen = useSelector((state) => state.isTopicOpen); // 判定を設定
 
-  const ref = database.ref(`Talk/topics/${selectedTopicName}`);
+  const dispatch = useDispatch();
+
+  const selectedTopicName = useSelector((state) => state.selectedTopic); // トピック名を設定
+  let isTopicOpen = useSelector((state) => state.isTopicOpen); // 判定を設定
+
   const [messageName, setMessageName] = useState();
   const [messageText, setMessageText] = useState();
   const [fixedMessage, setFixedMessage] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState("");
+  const [dataSubmit, setDataSubmit] = useState("");
   const [openTopicindex, getOpenTopicIndex] = useState(-1);
   const [messageData, getMessageData] = useState([]);
   const [isloading, setIsloding] = useState(true);
@@ -89,13 +90,26 @@ export function useMainProcess() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const getMessages = (index) => {
+
+  const Urltopiname = decodeURIComponent(usePathname());
+  let ref;
+
+  //URLでTopicを指定して開いているかの判定
+  if (Urltopiname !== "/" && selectedTopicName === "") {
+    ref = database.ref(`Talk/${Urltopiname}`);
+    isTopicOpen = true;
+  } else {
+    ref = database.ref(`Talk/topics/${selectedTopicName}`);
+  }
+
+  const getMessages = () => {
     ref.on("value", (snapshot) => {
       const data = snapshot.val();
-      const userDataArray = Object.values(data);
-      getMessageData(userDataArray); //topic直下のDBデータの取得
-      console.log(userDataArray);
-      getOpenTopicIndex(index);
+      if (data !== null) {
+        const userDataArray = Object.values(data);
+        getMessageData(userDataArray); //topic直下のDBデータの取得
+        console.log(userDataArray);
+      }
     });
   };
   //入力データの追加
@@ -142,7 +156,7 @@ export function useMainProcess() {
     messageName,
     messageText,
     fixedMessage,
-    selectedTopic,
+    dataSubmit,
     Templatebutton,
   };
 }

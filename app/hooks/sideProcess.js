@@ -19,6 +19,17 @@ export function useSideProcess() {
   const [selectedSortOption, setSelectedSortOption] = useState("make");
   const dispatch = useDispatch();
 
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(topicData.length / itemsPerPage);
+  const starttopicIndex = (currentPage - 1) * itemsPerPage;
+  const endtopicIndex = starttopicIndex + itemsPerPage;
+  const topicToShow = topicData.slice(starttopicIndex, endtopicIndex);
+
+  const onPageChane = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -84,8 +95,30 @@ export function useSideProcess() {
     setSelectedTopicName("");
     readTopic();
   };
-  //Side
+
+  const searchTopic = () => {
+    const Ref = database.ref("Talk/topics");
+    if (selectedTopicName.trim() === "") {
+      alert("search Topic名がありません。");
+      return;
+    }
+    const query = Ref.orderByChild("topic")
+      .startAt(selectedTopicName)
+      .endAt(selectedTopicName + "\uf8ff");
+
+    query.once("value").then((snapshot) => {
+      const searchtopicResult = snapshot.val();
+      if (searchtopicResult) {
+        const resultArray = Object.values(searchtopicResult);
+        setTopicData(resultArray);
+      } else {
+        setTopicData([]);
+      }
+    });
+  };
+
   const open = (pas, index) => {
+    console.log("open");
     firebase
       .database()
       .ref(`Talk/topics/${pas}`)
@@ -94,6 +127,7 @@ export function useSideProcess() {
         if (data) {
           dispatch(setIsTopicOpen(true));
           dispatch(setSelectedTopic(pas));
+          console.log(`data;${pas}`);
           //mainの機能を使用すると思われるので、head部分の機能を初期化しmainの邪魔にならないようにする
           dispatch(setOptionSwitch("start"));
           setOpenTopicIndex(index);
@@ -109,6 +143,7 @@ export function useSideProcess() {
           setTopicData([]);
           dispatch(setSelectedTopic(""));
           setOpenTopicIndex(-1);
+          console.log(`error`);
         }
       });
   };
@@ -120,5 +155,12 @@ export function useSideProcess() {
     addTopic,
     open,
     setSelectedSortOption,
+    searchTopic,
+
+    topicToShow,
+    itemsPerPage,
+    totalPages,
+    currentPage,
+    onPageChane,
   };
 }

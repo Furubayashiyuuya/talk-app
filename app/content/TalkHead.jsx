@@ -2,24 +2,26 @@ import React from "react";
 import "firebase/compat/database";
 import "./TalkApp.css";
 import { useSelector } from "react-redux";
-import { useHeadProcess } from "../hooks/headProcess";
+import { useSearchProcess } from "../hooks/searchProcess";
+import { useStampcreateProcess } from "../hooks/stampcreateProcess";
 function TalkHead() {
   const {
     searchevent,
-    createtemplateevent,
     targetevent,
-    createstamp,
     targetTopic,
     setTargetTopic,
     existingTopics,
-    existingStamps,
     searchWord,
     setSearchWord,
     searchResult,
+  } = useSearchProcess();
+  const {
+    templatecreateevent,
+    createstamp,
+    existingStamps,
     newStampText,
     setNewStampText,
-    isClicked,
-  } = useHeadProcess();
+  } = useStampcreateProcess();
   const on = useSelector((state) => state.optionswitch);
   return (
     <>
@@ -35,7 +37,7 @@ function TalkHead() {
         </h2>
         <h2
           className={`action ${on === "createtemplate" ? "clicked" : ""}`}
-          onClick={createtemplateevent}
+          onClick={templatecreateevent}
         >
           CreateTemplate
         </h2>
