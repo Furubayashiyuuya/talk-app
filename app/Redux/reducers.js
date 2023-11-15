@@ -3,6 +3,7 @@ import {
   SET_IS_TOPIC_OPEN,
   SET_OPTION_SWITCH,
   SET_IS_CLICKED,
+  SET_NOW_LOGIN,
 } from "./actionTypes";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   isTopicOpen: false,
   optionswitch: "start",
   isClicked: false,
+  nowlogin: false,
 };
 
 export function rootReducer(state = initialState, action) {
@@ -22,6 +24,8 @@ export function rootReducer(state = initialState, action) {
       return { ...state, optionswitch: action.payload };
     case SET_IS_CLICKED:
       return { ...state, isClicked: action.payload };
+    case SET_NOW_LOGIN:
+      return {...state, nowlogin: action.payload};  
     default:
       return state;
   }

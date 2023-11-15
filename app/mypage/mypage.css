@@ -1,0 +1,14 @@
+.mypage{
+    display: flex;
+    background-color: black;
+    color: white;
+}
+header{
+
+}
+header h1{
+    font-size:xx-large;
+}
+header .home{
+font-size: x-large;
+}

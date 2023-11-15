@@ -6,9 +6,10 @@ import "firebase/compat/database";
 import "./TalkSide.css";
 import { setSelectedTopic, setIsTopicOpen } from "../Redux/actions";
 import SidePagination from "./SidePagination";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSideProcess } from "../hooks/sideProcess";
 import Link from "next/link";
+import { useLoginProcess } from "../hooks/loginProcess";
 
 function TalkSide() {
   const {
@@ -27,6 +28,10 @@ function TalkSide() {
     currentPage,
     onPageChane,
   } = useSideProcess();
+  const {
+    favirite
+  } = useLoginProcess();
+  const logined = useSelector((state) => state.nowlogin)
   return (
     <>
       <div className="side">
@@ -90,6 +95,9 @@ function TalkSide() {
                     >
                       <li>{getdata.topic}</li>
                       <li className="jump">
+                        {logined ?(
+                        <div onClick={()=> favirite(getdata.topic)}>お気に入り登録</div>
+                        ):null}
                         <Link href={`/topics/${getdata.topic}`} target="_blank">
                           <p>別タブで開く</p>
                         </Link>

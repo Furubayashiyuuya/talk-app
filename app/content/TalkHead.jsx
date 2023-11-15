@@ -4,6 +4,8 @@ import "./TalkApp.css";
 import { useSelector } from "react-redux";
 import { useSearchProcess } from "../hooks/searchProcess";
 import { useStampcreateProcess } from "../hooks/stampcreateProcess";
+import { useLoginProcess } from "../hooks/loginProcess";
+import Link from "next/link";
 function TalkHead() {
   const {
     searchevent,
@@ -22,7 +24,13 @@ function TalkHead() {
     newStampText,
     setNewStampText,
   } = useStampcreateProcess();
+  const {
+    login,
+    loginmessage,
+    logout
+  } =useLoginProcess();
   const on = useSelector((state) => state.optionswitch);
+  const logined = useSelector((state) =>state.nowlogin); 
   return (
     <>
       <div className="title">
@@ -41,7 +49,12 @@ function TalkHead() {
         >
           CreateTemplate
         </h2>
-
+        <h2 onClick={login}>Log In</h2>
+        <h2><Link  href="../mypage" >{loginmessage}のページ</Link></h2>
+        {logined?
+        (
+        <h2 onClick={logout}>Log Out</h2>
+        ):null}
         {on === "search" ? (
           <div className="search">
             <div className="search-where">
