@@ -1,14 +1,32 @@
 .mypage{
-    display: flex;
+    display: grid;
     background-color: black;
     color: white;
 }
 header{
-
+grid-template-columns: 4fr 6fr;
+display: flex;
 }
 header h1{
-    font-size:xx-large;
+    margin: 1% 3%;
+    font-size:3em;
 }
-header .home{
-font-size: x-large;
+h2{
+    font-size: 2em;
+    margin: auto;
+}
+main h2{
+    text-align: center;
+    margin:  5% 0;
+}
+.faviritetable{
+    margin: auto;
+    font-size: 2em;
+    border: 2px white solid;
+}
+.faviritetable tr{
+    border-bottom: 2px white solid;
+}
+.faviritetable td{
+    border-left: 2px solid;
 }

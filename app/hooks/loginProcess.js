@@ -5,7 +5,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import { useDispatch, useSelector } from "react-redux";
 import { setNowlogin, setOptionSwitch, setisClicked } from "../Redux/actions";
-import {addDoc, collection}from "firebase/firestore";
+import {addDoc, collection, getDoc}from "firebase/firestore";
 import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import 'firebase/compat/firestore';
 export function useLoginProcess() {
@@ -25,6 +25,8 @@ export function useLoginProcess() {
   const Provider = new GoogleAuthProvider();
   const [loginmessage,setLoginmessage] = useState();
   const [uid,setUid] = useState();
+
+  const [faviritetopics,setfaviritetopics] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() =>{
@@ -63,10 +65,26 @@ addDoc(Ref,{
 
 }
 
+const faviriteview = async () => {
+  try {
+    const Ref = collection(db, 'LoginDB', uid, 'favirite');
+    const res = await getDoc(Ref);
+    const favirites = res.docs.map((userfaverit) => {
+      const faviritetopic = userfaverit.data();
+      return { ...faviritetopic };
+    });
+    setfaviritetopics(favirites);
+    console.log(favirites);
+  } catch (error) {
+    console.error('Error fetching favorites:', error);
+  }
+};
   return{
     login,
     loginmessage,
     logout,
-    favirite
+    db,
+    uid,
+    favirite,
   }
 }
