@@ -25,7 +25,7 @@ export function rootReducer(state = initialState, action) {
     case SET_IS_CLICKED:
       return { ...state, isClicked: action.payload };
     case SET_NOW_LOGIN:
-      return {...state, nowlogin: action.payload};  
+      return { ...state, nowlogin: action.payload };
     default:
       return state;
   }

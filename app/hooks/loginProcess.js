@@ -5,9 +5,15 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 import { useDispatch, useSelector } from "react-redux";
 import { setNowlogin, setOptionSwitch, setisClicked } from "../Redux/actions";
-import {addDoc, collection, getDoc}from "firebase/firestore";
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
-import 'firebase/compat/firestore';
+import { addDoc, collection, getDoc } from "firebase/firestore";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
+import "firebase/compat/firestore";
 export function useLoginProcess() {
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_API_KEY,
@@ -23,68 +29,66 @@ export function useLoginProcess() {
   const db = firebase.firestore();
   const auth = getAuth(app);
   const Provider = new GoogleAuthProvider();
-  const [loginmessage,setLoginmessage] = useState();
-  const [uid,setUid] = useState();
+  const [loginmessage, setLoginmessage] = useState();
+  const [uid, setUid] = useState();
 
-  const [faviritetopics,setfaviritetopics] = useState([]);
+  const [faviritetopics, setfaviritetopics] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() =>{
-    const unsubscride = onAuthStateChanged(auth,(user) =>{
-      if(user){
+  useEffect(() => {
+    const unsubscride = onAuthStateChanged(auth, (user) => {
+      if (user) {
         setLoginmessage(user.displayName);
         setUid(user.uid);
         dispatch(setNowlogin(true));
       }
 
       return () => unsubscride();
-    })
-  },[])
+    });
+  }, []);
 
-
-  const login = () =>{
-    signInWithPopup(auth,Provider).then((result) => {
+  const login = () => {
+    signInWithPopup(auth, Provider).then((result) => {
       setLoginmessage(result.user.displayName);
       setUid(result.user.uid);
       dispatch(setNowlogin(true));
-    })
-  }
-const logout =() =>{
-  signOut(auth);
-  setLoginmessage();
-  dispatch(setNowlogin(false));
-}
-
-const favirite = (topicname) =>{
-const Ref = collection(db, 'LoginDB',uid,'favirite');
-addDoc(Ref,{
-  text:  topicname
-}).then(()=>{
-  alert("ok");
-})
-
-}
-
-const faviriteview = async () => {
-  try {
-    const Ref = collection(db, 'LoginDB', uid, 'favirite');
-    const res = await getDoc(Ref);
-    const favirites = res.docs.map((userfaverit) => {
-      const faviritetopic = userfaverit.data();
-      return { ...faviritetopic };
     });
-    setfaviritetopics(favirites);
-    console.log(favirites);
-  } catch (error) {
-    console.error('Error fetching favorites:', error);
-  }
-};
-  return{
+  };
+  const logout = () => {
+    signOut(auth);
+    setLoginmessage();
+    dispatch(setNowlogin(false));
+  };
+
+  const favirite = (topicname) => {
+    const Ref = collection(db, "LoginDB", uid, "favirite");
+    addDoc(Ref, {
+      text: topicname,
+    }).then(() => {
+      alert("ok");
+    });
+  };
+
+  const faviriteview = async () => {
+    try {
+      const Ref = collection(db, "LoginDB", uid, "favirite");
+      const res = await getDoc(Ref);
+      const favirites = res.docs.map((userfaverit) => {
+        const faviritetopic = userfaverit.data();
+        return { ...faviritetopic };
+      });
+      setfaviritetopics(favirites);
+      console.log(favirites);
+    } catch (error) {
+      console.error("Error fetching favorites:", error);
+    }
+  };
+  return {
     login,
     loginmessage,
     logout,
     db,
     uid,
     favirite,
-  }
+  };
 }

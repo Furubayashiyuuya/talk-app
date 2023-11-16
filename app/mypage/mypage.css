@@ -1,32 +1,32 @@
-.mypage{
-    display: grid;
-    background-color: black;
-    color: white;
+.mypage {
+  display: grid;
+  background-color: black;
+  color: white;
 }
-header{
-grid-template-columns: 4fr 6fr;
-display: flex;
+header {
+  grid-template-columns: 4fr 6fr;
+  display: flex;
 }
-header h1{
-    margin: 1% 3%;
-    font-size:3em;
+header h1 {
+  margin: 1% 3%;
+  font-size: 3em;
 }
-h2{
-    font-size: 2em;
-    margin: auto;
+h2 {
+  font-size: 2em;
+  margin: auto;
 }
-main h2{
-    text-align: center;
-    margin:  5% 0;
+main h2 {
+  text-align: center;
+  margin: 5% 0;
 }
-.faviritetable{
-    margin: auto;
-    font-size: 2em;
-    border: 2px white solid;
+.faviritetable {
+  margin: auto;
+  font-size: 2em;
+  border: 2px white solid;
 }
-.faviritetable tr{
-    border-bottom: 2px white solid;
+.faviritetable tr {
+  border-bottom: 2px white solid;
 }
-.faviritetable td{
-    border-left: 2px solid;
+.faviritetable td {
+  border-left: 2px solid;
 }

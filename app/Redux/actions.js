@@ -26,7 +26,7 @@ export const setisClicked = (isClicked) => ({
   payload: isClicked,
 });
 
-export const setNowlogin = (nowlogin) =>({
+export const setNowlogin = (nowlogin) => ({
   type: SET_NOW_LOGIN,
   payload: nowlogin,
-})
+});

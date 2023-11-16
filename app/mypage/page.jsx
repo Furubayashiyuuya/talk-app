@@ -8,7 +8,7 @@ import Mypage from "./mypage";
 function Home() {
   return (
     <Provider store={store}>
-    <Mypage />
+      <Mypage />
     </Provider>
   );
 }

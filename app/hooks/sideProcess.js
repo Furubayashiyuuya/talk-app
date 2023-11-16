@@ -147,6 +147,16 @@ export function useSideProcess() {
         }
       });
   };
+  const [existingTag, setExistingTag] = useState([]);
+  const tagget = () => {
+    const tagref = database.ref("Tag/");
+    tagref.on("value", (snapshot) => {
+      const tag = snapshot.val();
+      const TagArray = Object.values(tag);
+      setExistingTag(TagArray);
+    });
+    console.log(existingTag);
+  };
   return {
     topicData,
     selectedTopicName,
@@ -162,5 +172,8 @@ export function useSideProcess() {
     totalPages,
     currentPage,
     onPageChane,
+
+    tagget,
+    existingTag,
   };
 }

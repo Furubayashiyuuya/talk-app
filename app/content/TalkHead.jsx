@@ -6,6 +6,7 @@ import { useSearchProcess } from "../hooks/searchProcess";
 import { useStampcreateProcess } from "../hooks/stampcreateProcess";
 import { useLoginProcess } from "../hooks/loginProcess";
 import Link from "next/link";
+import { useTagcreateProcess } from "../hooks/tagcreateProcess";
 function TalkHead() {
   const {
     searchevent,
@@ -24,37 +25,42 @@ function TalkHead() {
     newStampText,
     setNewStampText,
   } = useStampcreateProcess();
-  const {
-    login,
-    loginmessage,
-    logout
-  } =useLoginProcess();
+  const { tagcreateevent, setTagText, tagText, tagmake } =
+    useTagcreateProcess();
+  const { login, loginmessage, logout } = useLoginProcess();
   const on = useSelector((state) => state.optionswitch);
-  const logined = useSelector((state) =>state.nowlogin); 
+  const logined = useSelector((state) => state.nowlogin);
   return (
     <>
       <div className="title">
         <h1>Talk</h1>
       </div>
       <div className="option">
-        <h2
+        <button
           className={`action ${on === "search" ? "clicked" : ""}`}
           onClick={searchevent}
         >
           Search
-        </h2>
-        <h2
+        </button>
+        <button
           className={`action ${on === "createtemplate" ? "clicked" : ""}`}
           onClick={templatecreateevent}
         >
           CreateTemplate
-        </h2>
-        <h2 onClick={login}>Log In</h2>
-        <h2><Link  href="../mypage" >{loginmessage}のページ</Link></h2>
-        {logined?
-        (
-        <h2 onClick={logout}>Log Out</h2>
-        ):null}
+        </button>
+        <button
+          className={`action ${on === "createtag" ? "clicked" : ""}`}
+          onClick={tagcreateevent}
+        >
+          CreateTag
+        </button>
+        {!logined ? <button onClick={login}>Log In</button> : null}
+        {logined ? (
+          <button>
+            <Link href="../mypage">{loginmessage}のページ</Link>
+          </button>
+        ) : null}
+        {logined ? <button onClick={logout}>Log Out</button> : null}
         {on === "search" ? (
           <div className="search">
             <div className="search-where">
@@ -126,6 +132,20 @@ function TalkHead() {
                   </button>
                 ))}
               </div>
+            </div>
+          </div>
+        ) : null}
+        {on === "createtag" ? (
+          <div className="createtag">
+            <div className="taginput">
+              <label htmlFor="tagname">タグ名</label>
+              <input
+                type="text"
+                name="tagname"
+                value={tagText}
+                onChange={(e) => setTagText(e.target.value)}
+              />
+              <button onClick={tagmake}>作成</button>
             </div>
           </div>
         ) : null}

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSideProcess } from "../hooks/sideProcess";
 import Link from "next/link";
 import { useLoginProcess } from "../hooks/loginProcess";
+import { useTagcreateProcess } from "../hooks/tagcreateProcess";
 
 function TalkSide() {
   const {
@@ -27,11 +28,13 @@ function TalkSide() {
     totalPages,
     currentPage,
     onPageChane,
+
+    existingTag,
+    tagget,
   } = useSideProcess();
-  const {
-    favirite
-  } = useLoginProcess();
-  const logined = useSelector((state) => state.nowlogin)
+  const { favirite } = useLoginProcess();
+
+  const logined = useSelector((state) => state.nowlogin);
   return (
     <>
       <div className="side">
@@ -52,7 +55,18 @@ function TalkSide() {
               value={selectedTopicName}
               onChange={(e) => setSelectedTopicName(e.target.value)}
             />
-
+            <h2 className="side-title">Tag</h2>
+            <select
+              className="topic-select"
+              name="select"
+              id="select"
+              onClick={tagget}
+            >
+              <option selected>選択してください。</option>
+              {existingTag.map((gettag) => (
+                <option value={gettag.tag}>{gettag.tag}</option>
+              ))}
+            </select>
             <div className="side-select">
               <select
                 className="topic-select"
@@ -95,9 +109,11 @@ function TalkSide() {
                     >
                       <li>{getdata.topic}</li>
                       <li className="jump">
-                        {logined ?(
-                        <div onClick={()=> favirite(getdata.topic)}>お気に入り登録</div>
-                        ):null}
+                        {logined ? (
+                          <div onClick={() => favirite(getdata.topic)}>
+                            お気に入り登録
+                          </div>
+                        ) : null}
                         <Link href={`/topics/${getdata.topic}`} target="_blank">
                           <p>別タブで開く</p>
                         </Link>
