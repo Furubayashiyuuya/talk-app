@@ -9,7 +9,7 @@
 }
 
 .title{
-  font-size: xx-large;
+  font-size:3em;
   display: grid;
   margin:auto 20%;
   
@@ -17,25 +17,23 @@
 .Logoption{
   display: flex;
 }
-.username{
-  font-size:xx-large;
-}
 .Logoption button{
-  font-size: large;
-  margin: auto;
+  font-size:0.5em;
+  margin: auto ;
 }
 .option {
-  display: flex;
+  display: block;
   margin: auto ;
   table-layout:fixed;
-  font-size: x-large;
+}
+.optinbuttons{
+  display: flex;
 }
 .option button{
   margin: 5%;
 }
 .action{
-  margin-top: 2%;
-  font-size: x-large;
+  font-size: 2em;
 }
 .clicked{
   color: lime;
@@ -91,6 +89,12 @@ margin-right: 20%;
 }
 .result{
   margin: 5% 10%;
+}
+.createtag{
+  background-color: rgb(127, 133, 133);
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 @media (width <=768px) {
   .talk {

@@ -1,15 +1,17 @@
 .mypage {
   display: grid;
+  grid-template-rows: 10% 1fr;
   height: 100vh;
   background-color: black;
   color: white;
 }
 header {
+  margin: auto 5%;
   grid-template-columns: 4fr 6fr;
   display: flex;
 }
 header h1 {
-  margin:auto;
+  margin: auto;
   font-size: 3em;
 }
 h2 {
@@ -23,11 +25,50 @@ main h2 {
 .faviritetable {
   margin: auto;
   font-size: 2em;
+  text-align: center;
+  width: 50%;
   border: 2px white solid;
 }
 .faviritetable tr {
   border-bottom: 2px white solid;
 }
+.faviritetable th {
+  border-right: 2px solid;
+}
 .faviritetable td {
   border-left: 2px solid;
+}
+@media (width <= 768px) {
+  header h1 {
+    font-size: 2em;
+  }
+  .faviritetable {
+    font-size: 2em;
+    width: 80%;
+  }
+}
+
+@media (width <= 570px) {
+  header h1 {
+    font-size: 1.5em;
+  }
+  h2 {
+    font-size: 1.5em;
+  }
+}
+
+@media (width <= 510px) {
+  .faviritetable {
+    font-size: 1em;
+    width: 80%;
+  }
+}
+
+@media (width <= 450px) {
+  header h1 {
+    font-size: 1em;
+  }
+  h2 {
+    font-size: 1em;
+  }
 }

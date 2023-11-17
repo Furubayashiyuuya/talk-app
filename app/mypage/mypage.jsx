@@ -68,7 +68,7 @@ function Mypage() {
       <main>
         {logined?(
         <>
-                <h2>お気に入り</h2>
+          <h2>お気に入り</h2>
                 <table className="faviritetable">
             <thead>
               <tr>

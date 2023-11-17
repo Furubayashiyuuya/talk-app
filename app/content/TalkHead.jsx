@@ -46,6 +46,7 @@ function TalkHead() {
         </div>
         </div>
       <div className="option">
+        <div className="optinbuttons">
         <button
           className={`action ${on === "search" ? "clicked" : ""}`}
           onClick={searchevent}
@@ -64,6 +65,7 @@ function TalkHead() {
         >
           CreateTag
         </button>
+        </div> 
         {on === "search" ? (
           <div className="search">
             <div className="search-where">
