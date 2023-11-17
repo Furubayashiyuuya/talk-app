@@ -32,7 +32,7 @@ function TalkMain() {
         <>
           <ul>
             {isTopicOpen &&
-              (displayedMessages.length > 2 ? (
+              (displayedMessages.length > 3 ? (
                 displayedMessages.map((indata, index) => {
                   const datacheck =
                     typeof indata === "object" && "name" in indata;

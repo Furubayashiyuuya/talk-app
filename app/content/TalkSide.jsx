@@ -30,6 +30,7 @@ function TalkSide() {
     onPageChane,
 
     existingTag,
+    setSelectedTag,
     tagget,
   } = useSideProcess();
   const { favirite } = useLoginProcess();
@@ -61,8 +62,9 @@ function TalkSide() {
               name="select"
               id="select"
               onClick={tagget}
+              onChange={(e) =>setSelectedTag(e.target.value)}
             >
-              <option selected>選択してください。</option>
+              <option value="none" selected>選択してください。</option>
               {existingTag.map((gettag) => (
                 <option value={gettag.tag}>{gettag.tag}</option>
               ))}
@@ -108,12 +110,15 @@ function TalkSide() {
                       }}
                     >
                       <li>{getdata.topic}</li>
-                      <li className="jump">
-                        {logined ? (
-                          <div onClick={() => favirite(getdata.topic)}>
+                      <li className="topictag">[タグ]{getdata.tag}</li>
+                      {logined ? (
+                        <li>
+                          <button className="faviritebutton" onClick={() => favirite(getdata.topic,getdata.tag)}>
                             お気に入り登録
-                          </div>
+                          </button>
+                        </li>  
                         ) : null}
+                      <li className="jump">
                         <Link href={`/topics/${getdata.topic}`} target="_blank">
                           <p>別タブで開く</p>
                         </Link>

@@ -10,12 +10,28 @@
 
 .title{
   font-size: xx-large;
+  display: grid;
   margin:auto 20%;
   
 }
+.Logoption{
+  display: flex;
+}
+.username{
+  font-size:xx-large;
+}
+.Logoption button{
+  font-size: large;
+  margin: auto;
+}
 .option {
-  display: grid;
-  grid-template-columns: 5fr 5fr; /* 要素を横に並べる */
+  display: flex;
+  margin: auto ;
+  table-layout:fixed;
+  font-size: x-large;
+}
+.option button{
+  margin: 5%;
 }
 .action{
   margin-top: 2%;

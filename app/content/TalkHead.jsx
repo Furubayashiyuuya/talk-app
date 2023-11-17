@@ -34,7 +34,17 @@ function TalkHead() {
     <>
       <div className="title">
         <h1>Talk</h1>
-      </div>
+        <div className="Logoption">
+        {logined ? (
+          <button className="username">
+            <Link href="../mypage">{loginmessage}さん</Link>
+          </button>
+        ) : null}
+        
+         {!logined ? <button onClick={login}>Log In</button> : null}
+        {logined ? <button onClick={logout}>Log Out</button> : null}
+        </div>
+        </div>
       <div className="option">
         <button
           className={`action ${on === "search" ? "clicked" : ""}`}
@@ -54,13 +64,6 @@ function TalkHead() {
         >
           CreateTag
         </button>
-        {!logined ? <button onClick={login}>Log In</button> : null}
-        {logined ? (
-          <button>
-            <Link href="../mypage">{loginmessage}のページ</Link>
-          </button>
-        ) : null}
-        {logined ? <button onClick={logout}>Log Out</button> : null}
         {on === "search" ? (
           <div className="search">
             <div className="search-where">

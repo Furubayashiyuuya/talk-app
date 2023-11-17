@@ -12,6 +12,8 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   signOut,
+  login,
+  logout
 } from "firebase/auth";
 import "firebase/compat/firestore";
 export function useLoginProcess() {
@@ -60,10 +62,11 @@ export function useLoginProcess() {
     dispatch(setNowlogin(false));
   };
 
-  const favirite = (topicname) => {
+  const favirite = (topicname,tagname) => {
     const Ref = collection(db, "LoginDB", uid, "favirite");
     addDoc(Ref, {
       text: topicname,
+      tag:tagname,
     }).then(() => {
       alert("ok");
     });

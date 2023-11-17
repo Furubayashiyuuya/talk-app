@@ -13,12 +13,15 @@ import {
 
 import "firebase/compat/firestore";
 import "firebase/compat/database";
+import Link from "next/link";
+import { useSelector } from "react-redux";
 function Mypage() {
-  const { loginmessage, db, uid } = useLoginProcess();
+  const { loginmessage, db, uid ,login,logout} = useLoginProcess();
   console.log(uid);
 
-  const [faviritetopics, setfaviritetopics] = useState([]);
-  useEffect(() => {
+   const [faviritetopics, setfaviritetopics] = useState([]);
+  const logined = useSelector((state) => state.nowlogin);
+   useEffect(() => {
     if (db && uid) {
       look();
     }
@@ -39,10 +42,10 @@ function Mypage() {
     alert(id);
     deleteDoc(deletetarget)
       .then(() => {
-        alert("削除しました。");
+        //alert("削除しました。");
         // 削除後に再取得
         look();
-        alert("end");
+       // alert("end");
       })
       .catch((err) => {
         alert(err.message);
@@ -52,15 +55,21 @@ function Mypage() {
   return (
     <div className="mypage">
       <header>
-        <h1>{loginmessage}page</h1>
-        <h2 className="home">Home</h2>
-        <h2>Log In</h2>
-        <h2>Log Out</h2>
+        
+        {logined?(
+          <h1>{loginmessage}page</h1>
+        ):(
+         <h1>NologIn</h1> 
+        )}
+        <h2 className="home"><Link href="./">Home</Link></h2>
+        <h2><button onClick={login}>Log In</button></h2>
+        <h2><button onClick={logout}>Log Out</button></h2>
       </header>
       <main>
-        <h2 onClick={look}>お気に入り</h2>
-        {faviritetopics ? (
-          <table className="faviritetable">
+        {logined?(
+        <>
+                <h2>お気に入り</h2>
+                <table className="faviritetable">
             <thead>
               <tr>
                 <th>Topic名</th>
@@ -82,7 +91,8 @@ function Mypage() {
               ))}
             </tbody>
           </table>
-        ) : null}
+        </>  
+        ):null}
       </main>
     </div>
   );

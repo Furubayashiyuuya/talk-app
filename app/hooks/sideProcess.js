@@ -26,6 +26,9 @@ export function useSideProcess() {
   const endtopicIndex = starttopicIndex + itemsPerPage;
   const topicToShow = topicData.slice(starttopicIndex, endtopicIndex);
 
+  const [existingTag, setExistingTag] = useState([]);
+  const [selectedTag,setSelectedTag] = useState();
+
   const onPageChane = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -83,6 +86,7 @@ export function useSideProcess() {
     }
     const data = {
       topic: selectedTopicName,
+      tag:selectedTag,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
     };
 
@@ -147,7 +151,7 @@ export function useSideProcess() {
         }
       });
   };
-  const [existingTag, setExistingTag] = useState([]);
+
   const tagget = () => {
     const tagref = database.ref("Tag/");
     tagref.on("value", (snapshot) => {
@@ -175,5 +179,6 @@ export function useSideProcess() {
 
     tagget,
     existingTag,
+    setSelectedTag
   };
 }
