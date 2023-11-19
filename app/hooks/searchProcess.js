@@ -27,16 +27,20 @@ export function useSearchProcess() {
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
-
+useEffect(()=>{
+  getsearchtopic();
+},[on])
+const getsearchtopic = () =>{
+  const ref = database.ref("Talk/topics");
+  ref.on("value", (snapshot) => {
+    const data = snapshot.val();
+    const userDataArray = Object.values(data);
+    setExistingTopics(userDataArray);
+  });
+}
   const searchevent = () => {
     if (on === "start") {
       dispatch(setOptionSwitch("search"));
-      const ref = database.ref("Talk/topics");
-      ref.on("value", (snapshot) => {
-        const data = snapshot.val();
-        const userDataArray = Object.values(data);
-        setExistingTopics(userDataArray);
-      });
     } else {
       dispatch(setOptionSwitch("start"));
     }

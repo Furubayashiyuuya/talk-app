@@ -24,7 +24,9 @@ export function useTagcreateProcess() {
   };
   firebase.initializeApp(firebaseConfig);
   var database = firebase.database();
-
+useEffect (()=>{
+  tagget();
+},[on])
   const tagget = () => {
     const tagref = database.ref("Tag/");
     tagref.on("value", (snapshot) => {
@@ -32,13 +34,11 @@ export function useTagcreateProcess() {
       const TagArray = Object.values(tag);
       setExistingTag(TagArray);
     });
-    console.log(existingTag);
   };
 
   const tagcreateevent = () => {
     if (on === "start") {
       dispatch(setOptionSwitch("createtag"));
-      tagget();
     } else {
       dispatch(setOptionSwitch("start"));
     }
@@ -46,7 +46,8 @@ export function useTagcreateProcess() {
   };
   const tagmake = () => {
     //入力値のチェック
-    const exeisnin = existingTag.find((gets) => gets.text === tagText);
+    const exeisnin = existingTag.find((gets) => gets.tag === tagText);
+    
     if (exeisnin) {
       alert("同名のものがあります。");
       return;
@@ -63,6 +64,7 @@ export function useTagcreateProcess() {
     setTagText("");
     alert("作成完了しました。");
   };
+
   return {
     tagcreateevent,
     setTagText,

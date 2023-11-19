@@ -24,18 +24,21 @@ export function useStampcreateProcess() {
     appId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_APP_ID,
   };
   firebase.initializeApp(firebaseConfig);
+  useEffect(()=>{
+    templateget();
+  },[on])
   var database = firebase.database();
-
+const templateget = () =>{
+  const stampref = database.ref("Stamp/");
+  stampref.on("value", (snapshot) => {
+    const stamp = snapshot.val();
+    const StampArray = Object.values(stamp);
+    setExistingStamps(StampArray);
+  })
+}
   const templatecreateevent = () => {
     if (on === "start") {
-      dispatch(setOptionSwitch("createtemplate"));
-      const stampref = database.ref("Stamp/");
-      stampref.on("value", (snapshot) => {
-        const stamp = snapshot.val();
-        const StampArray = Object.values(stamp);
-        setExistingStamps(StampArray);
-        console.log(existingStamps);
-      });
+      dispatch(setOptionSwitch("createtemplate")); 
     } else {
       dispatch(setOptionSwitch("start"));
     }

@@ -1,0 +1,140 @@
+
+  .title{
+    font-size:3em;
+    display: grid;
+    margin:auto 20%;
+    
+  }
+  
+  .username{
+    font-size:0.8em;
+    margin: auto ;
+  }
+  
+  .optinbuttons{
+    display: flex;
+  }
+  .option button{
+    margin: 5%;
+  }
+  .action{
+    font-size: 1.75em;
+  }
+  .clicked{
+    color: lime;
+  }
+  .search{
+    padding: 5% 0;
+    background-color: rgb(45, 13, 0);
+    width: 100%;
+
+    position: relative;
+    z-index: 1;
+  }
+  .search-where{
+  margin:5%;
+  }
+  .search-where label{
+  margin-right: 20%;
+  }
+  .option input{
+    background-color: rgb(174, 174, 174);
+  }
+  .search-where select{
+    background-color: rgb(75, 22, 1);
+    margin-bottom: 5%;
+  }
+  
+  .search-where button{
+    margin-top: 2%;
+    float: right;
+  }
+  .createtemplate{
+    padding: 5% 0;
+    background-color: rgb(15, 103, 167);
+    position: relative;
+    z-index: 1;
+  }
+  .create-area{
+    margin: 3% 2%;
+  }
+  .create-area input{
+    width: 60%;
+  }
+  .create-area .stamp{
+    margin: 3% 1%;
+    padding: 2%;
+    background-color: rgb(170, 169, 169);
+  }
+  .create-button{
+    margin: 0 10% ;
+    float: right;
+  }
+  .result-message{
+    margin-bottom:10%;
+    list-style: none;
+    border-bottom: 1px solid;
+  }
+  .result{
+    margin: 5% 10%;
+  }
+  .createtag{
+    background-color: rgb(127, 133, 133);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  @media (width <=1024px) {
+    .action{
+      font-size: 1.5em;
+    }
+    .username{
+      font-size:0.5em;
+      margin:  10% auto 0;
+    }
+    
+  }
+  @media (width <=768px) {
+    .talk {
+      min-height: 100vh;
+      display:list-item;
+      background-color: black;
+      color: white;
+    }
+  
+    .title{
+      font-size: xx-large;
+      margin: auto;
+      font-size: 3em;
+      grid-row: 1;
+    }
+    .username{
+      grid-row: 2;
+      grid-column: 1;
+      margin: auto;
+    }
+    
+    .select-item{
+      display: grid;
+    }
+    .search,
+    .createtemplate{
+        padding: 1% 0;
+    }
+    .search-where button{
+      margin-top: 5% ;
+  
+    }
+    .result{
+     clear: right;
+    }
+  }
+  @media (width <=425px) {
+    
+    .optinbuttons{
+      display: grid;
+    }
+    .action{
+      font-size: 1.5em;
+    }
+  }

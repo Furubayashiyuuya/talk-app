@@ -66,7 +66,7 @@ function TalkSide() {
             >
               <option value="none" selected>選択してください。</option>
               {existingTag.map((gettag) => (
-                <option value={gettag.tag}>{gettag.tag}</option>
+                <option key={gettag.tag} value={gettag.tag}>{gettag.tag}</option>
               ))}
             </select>
             <div className="side-select">

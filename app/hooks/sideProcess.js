@@ -101,15 +101,21 @@ export function useSideProcess() {
   };
 
   const searchTopic = () => {
+    var query;
     const Ref = database.ref("Talk/topics");
-    if (selectedTopicName.trim() === "") {
+    if (selectedTopicName.trim() === ""  && selectedTag === "") {
       alert("search Topic名がありません。");
       return;
     }
-    const query = Ref.orderByChild("topic")
+    if(selectedTopicName.trim() !== ""){
+   query = Ref.orderByChild("topic")
       .startAt(selectedTopicName)
       .endAt(selectedTopicName + "\uf8ff");
-
+  }else if(selectedTopicName.trim() === "" && selectedTag !== ""){
+   query = Ref.orderByChild("tag")
+  .startAt(selectedTag)
+  .endAt(selectedTag + "\uf8ff");
+}  
     query.once("value").then((snapshot) => {
       const searchtopicResult = snapshot.val();
       if (searchtopicResult) {
