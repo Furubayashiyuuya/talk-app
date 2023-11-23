@@ -12,15 +12,9 @@ import { useSearchProcess } from "../hooks/searchProcess";
 import { useStampcreateProcess } from "../hooks/stampcreateProcess";
 import { useTagcreateProcess } from "../hooks/tagcreateProcess";
 function TalkHead() {
-  const {
-    searchevent
-  } = useSearchProcess();
-  const {
-    templatecreateevent,
-    
-  } = useStampcreateProcess();
-  const { tagcreateevent } =
-  useTagcreateProcess();
+  const { searchevent } = useSearchProcess();
+  const { templatecreateevent } = useStampcreateProcess();
+  const { tagcreateevent } = useTagcreateProcess();
   const { login, loginmessage, logout } = useLoginProcess();
   const on = useSelector((state) => state.optionswitch);
   const logined = useSelector((state) => state.nowlogin);
@@ -33,36 +27,43 @@ function TalkHead() {
             <Link href="../mypage">{loginmessage}さん</Link>
           </button>
         ) : null}
-        </div>
+      </div>
       <div className="option">
         <div className="optinbuttons">
-         {!logined ? <button className="action" onClick={login}>Log In</button> : null}
-        {logined ? <button className="action" onClick={logout}>Log Out</button> : null}
-       
-        <button
-          className={`action ${on === "search" ? "clicked" : ""}`}
-          onClick={searchevent}
-        >
-          Search
-        </button>
-        <button
-          className={`action ${on === "createtemplate" ? "clicked" : ""}`}
-          onClick={templatecreateevent}
-        >
-          CreateTemplate
-        </button>
-        
-        <button
-          className={`action ${on === "createtag" ? "clicked" : ""}`}
-          onClick={tagcreateevent}
-        >
-          CreateTag
-        </button>
-        
-        </div> 
-           <Search />
-           <CreateTemplate />
-            <CreateTag />
+          {!logined ? (
+            <button className="action" onClick={login}>
+              Log In
+            </button>
+          ) : null}
+          {logined ? (
+            <button className="action" onClick={logout}>
+              Log Out
+            </button>
+          ) : null}
+
+          <button
+            className={`action ${on === "search" ? "clicked" : ""}`}
+            onClick={searchevent}
+          >
+            Search
+          </button>
+          <button
+            className={`action ${on === "createtemplate" ? "clicked" : ""}`}
+            onClick={templatecreateevent}
+          >
+            CreateTemplate
+          </button>
+
+          <button
+            className={`action ${on === "createtag" ? "clicked" : ""}`}
+            onClick={tagcreateevent}
+          >
+            CreateTag
+          </button>
+        </div>
+        <Search />
+        <CreateTemplate />
+        <CreateTag />
       </div>
     </>
   );

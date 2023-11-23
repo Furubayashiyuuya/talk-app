@@ -62,11 +62,15 @@ function TalkSide() {
               name="select"
               id="select"
               onClick={tagget}
-              onChange={(e) =>setSelectedTag(e.target.value)}
+              onChange={(e) => setSelectedTag(e.target.value)}
             >
-              <option value="none" selected>選択してください。</option>
+              <option value="none" selected>
+                選択してください。
+              </option>
               {existingTag.map((gettag) => (
-                <option key={gettag.tag} value={gettag.tag}>{gettag.tag}</option>
+                <option key={gettag.tag} value={gettag.tag}>
+                  {gettag.tag}
+                </option>
               ))}
             </select>
             <div className="side-select">
@@ -113,11 +117,14 @@ function TalkSide() {
                       <li className="topictag">[タグ]{getdata.tag}</li>
                       {logined ? (
                         <li>
-                          <button className="faviritebutton" onClick={() => favirite(getdata.topic,getdata.tag)}>
+                          <button
+                            className="faviritebutton"
+                            onClick={() => favirite(getdata.topic, getdata.tag)}
+                          >
                             お気に入り登録
                           </button>
-                        </li>  
-                        ) : null}
+                        </li>
+                      ) : null}
                       <li className="jump">
                         <Link href={`/topics/${getdata.topic}`} target="_blank">
                           <p>別タブで開く</p>
