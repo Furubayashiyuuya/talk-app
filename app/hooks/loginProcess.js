@@ -13,7 +13,8 @@ import {
   signInWithPopup,
   signOut,
   login,
-  logout
+  logout,
+  signInAnonymously
 } from "firebase/auth";
 import "firebase/compat/firestore";
 export function useLoginProcess() {
@@ -56,6 +57,16 @@ export function useLoginProcess() {
       dispatch(setNowlogin(true));
     });
   };
+
+const guestlogin = () =>{
+  const auth = getAuth();
+  signInAnonymously(auth).then((result) =>{
+    setLoginmessage(result.user.displayName);
+    setUid(result.user.uid);
+    dispatch(setNowlogin(true));
+  })
+}
+
   const logout = () => {
     signOut(auth);
     setLoginmessage();
@@ -88,6 +99,7 @@ export function useLoginProcess() {
   };
   return {
     login,
+    guestlogin,
     loginmessage,
     logout,
     db,

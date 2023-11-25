@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useLoginProcess } from "../hooks/loginProcess";
 import "./mypage.css";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -39,10 +40,13 @@ function Mypage() {
   const [title,settitle] = useState();
   const [text,settext] = useState();
 
-  const { loginmessage, db, uid, login, logout } = useLoginProcess();
+  const { loginmessage, db, uid, login, logout ,guestlogin} = useLoginProcess();
   console.log(uid);
 
   const [faviritetopics, setfaviritetopics] = useState([]);
+  
+  const [userimges,setuserimges] = useState([]);
+
   const logined = useSelector((state) => state.nowlogin);
   useEffect(() => {
     if (db && uid) {
@@ -59,6 +63,31 @@ function Mypage() {
       setfaviritetopics(DBddta);
     });
   };
+
+    // 画像をアップロードする関数
+    const uploadImage = () => {
+
+      if (image) {
+        const storageRef = storage.ref(`${uid}`);
+        const imageRef = storageRef.child(image.name);
+      
+        imageRef.put(image).then(() => {
+          // 画像のアップロードが完了したら、そのURLを含むデータを追加
+  
+          const Ref = collection(db,"LoginDB", uid, "img")
+          addDoc(Ref,{
+            title: title,
+            text: text, 
+            imageUrl: image.name
+          })
+          alert("データを追加しました。");
+          setImage(null);
+          settitle('');
+          settext('');
+          imglook();
+        });
+      }
+    };
   const faviritedelete = (id) => {
     const collectionRef = collection(db, "LoginDB", uid, "favirite");
     const deletetarget = doc(collectionRef, id);
@@ -72,29 +101,19 @@ function Mypage() {
       });
   };
 
-  // データを追加
-  const addData = (data) => {
-    database.ref(`${uid}/item/`).push(data);
-    alert("データを追加しました。");
-    };
-//
-  // 画像をアップロードする関数
-  const uploadImage = () => {
-    if (image) {
-      const storageRef = storage.ref(`${uid}/items`);
-      const imageRef = storageRef.child(image.name);
-
-      imageRef.put(image).then(() => {
-        // 画像のアップロードが完了したら、そのURLを含むデータを追加
-        const data = { title: title, text: text, imageUrl: imageRef.fullPath };
-        addData(data);
-        setImage(null);
-        settitle('');
-        settext('');
-      });
-    }
-  };
-
+const imglook = ()=>{
+  const collectionImgRef = collection(db,"LoginDB", uid, "img");
+  getDocs(collectionImgRef).then((res) => {
+    const ImgData = res.docs.map((userimg) =>{
+      const imgdata = userimg.data();
+      return{...imgdata}
+    });
+    console.log(ImgData);
+    setuserimges(ImgData);
+    console.log(userimges);
+  })
+}
+ 
 
   return (
     <div className="mypage">
@@ -107,13 +126,16 @@ function Mypage() {
           <button onClick={login}>Log In</button>
         </h2>
         <h2>
+          <button onClick={guestlogin}>Guest Log In</button>
+        </h2>
+        <h2>
           <button onClick={logout}>Log Out</button>
         </h2>
       </header>
       <main>
         {logined ? (
           <>
-<div className="imgup">
+          <div className="imgup">
   <div className="title">
 <label>title</label>
       <input 
@@ -135,6 +157,17 @@ function Mypage() {
       />
    </div>   
   <button onClick={uploadImage}>画像をアップロード</button>
+  <br/>
+  <button onClick={imglook}>ImgLook</button>
+  <p>{uid}</p>
+  <div className="imgdisplay">
+  {userimges.map((img, index) => (
+  <div key={index}>
+    <p>{img.text}</p>
+    <img src={`https://firebasestorage.googleapis.com/v0/b/talk-95e0a.appspot.com/o/${uid}%2F${encodeURIComponent(img.imageUrl)}?alt=media`} alt={img.imageUrl}/>
+  </div>
+))}
+</div>
 </div>
 
             <h2>お気に入り</h2>

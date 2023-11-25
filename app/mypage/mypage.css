@@ -40,7 +40,13 @@ main h2 {
 }
 .imgup{
   background-color: aqua;
-  font-size: xx-large;
+}
+.imgup input{
+  color: black;
+  width: 50%;
+}
+.imgdisplay{
+  display: flex;
 }
 @media (width <= 768px) {
   header h1 {

@@ -85,7 +85,7 @@ export function useMainProcess() {
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const displayedMessages = messageData.slice(startIndex, endIndex);
-  const totalMessageCount = messageData.length - 2; // 先頭データがタイムスタンプとトピック名であるため除いている
+  const totalMessageCount = messageData.length - 3; // 先頭データがタイムスタンプとトピック名、タグ名であるため除いている
   const totalPageCount = Math.ceil(totalMessageCount / pageSize);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
