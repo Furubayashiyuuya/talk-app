@@ -14,7 +14,7 @@ import {
   signOut,
   login,
   logout,
-  signInAnonymously
+  signInAnonymously,
 } from "firebase/auth";
 import "firebase/compat/firestore";
 export function useLoginProcess() {
@@ -58,14 +58,14 @@ export function useLoginProcess() {
     });
   };
 
-const guestlogin = () =>{
-  const auth = getAuth();
-  signInAnonymously(auth).then((result) =>{
-    setLoginmessage(result.user.displayName);
-    setUid(result.user.uid);
-    dispatch(setNowlogin(true));
-  })
-}
+  const guestlogin = () => {
+    const auth = getAuth();
+    signInAnonymously(auth).then((result) => {
+      setLoginmessage(result.user.displayName);
+      setUid(result.user.uid);
+      dispatch(setNowlogin(true));
+    });
+  };
 
   const logout = () => {
     signOut(auth);
@@ -73,30 +73,16 @@ const guestlogin = () =>{
     dispatch(setNowlogin(false));
   };
 
-  const favirite = (topicname,tagname) => {
+  const favirite = (topicname, tagname) => {
     const Ref = collection(db, "LoginDB", uid, "favirite");
     addDoc(Ref, {
       text: topicname,
-      tag:tagname,
+      tag: tagname,
     }).then(() => {
       alert("ok");
     });
   };
 
-  const faviriteview = async () => {
-    try {
-      const Ref = collection(db, "LoginDB", uid, "favirite");
-      const res = await getDoc(Ref);
-      const favirites = res.docs.map((userfaverit) => {
-        const faviritetopic = userfaverit.data();
-        return { ...faviritetopic };
-      });
-      setfaviritetopics(favirites);
-      console.log(favirites);
-    } catch (error) {
-      console.error("Error fetching favorites:", error);
-    }
-  };
   return {
     login,
     guestlogin,

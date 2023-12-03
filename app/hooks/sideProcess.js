@@ -11,6 +11,7 @@ import {
   setisClicked,
 } from "../Redux/actions";
 import { initializeApp } from "firebase/app";
+import database from "../../firebaseConfig";
 export function useSideProcess() {
   const [topicData, setTopicData] = useState([]);
   const [selectedTopicName, setSelectedTopicName] = useState("");
@@ -27,24 +28,11 @@ export function useSideProcess() {
   const topicToShow = topicData.slice(starttopicIndex, endtopicIndex);
 
   const [existingTag, setExistingTag] = useState([]);
-  const [selectedTag,setSelectedTag] = useState();
+  const [selectedTag, setSelectedTag] = useState();
 
   const onPageChane = (newPage) => {
     setCurrentPage(newPage);
   };
-
-  const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_AUTH_DOMAIN,
-    databaseURL: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_DATABASE_URL,
-    projectId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId:
-      process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_APP_ID,
-  };
-  firebase.initializeApp(firebaseConfig);
-  let database = firebase.database();
   const sortData = (data) => {
     if (selectedSortOption === "new") {
       return data.slice().sort((a, b) => b.timestamp - a.timestamp);
@@ -86,7 +74,7 @@ export function useSideProcess() {
     }
     const data = {
       topic: selectedTopicName,
-      tag:selectedTag,
+      tag: selectedTag,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
     };
 
@@ -103,19 +91,19 @@ export function useSideProcess() {
   const searchTopic = () => {
     var query;
     const Ref = database.ref("Talk/topics");
-    if (selectedTopicName.trim() === ""  && selectedTag === "") {
+    if (selectedTopicName.trim() === "" && selectedTag === "") {
       alert("search Topic名がありません。");
       return;
     }
-    if(selectedTopicName.trim() !== ""){
-   query = Ref.orderByChild("topic")
-      .startAt(selectedTopicName)
-      .endAt(selectedTopicName + "\uf8ff");
-  }else if(selectedTopicName.trim() === "" && selectedTag !== ""){
-   query = Ref.orderByChild("tag")
-  .startAt(selectedTag)
-  .endAt(selectedTag + "\uf8ff");
-}  
+    if (selectedTopicName.trim() !== "") {
+      query = Ref.orderByChild("topic")
+        .startAt(selectedTopicName)
+        .endAt(selectedTopicName + "\uf8ff");
+    } else if (selectedTopicName.trim() === "" && selectedTag !== "") {
+      query = Ref.orderByChild("tag")
+        .startAt(selectedTag)
+        .endAt(selectedTag + "\uf8ff");
+    }
     query.once("value").then((snapshot) => {
       const searchtopicResult = snapshot.val();
       if (searchtopicResult) {
@@ -185,6 +173,6 @@ export function useSideProcess() {
 
     tagget,
     existingTag,
-    setSelectedTag
+    setSelectedTag,
   };
 }
