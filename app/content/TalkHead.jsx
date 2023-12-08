@@ -24,7 +24,7 @@ function TalkHead() {
         <h1>Talk</h1>
         {logined ? (
           <button className="username">
-            <Link href="../mypage">{loginmessage}さん</Link>
+            <Link href="../mypage">{loginmessage}</Link>
           </button>
         ) : null}
       </div>

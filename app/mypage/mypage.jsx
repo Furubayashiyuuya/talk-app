@@ -32,11 +32,6 @@ function Mypage() {
     appId: process.env.NEXT_PUBLIC_REACT_APP_FIREBASE_APP_ID,
   };
   firebase.initializeApp(firebaseConfig);
-  let database = firebase.database();
-  var storage = firebase.storage();
-  const [image, setImage] = useState(null);
-  const [title, settitle] = useState();
-  const [text, settext] = useState();
 
   const { loginmessage, db, uid, login, logout, guestlogin } =
     useLoginProcess();
@@ -44,7 +39,6 @@ function Mypage() {
 
   const [faviritetopics, setfaviritetopics] = useState([]);
 
-  const [userimges, setuserimges] = useState([]);
 
   const logined = useSelector((state) => state.nowlogin);
   useEffect(() => {
@@ -63,29 +57,7 @@ function Mypage() {
     });
   };
 
-  // 画像をアップロードする関数
-  const uploadImage = () => {
-    if (image) {
-      const storageRef = storage.ref(`${uid}`);
-      const imageRef = storageRef.child(image.name);
 
-      imageRef.put(image).then(() => {
-        // 画像のアップロードが完了したら、そのURLを含むデータを追加
-
-        const Ref = collection(db, "LoginDB", uid, "img");
-        addDoc(Ref, {
-          title: title,
-          text: text,
-          imageUrl: image.name,
-        });
-        alert("データを追加しました。");
-        setImage(null);
-        settitle("");
-        settext("");
-        imglook();
-      });
-    }
-  };
   const faviritedelete = (id) => {
     const collectionRef = collection(db, "LoginDB", uid, "favirite");
     const deletetarget = doc(collectionRef, id);
@@ -99,18 +71,6 @@ function Mypage() {
       });
   };
 
-  const imglook = () => {
-    const collectionImgRef = collection(db, "LoginDB", uid, "img");
-    getDocs(collectionImgRef).then((res) => {
-      const ImgData = res.docs.map((userimg) => {
-        const imgdata = userimg.data();
-        return { ...imgdata };
-      });
-      console.log(ImgData);
-      setuserimges(ImgData);
-      console.log(userimges);
-    });
-  };
 
   return (
     <div className="mypage">
@@ -132,50 +92,6 @@ function Mypage() {
       <main>
         {logined ? (
           <>
-            <div className="imgup">
-              <div className="title">
-                <label>title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={title}
-                  onChange={(e) => settitle(e.target.value)}
-                />
-              </div>
-              <div className="text">
-                <label>text</label>
-                <input
-                  type="text"
-                  name="text"
-                  value={text}
-                  onChange={(e) => settext(e.target.value)}
-                />
-                <input
-                  type="file"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
-              </div>
-              <button onClick={uploadImage}>画像をアップロード</button>
-              <br />
-              <button onClick={imglook}>ImgLook</button>
-            </div>
-            <p>{uid}</p>
-            <div className="imgdisplay">
-              {userimges.map((img, index) => (
-                <div key={index}>
-                  <h3>{img.title}</h3>
-                  <img
-                    src={`https://firebasestorage.googleapis.com/v0/b/talk-95e0a.appspot.com/o/${uid}%2F${encodeURIComponent(
-                      img.imageUrl,
-                    )}?alt=media`}
-                    alt={img.imageUrl}
-                  />
-                  <p>[本文]</p>
-                  <p>{img.text}</p>
-                </div>
-              ))}
-            </div>
-
             <h2>お気に入り</h2>
             <table className="faviritetable">
               <thead>

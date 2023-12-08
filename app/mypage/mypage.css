@@ -1,7 +1,7 @@
 .mypage {
   display: grid;
   grid-template-rows: 10% 1fr;
-  min-height: 100vh;
+  min-height:100vh;
   background-color: black;
   color: white;
 }
@@ -37,13 +37,6 @@ main h2 {
 }
 .faviritetable td {
   border-left: 2px solid;
-}
-.imgup{
-  background-color: aqua;
-}
-.imgup input{
-  color: black;
-  width: 50%;
 }
 
 @media (width <= 768px) {
