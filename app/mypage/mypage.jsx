@@ -47,7 +47,7 @@ function Mypage() {
     }
   }, [db, uid]);
   const look = () => {
-    const collectionRef = collection(db, "LoginDB", uid, "favirite");
+    const collectionRef = collection(db, "Users", uid, "favirite");
     getDocs(collectionRef).then((res) => {
       const DBddta = res.docs.map((userdb) => {
         const usertext = userdb.data();
@@ -59,9 +59,8 @@ function Mypage() {
 
 
   const faviritedelete = (id) => {
-    const collectionRef = collection(db, "LoginDB", uid, "favirite");
+    const collectionRef = collection(db, "Users", uid, "favirite");
     const deletetarget = doc(collectionRef, id);
-    alert(id);
     deleteDoc(deletetarget)
       .then(() => {
         look();
@@ -97,17 +96,15 @@ function Mypage() {
               <thead>
                 <tr>
                   <th>Topic名</th>
-                  <th>タグ名</th>
                   <th>操作</th>
                 </tr>
               </thead>
               <tbody>
                 {faviritetopics.map((data, index) => (
-                  <tr key={index}>
+                  <tr key={data.text}>
                     <td>
                       <Link href={`/topics/${data.text}`}>{data.text}</Link>
                     </td>
-                    <td>{data.tag}</td>
                     <td>
                       <button onClick={() => faviritedelete(data.id)}>
                         削除

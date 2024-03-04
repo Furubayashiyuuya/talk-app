@@ -12,8 +12,6 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   signOut,
-  login,
-  logout,
   signInAnonymously,
 } from "firebase/auth";
 import "firebase/compat/firestore";
@@ -35,7 +33,6 @@ export function useLoginProcess() {
   const [loginmessage, setLoginmessage] = useState();
   const [uid, setUid] = useState();
 
-  const [faviritetopics, setfaviritetopics] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -73,13 +70,12 @@ export function useLoginProcess() {
     dispatch(setNowlogin(false));
   };
 
-  const favirite = (topicname, tagname) => {
-    const Ref = collection(db, "LoginDB", uid, "favirite");
+  const favirite = (topicname) => {
+    const Ref = collection(db, "Users", uid, "favirite");
     addDoc(Ref, {
       text: topicname,
-      tag: tagname,
     }).then(() => {
-      alert("ok");
+      alert("お気に入り登録しました。");
     });
   };
 
