@@ -33,12 +33,12 @@ function Mypage() {
   };
   firebase.initializeApp(firebaseConfig);
 
-  const { loginmessage, db, uid, login, logout, guestlogin } =
+  const { loginmessage, db, uid, login, logout } =
     useLoginProcess();
-  console.log(uid);
+
 
   const [faviritetopics, setfaviritetopics] = useState([]);
-
+  const [maketopics, setmaketopics] = useState([]);
 
   const logined = useSelector((state) => state.nowlogin);
   useEffect(() => {
@@ -47,6 +47,7 @@ function Mypage() {
     }
   }, [db, uid]);
   const look = () => {
+    //お気に入り
     const collectionRef = collection(db, "Users", uid, "favirite");
     getDocs(collectionRef).then((res) => {
       const DBddta = res.docs.map((userdb) => {
@@ -55,6 +56,16 @@ function Mypage() {
       });
       setfaviritetopics(DBddta);
     });
+    
+    //作成したもの
+    const makecollectionRef = collection(db,"Users",uid,"Mytopics");
+    getDocs(makecollectionRef).then((res) =>{
+      const makeDBdata = res.docs.map((usermakedb)=>{
+        const maketext = usermakedb.data();
+        return {...maketext,id:usermakedb.id};
+      })
+      setmaketopics(makeDBdata);
+    })
   };
 
 
@@ -70,20 +81,31 @@ function Mypage() {
       });
   };
 
-
+  const maketopicdelete = (id,topic) =>{
+    const makecollectionRef = collection(db,"Users",uid,"Mytopics");
+    const makeddeletetarget = doc(makecollectionRef,id);
+    deleteDoc(makeddeletetarget).then(()=>{
+      Realtimedelete(topic);
+      faviritedelete(id)
+      look();
+    }).catch((err)=>{
+      alert(err.message)
+    });
+  };
+const Realtimedelete =(topic)=>{
+  const targetrealtimedb = firebase.database().ref(`Talk/topics/${topic}`);
+  targetrealtimedb.remove();
+}
   return (
     <div className="mypage">
       <header>
-        {logined ? <h1>{loginmessage}page</h1> : <h1>NologIn</h1>}
+        {logined ? <h1>{loginmessage}さんのpage</h1> : <h1>NologIn</h1>}
         <h2 className="home">
           <Link href="./">Home</Link>
         </h2>
         <h2>
           <button onClick={login}>Log In</button>
-        </h2>
-        <h2>
-          <button onClick={guestlogin}>Guest Log In</button>
-        </h2>
+        </h2>      
         <h2>
           <button onClick={logout}>Log Out</button>
         </h2>
@@ -96,6 +118,7 @@ function Mypage() {
               <thead>
                 <tr>
                   <th>Topic名</th>
+                  <th>タグ名</th>
                   <th>操作</th>
                 </tr>
               </thead>
@@ -106,7 +129,38 @@ function Mypage() {
                       <Link href={`/topics/${data.text}`}>{data.text}</Link>
                     </td>
                     <td>
+                      {data.tag}
+                    </td>
+                    <td>
                       <button onClick={() => faviritedelete(data.id)}>
+                        削除
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <h2>自作したトピック</h2>
+            <table className="faviritetable">
+              <thead>
+                <tr>
+                  <th>Topic名</th>
+                  <th>タグ名</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {maketopics.map((mydata) => (
+                  <tr key={mydata.topic}>
+                    <td>
+                      <Link href={`/topics/${mydata.topic}`}>{mydata.topic}</Link>
+                    </td>
+                    <td>
+                      {mydata.tag}
+                    </td>
+                    <td>
+                    <button onClick={() => maketopicdelete(mydata.id,mydata.topic)}>
                         削除
                       </button>
                     </td>

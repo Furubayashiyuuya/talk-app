@@ -12,6 +12,9 @@ import {
 } from "../Redux/actions";
 import { initializeApp } from "firebase/app";
 import database from "../../firebaseConfig";
+import { useLoginProcess } from "./loginProcess";
+import { addDoc, collection } from "firebase/firestore";
+
 export function useSideProcess() {
   const [topicData, setTopicData] = useState([]);
   const [selectedTopicName, setSelectedTopicName] = useState("");
@@ -28,7 +31,10 @@ export function useSideProcess() {
   const topicToShow = topicData.slice(starttopicIndex, endtopicIndex);
 
   const [existingTag, setExistingTag] = useState([]);
-  const [selectedTag, setSelectedTag] = useState();
+  const [selectedTag, setSelectedTag] = useState("");
+
+ 
+  const {uid,loginmessage} = useLoginProcess();
 
   const onPageChane = (newPage) => {
     setCurrentPage(newPage);
@@ -46,7 +52,7 @@ export function useSideProcess() {
       if (data) {
         const userDataArray = sortData(Object.values(data));
         setTopicData(userDataArray);
-        console.log(userDataArray);
+        
       } else {
         setTopicData([]);
       }
@@ -57,8 +63,7 @@ export function useSideProcess() {
     setLoading(true);
     readTopic();
   }, [selectedSortOption]);
-
-  const addTopic = () => {
+  const addRealtime =()=>{
     if (!selectedTopicName) {
       return;
     }
@@ -72,9 +77,12 @@ export function useSideProcess() {
       alert("Topic名がありません。");
       return;
     }
+    const tagValue = selectedTag || "defaultTag";
+   
     const data = {
       topic: selectedTopicName,
-      tag: selectedTag,
+      tag: tagValue,
+      maker:uid,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
     };
 
@@ -86,6 +94,23 @@ export function useSideProcess() {
     topicRef.set(data);
     setSelectedTopicName("");
     readTopic();
+
+    addclud(tagValue);
+  }
+  const addclud =(tagValue)=>{
+    const db = firebase.firestore();
+    const Ref = collection(db,"Users", uid, "Mytopics");
+    
+    addDoc(Ref,{
+      topic:selectedTopicName,
+      tag:tagValue,
+      maker:uid
+    }).then(()=>{
+      alert("追加しました。");
+    })
+  }
+  const addTopic = () => {
+    addRealtime();
   };
 
   const searchTopic = () => {
@@ -116,16 +141,17 @@ export function useSideProcess() {
   };
 
   const open = (pas, index) => {
-    console.log("open");
+    
     firebase
       .database()
       .ref(`Talk/topics/${pas}`)
       .on("value", function (snapshot) {
         const data = snapshot.val();
         if (data) {
+          const maker = data;
           dispatch(setIsTopicOpen(true));
           dispatch(setSelectedTopic(pas));
-          console.log(`data;${pas}`);
+          
           //mainの機能を使用すると思われるので、head部分の機能を初期化しmainの邪魔にならないようにする
           dispatch(setOptionSwitch("start"));
           setOpenTopicIndex(index);
@@ -135,7 +161,10 @@ export function useSideProcess() {
 
           // クリックした要素に'selected'クラスを追加
           items[index].classList.add("selected");
+          
+
         }
+
         //Topicが空の時エラー防止のために初期値を設定する
         if (!data) {
           setTopicData([]);
@@ -144,6 +173,7 @@ export function useSideProcess() {
           console.log(`error`);
         }
       });
+  
   };
 
   const tagget = () => {
@@ -153,7 +183,7 @@ export function useSideProcess() {
       const TagArray = Object.values(tag);
       setExistingTag(TagArray);
     });
-    console.log(existingTag);
+
   };
   return {
     topicData,

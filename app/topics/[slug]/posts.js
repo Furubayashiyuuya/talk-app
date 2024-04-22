@@ -11,7 +11,7 @@ const params = topicsArray.map((topicData) => ({
     slug: topicData.topic,
 
 }));
-console.log(params);
+
 return params;
 }
 

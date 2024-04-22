@@ -55,14 +55,7 @@ export function useLoginProcess() {
     });
   };
 
-  const guestlogin = () => {
-    const auth = getAuth();
-    signInAnonymously(auth).then((result) => {
-      setLoginmessage(result.user.displayName);
-      setUid(result.user.uid);
-      dispatch(setNowlogin(true));
-    });
-  };
+
 
   const logout = () => {
     signOut(auth);
@@ -70,10 +63,11 @@ export function useLoginProcess() {
     dispatch(setNowlogin(false));
   };
 
-  const favirite = (topicname) => {
+  const favirite = (topicname,tagValue) => {
     const Ref = collection(db, "Users", uid, "favirite");
     addDoc(Ref, {
       text: topicname,
+      tag:tagValue
     }).then(() => {
       alert("お気に入り登録しました。");
     });
@@ -81,7 +75,6 @@ export function useLoginProcess() {
 
   return {
     login,
-    guestlogin,
     loginmessage,
     logout,
     db,

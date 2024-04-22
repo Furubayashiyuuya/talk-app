@@ -83,7 +83,7 @@ export function useMainProcess() {
       if (data !== null) {
         const userDataArray = Object.values(data);
         getMessageData(userDataArray); //topic直下のDBデータの取得
-        console.log(userDataArray);
+        
       }
     });
   };
