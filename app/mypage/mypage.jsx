@@ -96,6 +96,20 @@ const Realtimedelete =(topic)=>{
   const targetrealtimedb = firebase.database().ref(`Talk/topics/${topic}`);
   targetrealtimedb.remove();
 }
+
+//ページネーション
+const [currentPage,setCurrentPage] = useState(1);
+const [itemsPerPage] = useState(5);
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+// お気に入りのトピックと自作したトピックの配列をスライスして、現在のページのアイテムのみを表示します
+const currentFavoriteTopics = faviritetopics.slice(indexOfFirstItem, indexOfLastItem);
+const currentMakeTopics = maketopics.slice(indexOfFirstItem, indexOfLastItem);
+
+// ページネーションロジック
+const paginate = (pageNumber) => setCurrentPage(pageNumber);  
+
   return (
     <div className="mypage">
       <header>
@@ -113,6 +127,7 @@ const Realtimedelete =(topic)=>{
       <main>
         {logined ? (
           <>
+            <div className="favirete">
             <h2>お気に入り</h2>
             <table className="faviritetable">
               <thead>
@@ -123,7 +138,7 @@ const Realtimedelete =(topic)=>{
                 </tr>
               </thead>
               <tbody>
-                {faviritetopics.map((data, index) => (
+                {currentFavoriteTopics.map((data, index) => (
                   <tr key={data.text}>
                     <td>
                       <Link href={`/topics/${data.text}`}>{data.text}</Link>
@@ -140,7 +155,14 @@ const Realtimedelete =(topic)=>{
                 ))}
               </tbody>
             </table>
-
+              <MyPagination
+                itemsPerPage={itemsPerPage}
+                totalItmes={faviritetopics.length}
+                paginate={paginate}
+                currentPage={currentPage}
+                />
+            </div>
+            <div className="maked">
             <h2>自作したトピック</h2>
             <table className="faviritetable">
               <thead>
@@ -151,7 +173,7 @@ const Realtimedelete =(topic)=>{
                 </tr>
               </thead>
               <tbody>
-                {maketopics.map((mydata) => (
+                {currentMakeTopics.map((mydata) => (
                   <tr key={mydata.topic}>
                     <td>
                       <Link href={`/topics/${mydata.topic}`}>{mydata.topic}</Link>
@@ -168,10 +190,39 @@ const Realtimedelete =(topic)=>{
                 ))}
               </tbody>
             </table>
+            <MyPagination
+                itemsPerPage={itemsPerPage}
+                totalItmes={maketopics.length}
+                paginate={paginate}
+                currentPage={currentPage}
+                />
+            </div>
           </>
         ) : null}
       </main>
     </div>
   );
+}
+
+const MyPagination =({itemsPerPage,totalItmes,paginate,currentPage})=>{
+ const pageNumbers =[];
+
+ for (let i=1;i<= Math.ceil(totalItmes / itemsPerPage);i++){
+  pageNumbers.push(i);
+ }
+
+ return(
+  <nav>
+  <ul className="pagination">
+    {pageNumbers.map((number) => (
+      <li key={number} className={currentPage === number ? 'active' : null}>
+        <a onClick={() => paginate(number)} >
+          {number}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+ );
 }
 export default Mypage;
